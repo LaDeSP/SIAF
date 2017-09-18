@@ -15,14 +15,14 @@
 
 		<title>Início</title>
 		<link rel="icon" href="imagens/favicon.png">
-		
+
 		<!-- jquery - link cdn -->
 		<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
 
 		<!-- bootstrap - link cdn -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 		<link href="estilos.css" rel="stylesheet">
-		
+
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	</head>
 
@@ -43,7 +43,7 @@
 	          <span class="img-logo">Logo</span>
 	          </a>
 	        </div>
-	        
+
 	        <div id="navbar" class="navbar-collapse collapse">
 	          <ul class="nav navbar-nav navbar-right">
 	          	<li><a href="home.php">Início</a></li>
@@ -89,12 +89,10 @@
 		    	<ol class="carousel-indicators">
 		    		<li data-target="#meuSlider" data-slide-to="0" class="active"></li>
 		    		<li data-target="#meuSlider" data-slide-to="1" class=""></li>
-		    		<li data-target="#meuSlider" data-slide-to="2" class=""></li>
 		    	</ol>
 		    		<div class="carousel-inner">
 		    			<div class="item active"><img src="imagens/slide1.png" alt="Slide 1"></div>
 		    			<div class="item"><img src="imagens/slide2.png" alt="Slide 2"></div>
-		    			<div class="item"><img src="imagens/slide3.png" alt="Slide 3"></div>
 		    		</div>
 
 		    		<a class="left carousel-control" href="#meuSlider" data-slide="prev">
@@ -110,8 +108,8 @@
 
 
 	    </div>
-	
+
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-	
+
 	</body>
 </html>
