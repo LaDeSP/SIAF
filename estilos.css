@@ -1,0 +1,110 @@
+/*
+*
+* @author Paulo Abreu
+* @version 0,1
+*/
+
+/* =============== layout =============== */
+
+/* -- Barra de navegação -- */
+
+html, body, .capa{
+	height: 100%;
+}
+
+body{
+	background: url('imagens/fundo.png'),
+				linear-gradient(50deg, #9FF781, #E6E6E6);
+	background-attachment: fixed;
+}
+
+.img-logo {
+	height: 55px;
+	width: 132px;
+	display: block;
+	background: url('imagens/log.png') no-repeat;
+	background-size: contain;
+	color: transparent;
+}
+
+nav.navbar-default{
+	padding: 10px 10px;
+}
+
+.navbar-brand{
+	padding: 0px 15px;
+}
+
+.divisor{
+	width: 1px;
+	height: 16px;
+	background: black;
+	margin: 16px 10px;
+}
+
+.espaco{
+	margin-top: 125px;
+}
+
+form#formCadastrarse select{
+	width: 300px;
+	padding: 5px;
+	font-size: 14px;
+}
+
+form#formEditarCad select{
+	width: 268px;
+	padding: 5px;
+	font-size: 14px;
+}
+
+.capa{
+	display: table;
+	width: 100%;
+	padding-bottom: 40px;
+}
+
+.texto-capa{
+	text-align: center;
+	display: table-cell;
+	vertical-align: middle;
+}
+
+#servicos{
+	background: white;
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+
+.foto{
+	padding: 10px 0px 10px 0px;
+}
+
+#recursos{
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+
+footer{
+	background: #424242;
+	padding: 15px 0px 10px 0px;
+	text-align: center;
+}
+
+/* =============== tipografia =============== */
+
+h2{
+	font-size: 45px;
+	font-weight: 700;
+	letter-spacing: -0.04em;
+}
+
+h3{
+	font-size: 30px;
+	font-weight: 700px;
+	letter-spacing: -0.04em;
+}
+
+#servicos h2, #servicos h3{
+	color: #21610B;
+}
