@@ -14,7 +14,7 @@ html, body, .capa{
 
 body{
 	background: url('imagens/fundo.png'),
-				linear-gradient(50deg, #9FF781, #E6E6E6);
+				linear-gradient(50deg, #c8e0c0, #c8e0c0);
 	background-attachment: fixed;
 }
 
