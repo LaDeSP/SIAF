@@ -47,10 +47,10 @@
 
     <title>Despesas</title>
     <link rel="icon" href="imagens/favicon.png">
-    
+
     <!-- jquery - link cdn -->
     <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
-
+    <script src="js/funcoes.js"> </script>
     <!-- bootstrap - link cdn -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <link href="estilos.css" rel="stylesheet">
@@ -134,7 +134,7 @@
             <div class="modal-body">
 
               <form method="POST" action="despesas.php" enctype="multipart/form-data">
-            
+
                 <div class="form-group">
                   <label for="nome" class="control-label">Nome *</label>
                   <input type="text" class="form-control" id="nome" name="nome" placeholder="Ex: Conta de luz" required="requiored">
@@ -177,7 +177,7 @@
         </div>
         <br />
 
-  
+
       <table class="table table-striped table-hover table-condensed">
         <thead>
           <tr>
@@ -201,8 +201,8 @@
             <td><?php echo $despesa['quantidade']; ?></td>
             <td><?php echo date("d/m/Y", strtotime($despesa['data'])); ?></td>
             <td>
-            <button type="button" class="btn btn-xs btn-primary" data-toggle="modal" data-target="#exampleModal" 
-                data-coddespesas="<?php echo $despesa['id']; ?>" 
+            <button type="button" class="btn btn-xs btn-primary" data-toggle="modal" data-target="#exampleModal"
+                data-coddespesas="<?php echo $despesa['id']; ?>"
                 data-nome="<?php echo $despesa['nome_despesa']; ?>"
                 data-descricao="<?php echo $despesa['descricao']; ?>"
                 data-valor="<?php echo $despesa['valor']; ?>"
@@ -220,7 +220,7 @@
 
       </table>
 
-        
+
       <div class="clearfix"></div>
 
       <div class="col-md-4"></div>
@@ -232,7 +232,7 @@
         <nav aria-label="Page navigation">
           <ul class="pagination">
             <li>
-            <?php 
+            <?php
               if($pagina_anterior != 0){ ?>
                 <a href="despesas.php?pagina=<?php echo $pagina_anterior; ?>" aria-label="Previous">
                   <span aria-hidden="true">&laquo;</span>
@@ -248,7 +248,7 @@
             <?php } ?>
 
             <li>
-            <?php 
+            <?php
               if($pagina_posterior <= $num_pg){ ?>
                 <a href="despesas.php?pagina=<?php echo $pagina_posterior; ?>" aria-label="Previous">
                   <span aria-hidden="true">&raquo;</span>
@@ -260,7 +260,7 @@
 
           </ul>
         </nav>
-        
+
       </div>
       <div class="col-md-4"></div>
 
@@ -317,7 +317,7 @@
         </div>
       </div>
     </div>
-  
+
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
     <script type="text/javascript">
@@ -349,7 +349,7 @@
           $descricao = $_POST['descricao'];
           $valor = $_POST['valor'];
           $quant = $_POST['quant'];
-          
+
           $data = str_replace("/", "-", $_POST["data"]);
           $data1 = date('Y-m-d', strtotime($data));
 
@@ -403,14 +403,14 @@
         $valor = $_POST['valor'];
         $quantidade = $_POST['quantidade'];
 
-        
+
         $data = str_replace("/", "-", $_POST["data"]);
         $data1 = date('Y-m-d', strtotime($data));
 
         $objBd = new bd();
         $link = $objBd->conecta_mysql();
 
-        $sql = " UPDATE despesas SET nome_despesa = '$nome', descricao = '$descricao', quantidade = '$quantidade', data = '$data1', valor = '$valor' 
+        $sql = " UPDATE despesas SET nome_despesa = '$nome', descricao = '$descricao', quantidade = '$quantidade', data = '$data1', valor = '$valor'
               WHERE id = '$cod' ";
 
         $resultado = mysqli_query($link, $sql);

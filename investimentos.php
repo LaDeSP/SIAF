@@ -47,7 +47,7 @@
 
 		<title>Investimentos</title>
 		<link rel="icon" href="imagens/favicon.png">
-		
+
 		<!-- jquery - link cdn -->
 		<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
 
@@ -58,7 +58,8 @@
 		<link href="bootstrap/css/bootstrap-datepicker.css" rel="stylesheet">
 		<script src="bootstrap/js/bootstrap-datepicker.min.js"></script>
 		<script src="bootstrap/js/bootstrap-datepicker.pt-BR.min.js"></script>
-	
+		
+		<script src="js/funcoes.js"> </script>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	</head>
 
@@ -79,7 +80,7 @@
 	          <span class="img-logo">Logo</span>
 	          </a>
 	        </div>
-	        
+
 	        <div id="navbar" class="navbar-collapse collapse">
 	          <ul class="nav navbar-nav navbar-right">
 	          	<li><a href="home.php">Início</a></li>
@@ -134,7 +135,7 @@
 						<div class="modal-body">
 
 							<form method="POST" action="investimentos.php" enctype="multipart/form-data">
-						
+
 
 								<div class="form-group">
 									<label for="nome" class="control-label">Nome *</label>
@@ -174,7 +175,7 @@
 	    	</div>
 	    	<br />
 
-	
+
 			<table class="table table-striped table-hover table-condensed">
 				<thead>
 					<tr>
@@ -197,8 +198,8 @@
 						<td><?php echo $investimento['valor']; ?></td>
 						<td><?php echo date("d/m/Y", strtotime($investimento['data'])); ?></td>
 						<td>
-						<button type="button" class="btn btn-xs btn-primary" data-toggle="modal" data-target="#exampleModal" 
-								data-codinvestimento="<?php echo $investimento['id']; ?>" 
+						<button type="button" class="btn btn-xs btn-primary" data-toggle="modal" data-target="#exampleModal"
+								data-codinvestimento="<?php echo $investimento['id']; ?>"
 								data-nome="<?php echo $investimento['nome_investimento']; ?>"
 								data-descricao="<?php echo $investimento['descricao']; ?>"
 								data-valor="<?php echo $investimento['valor']; ?>"
@@ -215,9 +216,9 @@
 
 			</table>
 
-				
+
 			<div class="clearfix"></div>
-			
+
 			<div class="col-md-4"></div>
 			<div class="col-md-4">
 		        <?php
@@ -227,7 +228,7 @@
 		        <nav aria-label="Page navigation">
 		          <ul class="pagination">
 		            <li>
-		            <?php 
+		            <?php
 		              if($pagina_anterior != 0){ ?>
 		                <a href="investimentos.php?pagina=<?php echo $pagina_anterior; ?>" aria-label="Previous">
 		                  <span aria-hidden="true">&laquo;</span>
@@ -243,7 +244,7 @@
 		            <?php } ?>
 
 		            <li>
-		            <?php 
+		            <?php
 		              if($pagina_posterior <= $num_pg){ ?>
 		                <a href="investimentos.php?pagina=<?php echo $pagina_posterior; ?>" aria-label="Previous">
 		                  <span aria-hidden="true">&raquo;</span>
@@ -305,7 +306,7 @@
 		    </div>
 		  </div>
 		</div>
-	
+
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
 		<script type="text/javascript">
@@ -334,7 +335,7 @@
 				$nome = $_POST['nome'];
 				$descricao = $_POST['descricao'];
 				$valor = $_POST['valor'];
-				
+
 				$data = str_replace("/", "-", $_POST["data"]);
 			    $data1 = date('Y-m-d', strtotime($data));
 
@@ -386,7 +387,7 @@
 				$nome = $_POST['nome'];
 				$descricao = $_POST['descricao'];
 				$valor = $_POST['valor'];
-				
+
 				$data = str_replace("/", "-", $_POST["data"]);
 			    $data1 = date('Y-m-d', strtotime($data));
 

@@ -1,6 +1,6 @@
 <?php
 
-	require_once('bd.class.php'); 
+	require_once('bd.class.php');
 	session_start();
 
 	if(!isset($_SESSION['email'])){
@@ -47,10 +47,10 @@
 
 		<title>Vendas</title>
 		<link rel="icon" href="imagens/favicon.png">
-		
+
 		<!-- jquery - link cdn -->
 		<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
-
+		<script src="js/funcoes.js"> </script>
 		<!-- bootstrap - link cdn -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 		<link href="estilos.css" rel="stylesheet">
@@ -58,7 +58,7 @@
 		<link href="bootstrap/css/bootstrap-datepicker.css" rel="stylesheet">
 		<script src="bootstrap/js/bootstrap-datepicker.min.js"></script>
 		<script src="bootstrap/js/bootstrap-datepicker.pt-BR.min.js"></script>
-		
+
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	</head>
 
@@ -79,7 +79,7 @@
 	          <span class="img-logo">Logo</span>
 	          </a>
 	        </div>
-	        
+
 	        <div id="navbar" class="navbar-collapse collapse">
 	          <ul class="nav navbar-nav navbar-right">
 	          	<li><a href="home.php">Início</a></li>
@@ -134,18 +134,18 @@
 						<div class="modal-body">
 
 							<form method="POST" action="vendas.php" enctype="multipart/form-data" id="formEditarCad">
-						
+
 
 								<div class="form-group">
 									<label for="select_produto" class="control-label">Produto *</label>
 									<br />
 									<select name="select_produto">
 									<option>Selecione...</option>
-									<?php 
-										$result_produto = " SELECT produtos.id, nome_produto FROM produtos, estoques WHERE estoques.proprietarios_id = $id AND produtos_id = produtos.id ORDER BY nome_produto ASC "; 
+									<?php
+										$result_produto = " SELECT produtos.id, nome_produto FROM produtos, estoques WHERE estoques.proprietarios_id = $id AND produtos_id = produtos.id ORDER BY nome_produto ASC ";
 										$resultado_produto = mysqli_query($link, $result_produto);
 										while($row_produto = mysqli_fetch_assoc($resultado_produto)){ ?>
-											<option value="<?php echo $row_produto['id']; ?>"> 
+											<option value="<?php echo $row_produto['id']; ?>">
 											<?php echo $row_produto['nome_produto']; ?> </option>
 										<?php
 										}
@@ -185,7 +185,7 @@
 	    	</div>
 	    	<br />
 
-	
+
 			<table class="table table-striped table-hover table-condensed">
 				<thead>
 					<tr>
@@ -210,8 +210,8 @@
 						<td><?php echo $venda['total']; ?></td>
 						<td><?php echo date("d/m/Y", strtotime($venda['data'])); ?></td>
 						<td>
-						<button type="button" class="btn btn-xs btn-primary" data-toggle="modal" data-target="#exampleModal" 
-								data-codestoque="<?php echo $venda['id']; ?>" 
+						<button type="button" class="btn btn-xs btn-primary" data-toggle="modal" data-target="#exampleModal"
+								data-codestoque="<?php echo $venda['id']; ?>"
 								data-nome="<?php echo $venda['nome_produto']; ?>"
 								data-preco="<?php echo $venda['preco']; ?>"
 								data-quantidade="<?php echo $venda['quantidade']; ?>"
@@ -228,7 +228,7 @@
 
 			</table>
 
-				
+
 			<div class="clearfix"></div>
 
 			<div class="col-md-4"></div>
@@ -240,7 +240,7 @@
 		        <nav aria-label="Page navigation">
 		          <ul class="pagination">
 		            <li>
-		            <?php 
+		            <?php
 		              if($pagina_anterior != 0){ ?>
 		                <a href="vendas.php?pagina=<?php echo $pagina_anterior; ?>" aria-label="Previous">
 		                  <span aria-hidden="true">&laquo;</span>
@@ -256,7 +256,7 @@
 		            <?php } ?>
 
 		            <li>
-		            <?php 
+		            <?php
 		              if($pagina_posterior <= $num_pg){ ?>
 		                <a href="vendas.php?pagina=<?php echo $pagina_posterior; ?>" aria-label="Previous">
 		                  <span aria-hidden="true">&raquo;</span>
@@ -320,7 +320,7 @@
 		    </div>
 		  </div>
 		</div>
-	
+
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
 		<script type="text/javascript">
@@ -351,7 +351,7 @@
 
 				$preco = $_POST['preco'];
 				$quantidade = $_POST['quantidade'];
-				
+
 				$data = str_replace("/", "-", $_POST["data"]);
 			    $data1 = date('Y-m-d', strtotime($data));
 
@@ -376,7 +376,7 @@
 				mysqli_query($link, $sql);
 
 		        if($sql){
-		        	$update = " UPDATE estoques, produtos, vendas SET estoques.quantidade = estoques.quantidade - '$quantidade' WHERE vendas.produtos_id = $codproduto AND vendas.produtos_id = produtos.id AND estoques.produtos_id = produtos.id"; 
+		        	$update = " UPDATE estoques, produtos, vendas SET estoques.quantidade = estoques.quantidade - '$quantidade' WHERE vendas.produtos_id = $codproduto AND vendas.produtos_id = produtos.id AND estoques.produtos_id = produtos.id";
 
 		        	mysqli_query($link, $update);
 
@@ -404,7 +404,7 @@
 				$cod = $_POST['id'];
 				$preco = $_POST['preco'];
 				$quantidade = $_POST['quantidade'];
-				
+
 				$data = str_replace("/", "-", $_POST["data"]);
 			    $data1 = date('Y-m-d', strtotime($data));
 
