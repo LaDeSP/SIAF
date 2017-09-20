@@ -13,10 +13,10 @@
 		<link rel="icon" href="imagens/favicon.png">
 
 		<!-- jquery - link cdn -->
-		<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+		<script src="js/JQuery/jquery-2.2.4.min.js"></script>
 
 		<!-- bootstrap - link cdn -->
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+		<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
 		<link href="estilos.css" rel="stylesheet">
 
 		<script>
@@ -198,7 +198,7 @@
 
 	    </div>
 	
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+		<script src="bootstrap/js/bootstrap.min.js"></script>
 	
 	</body>
 </html>

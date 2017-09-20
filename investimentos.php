@@ -49,18 +49,19 @@
 		<link rel="icon" href="imagens/favicon.png">
 
 		<!-- jquery - link cdn -->
-		<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+		<script src="js/JQuery/jquery-2.2.4.min.js"></script>
 
 		<!-- bootstrap - link cdn -->
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-		<link href="estilos.css" rel="stylesheet">
+		<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+
 
 		<link href="bootstrap/css/bootstrap-datepicker.css" rel="stylesheet">
 		<script src="bootstrap/js/bootstrap-datepicker.min.js"></script>
 		<script src="bootstrap/js/bootstrap-datepicker.pt-BR.min.js"></script>
-		
+
 		<script src="js/funcoes.js"> </script>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link href="estilos.css" rel="stylesheet">
 	</head>
 
 	<body>
@@ -153,7 +154,7 @@
 										<input type="text" class="form-control" id="valor" name="valor" placeholder="Valor R$" required="requiored">
 									</div>
 
-									<div class="input-group date col-md-3">
+									<div class="form-group date col-md-8">
 										<label for="data" class="control-label">Data *</label>
 									   	<input type="date" class="form-control" id="data" name="data" required="requiored">
 									</div>
@@ -307,7 +308,7 @@
 		  </div>
 		</div>
 
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+		<script src="bootstrap/js/bootstrap.min.js"></script>
 
 		<script type="text/javascript">
 			$('#exampleModal').on('show.bs.modal', function (event) {

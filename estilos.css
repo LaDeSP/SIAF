@@ -12,6 +12,10 @@ html, body, .capa{
 	height: 100%;
 }
 
+
+
+
+
 body{
 	background: url('imagens/fundo.png'),
 				linear-gradient(50deg, #c8e0c0, #c8e0c0);
@@ -107,4 +111,34 @@ h3{
 
 #servicos h2, #servicos h3{
 	color: #21610B;
+}
+
+
+input, .form-control{
+	margin: 0 .25rem;
+  min-width: 125px;
+  border: 2px solid #eee ;
+  border-left: 3px solid;
+  border-radius: 5px;
+  transition: border-color .5s ease-out;
+
+}
+
+input:active{
+	border-left-color: blue;
+}
+ input:optional {
+  border-left-color: palegreen;
+}
+
+ input:required {
+  border-left-color: palegreen;
+}
+
+ input:invalid {
+  border-left-color: salmon;
+}
+
+#data{
+	max-width: 150px;
 }

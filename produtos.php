@@ -26,7 +26,7 @@
 
 	$pagina = (isset($_GET['pagina'])) ? $_GET['pagina'] : 1;
 
-	$sql = " SELECT * FROM produtos WHERE proprietarios_id = $id ORDER BY nome_produto ASC "; 
+	$sql = " SELECT * FROM produtos WHERE proprietarios_id = $id ORDER BY nome_produto ASC ";
 
 	$resultado = mysqli_query($link, $sql);
 
@@ -47,17 +47,17 @@
 
 		<title>Produtos</title>
 		<link rel="icon" href="imagens/favicon.png">
-		
+
 		<!-- jquery - link cdn -->
-		<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+		<script src="js/JQuery/jquery-2.2.4.min.js"></script>
 
 		<!-- bootstrap - link cdn -->
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+		<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
 		<link href="estilos.css" rel="stylesheet">
 
 		<script src="lib/sweetalert/sweetalert.min.js"></script>
 		<link rel="stylesheet" type="text/css" href="lib/sweetalert/sweetalert.css">
-	
+
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	</head>
 
@@ -78,7 +78,7 @@
 	          <span class="img-logo">Logo</span>
 	          </a>
 	        </div>
-	        
+
 	        <div id="navbar" class="navbar-collapse collapse">
 	          <ul class="nav navbar-nav navbar-right">
 	          	<li><a href="home.php">Início</a></li>
@@ -120,7 +120,7 @@
 
 	    	<div class="pull-right">
 	    		<button type="button" class="btn btn-xs btn-primary" data-toggle="modal" data-target="#myModalcad">
-	    		Cadastrar
+	    		Registrar
 	    		</button>
 
 			<div class="modal fade" id="myModalcad" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -128,7 +128,7 @@
 					<div class="modal-content">
 						<div class="modal-header">
 							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-							<h4 class="modal-title" id="myModalLabel">Cadastrar - Produto</h4>
+							<h4 class="modal-title" id="myModalLabel">Registrar - Produto</h4>
 						</div>
 						<div class="modal-body">
 
@@ -151,7 +151,7 @@
 								</div>
 								<div class="modal-footer">
 									<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-									<button type="submit" class="btn btn-success" name="salvar">Cadastrar</button>
+									<button type="submit" class="btn btn-success" name="salvar">Registar</button>
 								</div>
 							</form>
 						</div>
@@ -162,7 +162,7 @@
 	    	</div>
 	    	<br />
 
-			
+
 			<table class="table table-striped table-hover table-condensed">
 				<thead>
 					<tr>
@@ -194,7 +194,7 @@
 
 			</table>
 
-				
+
 			<div class="clearfix"></div>
 			<div class="col-md-4"></div>
 
@@ -207,7 +207,7 @@
 				<nav aria-label="Page navigation">
 				  <ul class="pagination">
 				    <li>
-				    <?php 
+				    <?php
 				    	if($pagina_anterior != 0){ ?>
 					      <a href="produtos.php?pagina=<?php echo $pagina_anterior; ?>" aria-label="Previous">
 					        <span aria-hidden="true">&laquo;</span>
@@ -223,7 +223,7 @@
 				    <?php } ?>
 
 				    <li>
-				    <?php 
+				    <?php
 				    	if($pagina_posterior <= $num_pg){ ?>
 					      <a href="produtos.php?pagina=<?php echo $pagina_posterior; ?>" aria-label="Previous">
 					        <span aria-hidden="true">&raquo;</span>
@@ -277,8 +277,8 @@
 		    </div>
 		  </div>
 		</div>
-	
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+		<script src="bootstrap/js/bootstrap.min.js"></script>
 
 		<script type="text/javascript">
 			$('#exampleModal').on('show.bs.modal', function (event) {
@@ -296,7 +296,7 @@
 			})
 		</script>
 
-		<?php 
+		<?php
 			function registraProduto(){
 				$objBd = new bd();
 				$link = $objBd->conecta_mysql();

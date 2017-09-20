@@ -39,10 +39,10 @@
 		<link rel="icon" href="imagens/favicon.png">
 		
 		<!-- jquery - link cdn -->
-		<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+		<script src="js/JQuery/jquery-2.2.4.min.js"></script>
 
 		<!-- bootstrap - link cdn -->
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+		<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
 		<link href="estilos.css" rel="stylesheet">
 		
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -251,7 +251,7 @@
 		</div>
 	    </div>
 	
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+		<script src="bootstrap/js/bootstrap.min.js"></script>
 
 		<script type="text/javascript">
 			$('#id_estado').change(function (){

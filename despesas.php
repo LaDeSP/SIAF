@@ -49,10 +49,10 @@
     <link rel="icon" href="imagens/favicon.png">
 
     <!-- jquery - link cdn -->
-    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <script src="js/JQuery/jquery-2.2.4.min.js"></script>
     <script src="js/funcoes.js"> </script>
     <!-- bootstrap - link cdn -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
     <link href="estilos.css" rel="stylesheet">
 
     <link href="bootstrap/css/bootstrap-datepicker.css" rel="stylesheet">
@@ -148,7 +148,7 @@
                 <div class="row">
                   <div class="form-group col-md-8">
                     <label for="valor" class="control-label">Valor *</label>
-                    <input type="text" class="form-control" id="valor" name="valor" placeholder="Valor R$" required="requiored">
+                    <input type="text" class="form-control ValoresItens" id="valor" name="valor" placeholder="Valor R$" required="requiored">
                   </div>
 
                   <div class="form-group col-md-4">
@@ -318,7 +318,7 @@
       </div>
     </div>
 
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <script src="bootstrap/js/bootstrap.min.js"></script>
 
     <script type="text/javascript">
       $('#exampleModal').on('show.bs.modal', function (event) {
@@ -350,6 +350,12 @@
           $valor = $_POST['valor'];
           $quant = $_POST['quant'];
 
+          $formatter = new NumberFormatter('pt_BR',  NumberFormatter::CURRENCY);
+          var_dump($valor);
+          $formatter->parseCurrency($valor, $var1);
+          var_dump($var1);
+          var_dump($formatter->formatCurrency($var1, 'BRL'));
+          die();
           $data = str_replace("/", "-", $_POST["data"]);
           $data1 = date('Y-m-d', strtotime($data));
 
