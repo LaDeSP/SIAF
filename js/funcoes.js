@@ -11,21 +11,21 @@ $(document).ready( function() {
 
   });
   }
-
-
-});
-
-$( ".ValoresItens" ).keyup(function() {
-  alert( "Handler for .keyup() called." );
 });
 
 
-$(".ValoresItens").keyup(function()
-{
-  console.log("aa");
-     $(".ValoresItens").maskMoney({
-         prefix: "R$:",
-         decimal: ",",
-         thousands: "."
-     });
+
+$( document ).ready(function() {
+  $(".ValoresItens").maskMoney({
+      prefix: "R$:",
+      decimal: ",",
+      thousands: "."
+  });
+  //
+  $(".ValoresItens")[0].focus();
+
+  $('.modal').bind('display', function(e) {
+      alert("display has changed to :" + $(this).attr('style') );
+  });
+
 });

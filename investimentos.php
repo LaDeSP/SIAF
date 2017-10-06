@@ -1,6 +1,7 @@
 <?php
 
 	require_once('bd.class.php');
+	require_once('funcoes.php');
 	session_start();
 
 	if(!isset($_SESSION['email'])){
@@ -62,59 +63,16 @@
 		<script src="js/funcoes.js"> </script>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link href="estilos.css" rel="stylesheet">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" type="text/javascript"></script>
+    <script src="http://plentz.github.io/jquery-maskmoney/javascripts/jquery.maskMoney.min.js" type="text/javascript"></script>
+
 	</head>
 
 	<body>
 
-		<!-- Static navbar -->
-	    <nav class="navbar navbar-default navbar-static-top navbar-fixed-top">
-	      <div class="container">
-	        <div class="navbar-header">
-	          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-	            <span class="sr-only">Toggle navigation</span>
-	            <span class="icon-bar"></span>
-	            <span class="icon-bar"></span>
-	            <span class="icon-bar"></span>
-	          </button>
-	          <!--<img src="imagens/logo.png" />-->
-	          <a href="home.php" class="navbar-brand">
-	          <span class="img-logo">Logo</span>
-	          </a>
-	        </div>
-
-	        <div id="navbar" class="navbar-collapse collapse">
-	          <ul class="nav navbar-nav navbar-right">
-	          	<li><a href="home.php">Início</a></li>
-	            <li><a href="despesas.php">Despesas</a></li>
-	            <li><a href="investimentos.php">Investimentos</a></li>
-	            <li><a href="vendas.php">Vendas</a></li>
-	            <li><a href="estoque.php">Estoque</a></li>
-	            <li><a href="produtos.php">Produtos</a></li>
-	           	<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-user"></i>
-	            	Relatórios <b class="caret"></b></a>
-					  <ul class="dropdown-menu">
-					    <li><a href="#">Relatório de Despesas</a></li>
-					    <li><a href="#">Relatório de Investimentos</a></li>
-					    <li><a href="relatorio_vendas.php">Relatório de Vendas</a></li>
-					    <li><a href="#">Relatório de Perda de Produtos</a></li>
-					    <li><a href="#">Margens</a></li>
-					  </ul>
-	            </li>
-	            <li class="divisor" role="separator"></li>
-
-	            <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-user"></i>
-	            	Usuário <b class="caret"></b></a>
-					  <ul class="dropdown-menu">
-					    <li><a href="exibir_cadastro.php">Meu Cadastro</a></li>
-					    <li role="separator" class="divider"></li>
-					    <li><a href="sair.php">Sair</a></li>
-					  </ul>
-	            </li>
-	          </ul>
-	        </div><!--/.nav-collapse -->
-	      </div>
-	    </nav>
-
+		<?php
+		require_once("menu.php");
+		?>
 
 	    <div class="container">
 	    	<div class="page-header espaco">
@@ -151,7 +109,7 @@
 					            <div class="row">
 									<div class="form-group col-md-8">
 										<label for="valor" class="control-label">Valor R$ *</label>
-										<input type="text" class="form-control" id="valor" name="valor" placeholder="Valor R$" required="requiored">
+										<input type="text" class="form-control ValoresItens" data-affixes-stay="true" data-prefix="R$ " data-thousands="." data-decimal="," id="valor-name" name="valor" placeholder="Valor R$" id="valor" name="valor" placeholder="Valor R$" required="requiored">
 									</div>
 
 									<div class="form-group date col-md-8">
@@ -196,14 +154,14 @@
 						<td><?php echo $investimento['id']; ?></td>
 						<td><?php echo $investimento['nome_investimento']; ?></td>
 						<td><?php echo $investimento['descricao']; ?></td>
-						<td><?php echo $investimento['valor']; ?></td>
+						<td><?php echo formata_moeda($investimento['valor']); ?></td>
 						<td><?php echo date("d/m/Y", strtotime($investimento['data'])); ?></td>
 						<td>
 						<button type="button" class="btn btn-xs btn-primary" data-toggle="modal" data-target="#exampleModal"
 								data-codinvestimento="<?php echo $investimento['id']; ?>"
 								data-nome="<?php echo $investimento['nome_investimento']; ?>"
 								data-descricao="<?php echo $investimento['descricao']; ?>"
-								data-valor="<?php echo $investimento['valor']; ?>"
+								data-valor="<?php echo formata_moeda($investimento['valor']); ?>"
 								data-data="<?php echo $investimento['data']; ?>">
 								Editar
 						</button>
@@ -286,7 +244,7 @@
 		          <div class="row">
 				  <div class="form-group col-md-8">
 				  	<label for="valor-name" class="control-label">Valor R$ *</label>
-					<input name="valor" type="text" class="form-control" id="valor-name" required="requiored">
+					<input name="valor" type="text" class="form-control ValoresItens" data-affixes-stay="true" data-prefix="R$ " data-thousands="." data-decimal="," id="valor-name" name="valor" placeholder="Valor R$" id="valor-name" required="requiored">
 				  </div>
 
 				  <div class="form-group col-md-4">
@@ -355,7 +313,7 @@
 		        }
 
 		        $id = $user_id['id'];
-
+				$valor=moeda_clean($valor);
 				$sql = " insert into investimentos(nome_investimento, descricao, data, valor, proprietarios_id) values ('$nome', '$descricao', '$data1', '$valor', '$id') ";
 
 				//executar a query
@@ -394,7 +352,7 @@
 
 				$objBd = new bd();
 				$link = $objBd->conecta_mysql();
-
+				$valor=moeda_clean($valor);
 				$sql = " UPDATE investimentos SET nome_investimento = '$nome', descricao = '$descricao', data = '$data1', valor = '$valor' WHERE id = '$cod' ";
 
 				$resultado = mysqli_query($link, $sql);

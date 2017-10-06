@@ -11,7 +11,6 @@
 
 		<title>SIAF - Sistema de Informação para a Agricultura Familiar</title>
 		<link rel="icon" href="imagens/favicon.png">
-
 		<!-- jquery - link cdn -->
 		<script src="js/JQuery/jquery-2.2.4.min.js"></script>
 
@@ -28,14 +27,14 @@
 
 					if($('#campo_usuario').val() == ''){
 						$('#campo_usuario').css({'border-color': '#FF0000'});
-						campo_vazio = true; 
+						campo_vazio = true;
 					}else{
 						$('#campo_usuario').css({'border-color': '#CCC'});
 					}
 
 					if($('#campo_senha').val() == ''){
 						$('#campo_senha').css({'border-color': '#FF0000'});
-						campo_vazio = true; 
+						campo_vazio = true;
 					}else{
 						$('#campo_senha').css({'border-color': '#CCC'});
 					}
@@ -43,6 +42,8 @@
 					if(campo_vazio) return false;
 				});
 			});
+
+
 
 		</script>
 
@@ -66,7 +67,7 @@
 	          <span class="img-logo">SIAF</span>
 	          </a>
 	        </div>
-	        
+
 	        <div id="navbar" class="navbar-collapse collapse">
 	          <ul class="nav navbar-nav navbar-right">
 	            <li><a href="form_cadastro_usuario.php">Cadastre-se</a></li>
@@ -81,11 +82,11 @@
 								<div class="form-group">
 									<input type="text" class="form-control" id="campo_usuario" name="email" placeholder="E-mail" required="requiored">
 								</div>
-								
+
 								<div class="form-group">
 									<input type="password" class="form-control red" id="campo_senha" name="senha" placeholder="Senha" required="requiored">
 								</div>
-								
+
 								<button type="buttom" class="btn btn-primary" id="btn_login">Entrar</button>
 
 								<br /><br />
@@ -107,34 +108,18 @@
 	      </div>
 	    </nav>
 
-	    <div class="container">
+	    <div class="container slider">
 		    <div class="capa">
 		    	<div class="texto-capa">
 			    </div>
 		    </div>
 
-		    <section id="sliderhome slid" style="padding-bottom: 20px">
-		    	<div id="meuSlider" class="carousel slide" data-ride="carousel">
-		    	<ol class="carousel-indicators">
-		    		<li data-target="#meuSlider" data-slide-to="0" class="active"></li>
-		    		<li data-target="#meuSlider" data-slide-to="1" class=""></li>
-		    		<li data-target="#meuSlider" data-slide-to="2" class=""></li>
-		    	</ol>
-		    		<div class="carousel-inner">
-		    			<div class="item active"><img src="imagens/slide1.png" alt="Slide 1"></div>
-		    			<div class="item"><img src="imagens/slide2.png" alt="Slide 2"></div>
-		    			<div class="item"><img src="imagens/slide3.png" alt="Slide 3"></div>
-		    		</div>
+				<?php
+				require_once ("slider.php");
+				?>
 
-		    		<a class="left carousel-control" href="#meuSlider" data-slide="prev">
-		    			<span class="glyphicon glyphicon-chevron-left"></span>
-		    		</a>
-		    		<a class="right carousel-control" href="#meuSlider" data-slide="next">
-		    			<span class="glyphicon glyphicon-chevron-right"></span>
-		    		</a>
 
-		    	</div>
-		    </section>
+
 		</div>
 
 	    <section id="servicos">
@@ -165,7 +150,7 @@
 	    <section id="recursos">
 	    	<div class="container">
 	    		<div class="row">
-	    			
+
 	    			<div class="col-md-6">
 	    				<h2>Fácil de Usar!</h2>
 
@@ -197,8 +182,8 @@
 	    </footer>
 
 	    </div>
-	
+
 		<script src="bootstrap/js/bootstrap.min.js"></script>
-	
+
 	</body>
 </html>

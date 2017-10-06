@@ -47,7 +47,7 @@
 
 		<title>Estoque</title>
 		<link rel="icon" href="imagens/favicon.png">
-		
+
 		<!-- jquery - link cdn -->
 		<script src="js/JQuery/jquery-2.2.4.min.js"></script>
 
@@ -64,54 +64,9 @@
 
 	<body>
 
-		<!-- Static navbar -->
-	    <nav class="navbar navbar-default navbar-static-top navbar-fixed-top">
-	      <div class="container">
-	        <div class="navbar-header">
-	          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-	            <span class="sr-only">Toggle navigation</span>
-	            <span class="icon-bar"></span>
-	            <span class="icon-bar"></span>
-	            <span class="icon-bar"></span>
-	          </button>
-	          <!--<img src="imagens/logo.png" />-->
-	          <a href="home.php" class="navbar-brand">
-	          <span class="img-logo">Logo</span>
-	          </a>
-	        </div>
-	        
-	        <div id="navbar" class="navbar-collapse collapse">
-	          <ul class="nav navbar-nav navbar-right">
-	          	<li><a href="home.php">Início</a></li>
-	            <li><a href="despesas.php">Despesas</a></li>
-	            <li><a href="investimentos.php">Investimentos</a></li>
-	            <li><a href="vendas.php">Vendas</a></li>
-	            <li><a href="estoque.php">Estoque</a></li>
-	            <li><a href="produtos.php">Produtos</a></li>
-	           	<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-user"></i>
-	            	Relatórios <b class="caret"></b></a>
-					  <ul class="dropdown-menu">
-					    <li><a href="#">Relatório de Despesas</a></li>
-					    <li><a href="#">Relatório de Investimentos</a></li>
-					    <li><a href="relatorio_vendas.php">Relatório de Vendas</a></li>
-					    <li><a href="#">Relatório de Perda de Produtos</a></li>
-					    <li><a href="#">Margens</a></li>
-					  </ul>
-	            </li>
-	            <li class="divisor" role="separator"></li>
-
-	            <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-user"></i>
-	            	Usuário <b class="caret"></b></a>
-					  <ul class="dropdown-menu">
-					    <li><a href="exibir_cadastro.php">Meu Cadastro</a></li>
-					    <li role="separator" class="divider"></li>
-					    <li><a href="sair.php">Sair</a></li>
-					  </ul>
-	            </li>
-	          </ul>
-	        </div><!--/.nav-collapse -->
-	      </div>
-	    </nav>
+		<?php
+		require_once("menu.php");
+		?>
 
 
 	    <div class="container">
@@ -134,18 +89,18 @@
 						<div class="modal-body">
 
 							<form method="POST" action="estoque.php" enctype="multipart/form-data" id="formEditarCad">
-						
+
 								<div class="form-group">
-									
+
 									<label for="select_produto" class="control-label">Produto *</label>
 									<br />
 									<select name="select_produto">
 									<option>Selecione...</option>
-									<?php 
-										$result_produto = " SELECT * FROM produtos WHERE proprietarios_id = $id ORDER BY nome_produto ASC"; 
+									<?php
+										$result_produto = " SELECT * FROM produtos WHERE proprietarios_id = $id ORDER BY nome_produto ASC";
 										$resultado_produto = mysqli_query($link, $result_produto);
 										while($row_produto = mysqli_fetch_assoc($resultado_produto)){ ?>
-											<option value="<?php echo $row_produto['id']; ?>"> 
+											<option value="<?php echo $row_produto['id']; ?>">
 											<?php echo $row_produto['nome_produto']; ?> </option>
 										<?php
 										}
@@ -173,7 +128,7 @@
 	    	</div>
 	    	<br />
 
-	
+
 			<table class="table table-striped table-hover table-condensed">
 				<thead>
 					<tr>
@@ -195,8 +150,8 @@
 						<td><?php echo $estoque['quantidade']; ?></td>
 						<td><?php echo $estoque['unidade']; ?></td>
 						<td>
-						<button type="button" class="btn btn-xs btn-primary" data-toggle="modal" data-target="#exampleModal" 
-								data-codestoque="<?php echo $estoque['id']; ?>" 
+						<button type="button" class="btn btn-xs btn-primary" data-toggle="modal" data-target="#exampleModal"
+								data-codestoque="<?php echo $estoque['id']; ?>"
 								data-codproduto="<?php echo $estoque['nome_produto']; ?>"
 								data-quantidade="<?php echo $estoque['quantidade']; ?>">
 								Editar
@@ -215,7 +170,7 @@
 
 			</table>
 
-				
+
 			<div class="clearfix"></div>
 
 			<div class="col-md-4"></div>
@@ -227,7 +182,7 @@
 		        <nav aria-label="Page navigation">
 		          <ul class="pagination">
 		            <li>
-		            <?php 
+		            <?php
 		              if($pagina_anterior != 0){ ?>
 		                <a href="estoque.php?pagina=<?php echo $pagina_anterior; ?>" aria-label="Previous">
 		                  <span aria-hidden="true">&laquo;</span>
@@ -243,7 +198,7 @@
 		            <?php } ?>
 
 		            <li>
-		            <?php 
+		            <?php
 		              if($pagina_posterior <= $num_pg){ ?>
 		                <a href="estoque.php?pagina=<?php echo $pagina_posterior; ?>" aria-label="Previous">
 		                  <span aria-hidden="true">&raquo;</span>
@@ -272,7 +227,7 @@
 		      </div>
 		      <div class="modal-body">
 		        <form method="POST" action="estoque.php">
-		        
+
 		          <div class="form-group">
 		            <label for="codproduto-name" class="control-label">Produto *</label>
 		            <input name="codproduto" type="text" class="form-control" id="codproduto-name" required="requiored">
@@ -342,7 +297,7 @@
 		    </div>
 		  </div>
 		</div>
-	
+
 		<script src="bootstrap/js/bootstrap.min.js"></script>
 
 		<script type="text/javascript">

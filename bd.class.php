@@ -45,8 +45,12 @@ class bd{
 		return $stmt->get_result();
 	}
 
-	public function __destruct(){
+	public function desconecta_mysql(){
 		mysqli_close($this->conn);
+	}
+
+	function __destruct(){
+		$this->desconecta_mysql();
 	}
 
 }
