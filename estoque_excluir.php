@@ -7,11 +7,10 @@
 	$objBd = new bd();
 	$link = $objBd->conecta_mysql();
 
-	$sql = " DELETE FROM estoques WHERE id = '$cod' ";
+	$sql = " Update estoques set quantidade=0 WHERE id = '$cod' ";
 
 	$resultado = mysqli_query($link, $sql);
-
-	if($resultado){
+	if(mysqli_affected_rows($link) ){
 		echo "
 		   	<META HTTP-EQUIV=REFRESH CONTENT = '0;URL=estoque.php'>
 		    <script type=\"text/javascript\">

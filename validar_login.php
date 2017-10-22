@@ -21,6 +21,7 @@
 		if(isset($dados_user['email'])){
 
 			$_SESSION['email'] = $dados_user['email'];
+			$_SESSION['id'] =  $dados_user['id'];
 
 			header('Location: home.php');
 		}

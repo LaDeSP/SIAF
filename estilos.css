@@ -142,3 +142,27 @@ input:active{
 #data{
 	max-width: 150px;
 }
+
+.modal-box{
+    top: 2% !important;    
+    margin-top: 2px !important;
+    text-align: center;
+}
+
+.modal-text{
+	font-size: 15px !important;
+	text-align: center;
+}
+
+.modal-btn{
+	display: none !important ;
+}
+
+.linha:hover{
+	    background-color: #c9c9cc !important;
+}
+
+.table-responsive{
+	margin: 10% 10% 10% 10%; 
+	border: 1px solid #84a783;
+}

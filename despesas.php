@@ -44,32 +44,22 @@
 <!DOCTYPE HTML>
 <html lang="pt-br">
   <head>
-    <meta charset="UTF-8">
 
-    <title>Despesas</title>
-    <link rel="icon" href="imagens/favicon.png">
+    
+<?php require_once("head.php")  ?>
 
-    <!-- jquery - link cdn -->
-    <script src="js/JQuery/jquery-2.2.4.min.js"></script>
-    <script src="js/funcoes.js"> </script>
-    <!-- bootstrap - link cdn -->
-    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
-    <link href="estilos.css" rel="stylesheet">
+<script type="text/javascript">
+  
+  
 
-    <link href="bootstrap/css/bootstrap-datepicker.css" rel="stylesheet">
-    <script src="bootstrap/js/bootstrap-datepicker.min.js"></script>
-    <script src="bootstrap/js/bootstrap-datepicker.pt-BR.min.js"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" type="text/javascript"></script>
-    <script src="http://plentz.github.io/jquery-maskmoney/javascripts/jquery.maskMoney.min.js" type="text/javascript"></script>
+</script>    
+
 
   </head>
 
   <body>
 
-    <?php
-		require_once("menu.php");
-		?>
+    <?php require_once("menu.php");	?>
 
 
       <div class="container">
@@ -117,7 +107,7 @@
 
                 <div class="input-group date">
                     <label for="data" class="control-label">Data *</label>
-                    <input type="date" class="form-control" id="data" name="data" required="requiored">
+                    <input type="text" class="form-control" id="data" name="data" required="requiored">
                 </div>
                 <br />
 
@@ -152,7 +142,7 @@
         <tbody>
         <?php while($despesa = mysqli_fetch_assoc($resultado_despesas)){
           ?>
-          <tr>
+          <tr class="linha">
 
 
             <td><?php echo $despesa['id']; ?></td>
@@ -171,9 +161,22 @@
                 data-data="<?php echo $despesa['data']; ?>">
                 Editar
             </button>
-            <a href="javascript: if(confirm ('Tem certeza que deseja excluir esta despesa?')) location.href='despesas_excluir.php?desp=<?php echo $despesa['id']?>';" class="btn btn-xs btn-danger"">
-            Excluir
-            </a>
+            <a  href="javascript:m(); function m(){ modal({
+                      type: 'confirm',
+                      title: 'Confimação',
+                      text: 'Tem certeza que deseja excluir esta despesa?',
+                      buttonText: {
+                        yes: 'Confirmar',
+                        cancel: 'Cancelar'
+                      },
+                      callback: function(result) {
+                        $('.modal-btn').attr('style', 'display: none !important');
+                        if(result==true){
+                        location.href='despesas_excluir.php?desp=<?php echo $despesa['id']?>'
+                      }
+          
+                    }
+                    }); $('.modal-btn').attr('style', 'display: inline !important'); };" class="btn btn-xs btn-danger"">Excluir</a>
             </td>
           </tr>
         <?php } ?>
@@ -263,7 +266,7 @@
 
           <div class="input-group date">
             <label for="data-name" class="control-label">Data *</label>
-          <input type="date" class="form-control" id="data-name" name="data" required="requiored">
+          <input type="text" class="form-control" id="data-name" name="data" required="requiored">
           </div>
           <br />
 
@@ -337,17 +340,38 @@
 
           if($sql){
             echo "
-            <META HTTP-EQUIV=REFRESH CONTENT = '0;URL=despesas.php'>
+            <META HTTP-EQUIV=REFRESH CONTENT = '2;URL=despesas.php'>
             <script type=\"text/javascript\">
-              alert(\"Despesa registrada!\");
+              
+             $(window).load(function() {
+                 modal({
+                 type: 'success',
+                 title: 'Sucesso',
+                 text: 'Despesa registrada!',
+                 autoclose: false,
+                 size: 'large',
+                 center: false,
+                 theme: 'atlant',
+                });
+              });
             </script>
             ";
           }
           else{
             echo "
-            <META HTTP-EQUI=REFRESH CONTENT = '0;URL=despesas.php'>
+            <META HTTP-EQUI=REFRESH CONTENT = '2;URL=despesas.php'>
             <script type=\"text/javascript\">
-              alert(\"Não foi possível registrar a despesa!\");
+              $(window).load(function() {
+                 modal({
+                 type: 'error',
+                 title: 'Erro',
+                 text: 'Não foi possível registrar a despesa!',
+                 autoclose: false,
+                 size: 'large',
+                 center: false,
+                 theme: 'atlant',
+                });
+              });
             </script>
           ";
           }
@@ -377,16 +401,39 @@
         $resultado = mysqli_query($link, $sql);
         if(mysqli_affected_rows($link) != 0){
           echo "
-            <META HTTP-EQUIV=REFRESH CONTENT = '0;URL=despesas.php'>
+            <META HTTP-EQUIV=REFRESH CONTENT = '2;URL=despesas.php'>
             <script type=\"text/javascript\">
-              alert(\"Despesa alterada com sucesso!\");
+
+             $(window).load(function() {
+                 modal({
+                 type: 'success',
+                 title: 'Sucesso',
+                 text: 'Despesa alterada com sucesso!',
+                 autoclose: false,
+                 size: 'large',
+                 center: false,
+                 theme: 'atlant',
+                });
+              });
+
+        
             </script>
             ";
         }else{
           echo "
-            <META HTTP-EQUI=REFRESH CONTENT = '0;URL=despesas.php'>
+            <META HTTP-EQUI=REFRESH CONTENT = '3;URL=despesas.php'>
             <script type=\"text/javascript\">
-              alert(\"Despesa não pode ser alterada!\");
+              $(window).load(function() {
+                 modal({
+                 type: 'error',
+                 title: 'Error',
+                 text: 'Despesa não pode ser alterada!',
+                 autoclose: true,
+                 size: 'large',
+                 center: false,
+                 theme: 'atlant',
+                });
+              });
             </script>
           ";
         }

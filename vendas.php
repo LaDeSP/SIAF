@@ -100,7 +100,7 @@
 									<select name="select_produto">
 									<option>Selecione...</option>
 									<?php
-										$result_produto = " SELECT produtos.id, nome_produto FROM produtos, estoques WHERE estoques.proprietarios_id = $id AND produtos_id = produtos.id ORDER BY nome_produto ASC ";
+										$result_produto = " SELECT produtos.id, nome_produto FROM produtos INNER JOIN estoques on produtos_id = produtos.id WHERE estoques.proprietarios_id = 6 and estoques.quantidade>0 GROUP BY produtos.id, nome_produto ORDER BY nome_produto ASC";
 										$resultado_produto = mysqli_query($link, $result_produto);
 										while($row_produto = mysqli_fetch_assoc($resultado_produto)){ ?>
 											<option value="<?php echo $row_produto['id']; ?>">
@@ -329,14 +329,11 @@
 
 		        $id = $user_id['id'];
 						$preco=moeda_clean($preco);
-				$sql = " INSERT INTO vendas(data, quantidade, preco, total, proprietarios_id, produtos_id) VALUES ('$data1', '$quantidade', '$preco', (quantidade * preco), '$id', '$codproduto') ";
+				$sql = " CALL vendas ('$data1','$quantidade','$preco','$id','$codproduto') ";
 
-				mysqli_query($link, $sql);
+				$result=mysqli_query($link, $sql);
 
-		        if($sql){
-		        	$update = " UPDATE estoques, produtos, vendas SET estoques.quantidade = estoques.quantidade - '$quantidade' WHERE vendas.produtos_id = $codproduto AND vendas.produtos_id = produtos.id AND estoques.produtos_id = produtos.id";
-
-		        	mysqli_query($link, $update);
+		        if(mysqli_num_rows($result)){
 
 		        	echo "
 		        		<META HTTP-EQUIV=REFRESH CONTENT = '0;URL=vendas.php'>
@@ -369,8 +366,8 @@
 				$objBd = new bd();
 				$link = $objBd->conecta_mysql();
 				$preco=moeda_clean($preco);
-				$sql = " UPDATE vendas SET  preco = '$preco', quantidade = '$quantidade', data = '$data1', total = (preco * quantidade) WHERE id = '$cod' ";
-
+				$sql = "CALL vendas_edt('$data1','$quantidade','$preco','$cod');";
+				
 				$resultado = mysqli_query($link, $sql);
 
 				if(mysqli_affected_rows($link) != 0){

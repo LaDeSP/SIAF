@@ -26,8 +26,8 @@
 
 	$pagina = (isset($_GET['pagina'])) ? $_GET['pagina'] : 1;
 
-	$sql = " SELECT estoques.id, nome_produto, quantidade, unidade FROM estoques, produtos WHERE produtos_id = produtos.id AND estoques.proprietarios_id = $id ORDER BY nome_produto";
-
+	$sql = " SELECT  estoques.produtos_id,estoques.id, nome_produto,estoques.quantidade, unidade FROM estoques inner JOIN produtos on produtos_id = produtos.id WHERE estoques.proprietarios_id = $id and estoques.quantidade > 0 ORDER BY produtos.nome_produto ";
+	 	
 	$resultado = mysqli_query($link, $sql);
 
    	$total_estoques = mysqli_num_rows($resultado);
@@ -35,7 +35,8 @@
   	$num_pg = ceil($total_estoques/$quantidade_pg);
   	$inicio = ($quantidade_pg*$pagina)-$quantidade_pg;
 
-  	$result_estoques = " SELECT estoques.id, nome_produto, quantidade, unidade FROM estoques, produtos WHERE produtos_id = produtos.id AND estoques.proprietarios_id = $id ORDER BY nome_produto LIMIT $inicio, $quantidade_pg";
+  	$result_estoques = " SELECT  estoques.produtos_id,estoques.id, nome_produto,estoques.quantidade, unidade FROM estoques inner JOIN produtos on produtos_id = produtos.id WHERE estoques.proprietarios_id = 6 and estoques.quantidade > 0 ORDER BY produtos.nome_produto  LIMIT $inicio, $quantidade_pg";
+
    	$resultado_estoques = mysqli_query($link, $result_estoques);
   	$total_estoques = mysqli_num_rows($resultado_estoques);
 ?>
@@ -156,13 +157,17 @@
 								data-quantidade="<?php echo $estoque['quantidade']; ?>">
 								Editar
 						</button>
+						
 						<a href="javascript: if(confirm ('Tem certeza que deseja excluir esse produto do estoque?')) location.href='estoque_excluir.php?estoq=<?php echo $estoque['id']?>';" class="btn btn-xs btn-danger"">
 						Excluir
 						</a>
-						<!--<button type="button" class="btn btn-xs btn-warning" data-toggle="modal" data-target="#exampleModal2">Perda</button>-->
-						<a href="location.href='estoque.php?perda=<?php echo $estoque['id']?>';" class="btn btn-xs btn-warning" data-toggle="modal" data-target="#exampleModal2"">
-						Perda
-						</a>
+						<button type="button" class="btn btn-xs btn-warning" data-toggle="modal" data-target="#exampleModal2"
+								data-codestoque="<?php echo $estoque['id']; ?>"
+								data-produtosid="<?php echo $estoque['produtos_id']; ?>"
+								>
+
+								Perda
+						</button>
 						</td>
 					</tr>
 				<?php }} ?>
@@ -283,7 +288,8 @@
 							<input type="date" class="form-control" id="data" name="data" required="requiored"><br />
 						</div>
 
-						<input type="hidden" name="id_estoque" value="<?php echo $estoque['id']; ?>">
+						<input type="hidden" id="id_estoque_ed" name="id_estoque" value="">
+						<input type="hidden" id="id_produto_ed" name="id_produto" value="">
 
 						<div class="col-md-1"><br /></div>
 				  </div>
@@ -314,7 +320,19 @@
 			 	modal.find('#cod-estoque').val(recipientcod)
 			 	modal.find('#codproduto-name').val(recipientcodproduto)
 			 	modal.find('#quantidade-name').val(recipientquantidade)
-			})
+			});
+			$('#exampleModal2').on('show.bs.modal', function (event) {
+				var button = $(event.relatedTarget) // Button that triggered the modal
+				var recipientcod = button.data('codestoque')
+				var recipientcodproduto = button.data('produtosid') 
+			  // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+			  // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+				var modal = $(this)
+			 	modal.find('.modal-title').text('Perda - Estoque #' + recipientcod)
+			 	modal.find('#id_estoque_ed').val(recipientcod)
+			 	modal.find('#id_produto_ed').val(recipientcodproduto)
+			});
+
 		</script>
 
 		<?php
@@ -339,7 +357,7 @@
 		        $id = $user_id['id'];
 
 		        if($user_id['nome_produto'] != $produto){
-		        	$sql = " insert into estoques(quantidade, proprietarios_id, produtos_id) values ('$quant',	 $id, '$produto')";
+		        	$sql = " CALL estoque ('$quant',$id, '$produto')";
 
 		        	mysqli_query($link, $sql);
 		        }else{
@@ -407,7 +425,8 @@
 			function registraPerda($perda){
 				$motivo = $_POST['motivo'];
 				$quantidade = $_POST['quantidade'];
-
+				$perda = $_POST['id_estoque'];
+				$produto = $_POST['id_produto'];
 				$data = str_replace("/", "-", $_POST["data"]);
 			    $data1 = date('Y-m-d', strtotime($data));
 
@@ -415,11 +434,11 @@
 		        $objBd = new bd();
 		        $link = $objBd->conecta_mysql();
 
-		   		$sql = "insert into perda_produtos(quantidade, motivo, data, estoques_id, produtos_id) values('$quantidade', '$motivo', '$data1', '".$perda."','null') ";
+		   		$sql = "CALL perdas('$quantidade', '$motivo', '$data1', '$perda','$produto'); ";
 
-		        mysqli_query($link, $sql);
+		       $resultado =  mysqli_query($link, $sql);
 
-		        if($sql){
+		        if(mysqli_num_rows($resultado)){
 		        	echo "
 		        		<META HTTP-EQUIV=REFRESH CONTENT = '0;URL=estoque.php'>
 		        		<script type=\"text/javascript\">

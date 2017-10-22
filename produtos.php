@@ -272,12 +272,12 @@
 
 				$id = $user_id['id'];
 
-				$sql = " insert into produtos(nome_produto, unidade, proprietarios_id) values ('$nome', '$unidade', '$id') ";
+				$sql = " CALL produtos('$nome', '$unidade', '$id') ";
 
 				//executar a query
-				mysqli_query($link, $sql);
+				$result=mysqli_query($link, $sql);
 
-				if($sql){
+				if(mysqli_num_rows($result)){
 		            echo "
 		            <META HTTP-EQUIV=REFRESH CONTENT = '0;URL=produtos.php'>
 		            <script type=\"text/javascript\">

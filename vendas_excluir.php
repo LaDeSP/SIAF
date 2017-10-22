@@ -6,11 +6,11 @@
 	$objBd = new bd();
 	$link = $objBd->conecta_mysql();
 
-	$sql = " DELETE FROM vendas WHERE id = '$cod' ";
-
+	$sql = "CALL vendas_del('$cod'); ";
+	
 	$resultado = mysqli_query($link, $sql);
 
-	if($resultado){
+	if(mysqli_affected_rows($link)){
 		echo "
 		    <META HTTP-EQUIV=REFRESH CONTENT = '0;URL=vendas.php'>
 		    <script type=\"text/javascript\">
