@@ -44,27 +44,7 @@
 <!DOCTYPE HTML>
 <html lang="pt-br">
 	<head>
-		<meta charset="UTF-8">
-
-		<title>Investimentos</title>
-		<link rel="icon" href="imagens/favicon.png">
-
-		<!-- jquery - link cdn -->
-		<script src="js/JQuery/jquery-2.2.4.min.js"></script>
-
-		<!-- bootstrap - link cdn -->
-		<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
-
-
-		<link href="bootstrap/css/bootstrap-datepicker.css" rel="stylesheet">
-		<script src="bootstrap/js/bootstrap-datepicker.min.js"></script>
-		<script src="bootstrap/js/bootstrap-datepicker.pt-BR.min.js"></script>
-
-		<script src="js/funcoes.js"> </script>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link href="estilos.css" rel="stylesheet">
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" type="text/javascript"></script>
-    <script src="http://plentz.github.io/jquery-maskmoney/javascripts/jquery.maskMoney.min.js" type="text/javascript"></script>
+		<?php require_once("head.php")  ?>
 
 	</head>
 
@@ -114,7 +94,7 @@
 
 									<div class="form-group date col-md-8">
 										<label for="data" class="control-label">Data *</label>
-									   	<input type="date" class="form-control" id="data" name="data" required="requiored">
+									   	<input type="text" class="form-control data " id="data" name="data" required="requiored">
 									</div>
 
 									<div class="col-md-1"></div>
@@ -150,7 +130,7 @@
 
 				<tbody>
 				<?php while($investimento = mysqli_fetch_assoc($resultado_investimentos)){ ?>
-					<tr>
+					<tr class="linha">
 						<td><?php echo $investimento['id']; ?></td>
 						<td><?php echo $investimento['nome_investimento']; ?></td>
 						<td><?php echo $investimento['descricao']; ?></td>
@@ -162,7 +142,7 @@
 								data-nome="<?php echo $investimento['nome_investimento']; ?>"
 								data-descricao="<?php echo $investimento['descricao']; ?>"
 								data-valor="<?php echo formata_moeda($investimento['valor']); ?>"
-								data-data="<?php echo $investimento['data']; ?>">
+								data-data="<?php echo date("d/m/Y", strtotime($investimento['data'])); ?>">
 								Editar
 						</button>
 						<a href="javascript: if(confirm ('Tem certeza que deseja excluir este investimento?')) location.href='investimentos_excluir.php?inves=<?php echo $investimento['id']?>';" class="btn btn-xs btn-danger"">
@@ -249,7 +229,7 @@
 
 				  <div class="form-group col-md-4">
 				  	<label for="data-name" class="control-label">Data *</label>
-					<input type="date" class="form-control" id="data-name" name="data" required="requiored">
+					<input type="text" class="form-control" id="data-name" name="data" required="requiored">
 				  </div>
 
 				   </div>

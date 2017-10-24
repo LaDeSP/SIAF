@@ -2,7 +2,13 @@
 $(document).ready( function() {
   autoDate();
 
-  $("input,button").not('#data').focusin(function(){
+  el=$(".data");
+  el.each(function(e){ 
+    $(this).datepicker({language: 'pt-BR' } );
+
+  });
+
+  $('.data').focusout(function(){
     autoDate();
   });
 
@@ -10,21 +16,27 @@ $(document).ready( function() {
 
 
 function autoDate(){
-  if($("#data")[0]){
-  var data=$("#data")[0].value
-  if(data===""){
+  el=$(".data")
+  el.each(function(e){ 
+  var date=this.value;
+  that=this;
+  if(date===""){
     $.ajax( {
       type:'Get',
       url:'http://localhost/SIAF/service_data.php',
       success:function(dado) {
-      $("#data")[0].value=dado.data;
+      that.value=dado.data;
     }
 
   });
   }
-  $('#data').datepicker({format: 'dd/mm/yyyy'});
-  }
+
+  });
+  
+  
 }
+
+
 
 
 $.urlParam = function(name){

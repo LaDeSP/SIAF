@@ -43,22 +43,7 @@
 <!DOCTYPE HTML>
 <html lang="pt-br">
 	<head>
-		<meta charset="UTF-8">
-
-		<title>Produtos</title>
-		<link rel="icon" href="imagens/favicon.png">
-
-		<!-- jquery - link cdn -->
-		<script src="js/JQuery/jquery-2.2.4.min.js"></script>
-
-		<!-- bootstrap - link cdn -->
-		<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
-		<link href="estilos.css" rel="stylesheet">
-
-		<script src="lib/sweetalert/sweetalert.min.js"></script>
-		<link rel="stylesheet" type="text/css" href="lib/sweetalert/sweetalert.css">
-
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<?php require_once("head.php")  ?>
 	</head>
 
 	<body>
@@ -130,7 +115,7 @@
 
 				<tbody>
 				<?php while($produtos = mysqli_fetch_assoc($resultado_produtos)){ ?>
-					<tr>
+					<tr class="linha">
 						<td><?php echo $produtos['id']; ?></td>
 						<td><?php echo $produtos['nome_produto']; ?></td>
 						<td><?php echo $produtos['unidade']; ?></td>

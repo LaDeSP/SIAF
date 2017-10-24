@@ -44,25 +44,7 @@
 <!DOCTYPE HTML>
 <html lang="pt-br">
 	<head>
-		<meta charset="UTF-8">
-
-		<title>Vendas</title>
-		<link rel="icon" href="imagens/favicon.png">
-
-		<!-- jquery - link cdn -->
-		<script src="js/JQuery/jquery-2.2.4.min.js"></script>
-		<script src="js/funcoes.js"> </script>
-		<!-- bootstrap - link cdn -->
-		<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
-		<link href="estilos.css" rel="stylesheet">
-
-		<link href="bootstrap/css/bootstrap-datepicker.css" rel="stylesheet">
-		<script src="bootstrap/js/bootstrap-datepicker.min.js"></script>
-		<script src="bootstrap/js/bootstrap-datepicker.pt-BR.min.js"></script>
-
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" type="text/javascript"></script>
-		<script src="http://plentz.github.io/jquery-maskmoney/javascripts/jquery.maskMoney.min.js" type="text/javascript"></script>
+		<?php require_once("head.php")  ?>
 	</head>
 
 	<body>
@@ -125,7 +107,7 @@
 
 								<div class="input-group date">
 										<label for="data" class="control-label">Data *</label>
-									   	<input type="date" class="form-control" id="data" name="data" required="requiored">
+									   	<input type="text" class="form-control data" id="data" name="data" required="requiored">
 								</div>
 
 								<br />
@@ -146,7 +128,7 @@
 
 			<table class="table table-striped table-hover table-condensed">
 				<thead>
-					<tr>
+					<tr >
 						<th>Código</th>
 						<th>Produto</th>
 						<th>Quantidade</th>
@@ -160,7 +142,7 @@
 
 				<tbody>
 				<?php while($venda = mysqli_fetch_assoc($resultado_vendas)){ ?>
-					<tr>
+					<tr class="linha">
 						<td><?php echo $venda['id']; ?></td>
 						<td><?php echo $venda['nome_produto']; ?></td>
 						<td><?php echo $venda['quantidade']; ?></td>

@@ -25,11 +25,11 @@
           <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-user"></i>
             Relatórios <b class="caret"></b></a>
         <ul class="dropdown-menu">
-          <li><a href="#">Relatório de Despesas</a></li>
-          <li><a href="#">Relatório de Investimentos</a></li>
+          <li><a href="relatorio_despesas.php">Relatório de Despesas</a></li>
+          <li><a href="relatorio_investimentos.php">Relatório de Investimentos</a></li>
           <li><a href="relatorio_vendas.php">Relatório de Vendas</a></li>
-          <li><a href="#">Relatório de Perda de Produtos</a></li>
-          <li><a href="#">Margens</a></li>
+          <li><a href="relatorio_perdas.php">Relatório de Perda de Produtos</a></li>
+          <li><a href="relatorio_margens.php">Margens</a></li>
         </ul>
           </li>
           <li class="divisor" role="separator"></li>

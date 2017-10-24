@@ -13,6 +13,7 @@
 <link href="bootstrap/css/bootstrap-datepicker.css" rel="stylesheet">
 <script src="bootstrap/js/bootstrap-datepicker.min.js"></script>
 <script src="bootstrap/js/bootstrap-datepicker.pt-BR.min.js"></script>
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
@@ -26,8 +27,11 @@
 <!--modal js-->
 <script type="text/javascript" src="js/modal/jquery.modal.js"></script>
 
-<script src="https://code.highcharts.com/highcharts.src.js"></script>
+<script src="code/highcharts.src.js"></script>
+
+
 <script src="js/charttable/jquery.highchartTable-min.js" type="text/javascript"></script>
+	
 	<script type="text/javascript">
 		$(document).ready(function() {
   			$('table.highchart').highchartTable();

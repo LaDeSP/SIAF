@@ -48,11 +48,7 @@
     
 <?php require_once("head.php")  ?>
 
-<script type="text/javascript">
-  
-  
-
-</script>    
+   
 
 
   </head>
@@ -107,7 +103,7 @@
 
                 <div class="input-group date">
                     <label for="data" class="control-label">Data *</label>
-                    <input type="text" class="form-control" id="data" name="data" required="requiored">
+                    <input type="text" class="form-control data" id="data" name="data" required="requiored">
                 </div>
                 <br />
 
@@ -158,7 +154,7 @@
                 data-descricao="<?php echo $despesa['descricao']; ?>"
                 data-valor="<?php echo formata_moeda($despesa['valor']); ?>"
                 data-quantidade="<?php echo $despesa['quantidade']; ?>"
-                data-data="<?php echo $despesa['data']; ?>">
+                data-data="<?php echo date("d/m/Y", strtotime($despesa['data'])); ?>">
                 Editar
             </button>
             <a  href="javascript:m(); function m(){ modal({
@@ -266,7 +262,7 @@
 
           <div class="input-group date">
             <label for="data-name" class="control-label">Data *</label>
-          <input type="text" class="form-control" id="data-name" name="data" required="requiored">
+          <input type="text" class="form-control data1 batata" id="data-name" name="data" required="requiored">
           </div>
           <br />
 
@@ -312,6 +308,7 @@
           $nome = $_POST['nome'];
           $descricao = $_POST['descricao'];
           $valor = $_POST['valor'];
+        
           $quant = $_POST['quant'];
 
           $data = str_replace("/", "-", $_POST["data"]);

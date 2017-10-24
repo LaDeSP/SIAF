@@ -3,7 +3,7 @@
 <head>
 	<title>Relatorio de Vendas</title>
 	<?php require_once("head.php")  ?>
-	
+	<script src="bootstrap/js/bootstrap.min.js"></script>
 </head>
 <body>
 <div>
@@ -41,7 +41,7 @@
 	<?php
 	while($row_produto = mysqli_fetch_assoc($result)){
 		?>
-		<tr>
+		<tr class="linha">
 			<td><?php echo $row_produto['id']?></td>
 			<td><?php echo date("d/m/Y", strtotime($row_produto['data']));?></td>
 			<td><?php echo $row_produto['nome_produto']?></td>
@@ -85,7 +85,7 @@
 	<?php
 	while($row_produto = mysqli_fetch_assoc($result2)){
 		?>
-		<tr>
+		<tr class="linha">
 			<td><?php echo $row_produto['nome_produto']?></td>
 			<td><?php echo $row_produto['quantidade']?></td>
 			<td><?php echo $row_produto['unidade']?></td>
@@ -100,7 +100,7 @@
 	</div>
 
 <div class="table-responsive" >
-	<table class="highchart " data-graph-container-before="1" data-graph-type="column" style="display: none; ">
+	<table class="highchart " data-graph-container-before="1" data-graph-type="line" style="display: none; ">
 		<thead>
 		<tr >
 			<th>Data</th>

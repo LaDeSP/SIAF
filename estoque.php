@@ -44,23 +44,7 @@
 <!DOCTYPE HTML>
 <html lang="pt-br">
 	<head>
-		<meta charset="UTF-8">
-
-		<title>Estoque</title>
-		<link rel="icon" href="imagens/favicon.png">
-
-		<!-- jquery - link cdn -->
-		<script src="js/JQuery/jquery-2.2.4.min.js"></script>
-
-		<!-- bootstrap - link cdn -->
-		<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
-		<link href="estilos.css" rel="stylesheet">
-
-		<link href="bootstrap/css/bootstrap-datepicker.css" rel="stylesheet">
-		<script src="bootstrap/js/bootstrap-datepicker.min.js"></script>
-		<script src="bootstrap/js/bootstrap-datepicker.pt-BR.min.js"></script>
-
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<?php require_once("head.php")  ?>
 	</head>
 
 	<body>
@@ -145,7 +129,7 @@
 				<tbody>
 				<?php while($estoque = mysqli_fetch_assoc($resultado_estoques)){
 						if($estoque['quantidade'] > 0) {?>
-					<tr>
+					<tr class="linha">
 						<td><?php echo $estoque['id']; ?></td>
 						<td><?php echo $estoque['nome_produto']; ?></td>
 						<td><?php echo $estoque['quantidade']; ?></td>
