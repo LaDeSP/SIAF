@@ -22,6 +22,10 @@ SET time_zone = "+00:00";
 -- Banco de dados: `siaf`
 --
 
+CREATE DATABASE siaf;
+
+USE siaf;
+
 DELIMITER $$
 --
 -- Procedimentos
@@ -63,6 +67,18 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `produtos` (`nome` VARCHAR(255), `un
     	SELECT "suscesso" AS suscesso; 
     COMMIT;
     
+    SET SESSION AUTOCOMMIT=1;
+	SET AUTOCOMMIT =1;
+END$$
+
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `produtos_del` (`id` INT)  BEGIN
+	SET SESSION AUTOCOMMIT=0;
+	SET AUTOCOMMIT =0;
+    START TRANSACTION;
+			DELETE FROM produtos WHERE produtos.id = id;
+    		SELECT 'suscesso' as suscesso;
+    COMMIT;
     SET SESSION AUTOCOMMIT=1;
 	SET AUTOCOMMIT =1;
 END$$
@@ -119,8 +135,8 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `vendas_edt` (`data1` DATE, `quantid
 	SET AUTOCOMMIT =1;
 END$$
 
-DELIMITER ;
 
+DELIMITER ;
 -- --------------------------------------------------------
 
 --
@@ -140,16 +156,6 @@ CREATE TABLE `despesas` (
 --
 -- Fazendo dump de dados para tabela `despesas`
 --
-
-INSERT INTO `despesas` (`id`, `nome_despesa`, `descricao`, `quantidade`, `valor`, `data`, `proprietarios_id`) VALUES
-(8, 'Luz', '', 1, 350, '2017-07-10', 7),
-(30, 'qqqq', '', 2, 11.11, '2017-10-19', 6),
-(31, 'asa', '', 1, 1.11, '2017-10-19', 6),
-(32, 'qqqq', 'aka', 3, 100, '2017-10-23', 6),
-(33, 'energia', '', 1, 100, '2017-10-24', 6),
-(34, 'energia', '', 1, 100, '2017-09-11', 6),
-(35, 'energia', '', 1, 900, '2017-11-01', 6);
-
 -- --------------------------------------------------------
 
 --
@@ -212,12 +218,6 @@ CREATE TABLE `estoques` (
 -- Fazendo dump de dados para tabela `estoques`
 --
 
-INSERT INTO `estoques` (`id`, `quantidade`, `proprietarios_id`, `produtos_id`) VALUES
-(40, 0, 6, 54),
-(41, 10, 6, 55);
-
--- --------------------------------------------------------
-
 --
 -- Estrutura para tabela `investimentos`
 --
@@ -234,13 +234,6 @@ CREATE TABLE `investimentos` (
 --
 -- Fazendo dump de dados para tabela `investimentos`
 --
-
-INSERT INTO `investimentos` (`id`, `nome_investimento`, `descricao`, `data`, `valor`, `proprietarios_id`) VALUES
-(1, 'Reforma no Galpão', '', '2017-07-03', 1500, 6),
-(2, 'Construção', 'Construção do galinheiro', '2017-07-07', 800, 6),
-(4, 'Roçadeira ', '', '2017-07-10', 350, 6),
-(5, 'Construção', 'Galpão', '2017-10-23', 300, 6),
-(6, 'construção', 'barraca', '2017-10-24', 100, 6);
 
 -- --------------------------------------------------------
 
@@ -358,12 +351,6 @@ CREATE TABLE `perda_produtos` (
 -- Fazendo dump de dados para tabela `perda_produtos`
 --
 
-INSERT INTO `perda_produtos` (`id`, `quantidade`, `motivo`, `data`, `estoques_id`, `produtos_id`) VALUES
-(27, 40, 'Consumo próprio', '2017-10-20', 41, 55),
-(28, 100, 'Estragou', '2017-10-23', 40, 54),
-(29, 50, 'Estragou', '2017-10-19', 41, 55),
-(30, 50, 'Consumo próprio', '2017-10-22', 41, 55);
-
 -- --------------------------------------------------------
 
 --
@@ -380,10 +367,6 @@ CREATE TABLE `produtos` (
 --
 -- Fazendo dump de dados para tabela `produtos`
 --
-
-INSERT INTO `produtos` (`id`, `nome_produto`, `unidade`, `proprietarios_id`) VALUES
-(54, 'Repolho Roxo', 'KG', 6),
-(55, 'Mandioca', 'KG', 6);
 
 -- --------------------------------------------------------
 
@@ -405,15 +388,6 @@ CREATE TABLE `proprietarios` (
 --
 -- Fazendo dump de dados para tabela `proprietarios`
 --
-
-INSERT INTO `proprietarios` (`id`, `nome_proprietario`, `telefone`, `email`, `senha`, `nome_propriedade`, `localizacao`, `municipios_id`) VALUES
-(6, 'Paulo', 993099573, 'paulo@teste.com', '827ccb0eea8a706c4c34a16891f84e7b', 'Assentamento 013', 'KM 20', 26),
-(7, 'Andreza', 32261906, 'andreza@teste.com', 'e10adc3949ba59abbe56e057f20f883e', 'Assentamento 30', 'KM 27', 48),
-(8, 'Lucineide', 0, 'lucineide@teste.com', '202cb962ac59075b964b07152d234b70', 'a', 'a', 12),
-(9, 'A', 0, 'A@HOTMAIL.COM', '0cc175b9c0f1b6a831c399e269772661', 'a', 'a', 16),
-(10, 'valdomiro', 992209284, 'valdomiro@teste.com', '123', 'sitio paraiso', 'assentamento taquaral', 26),
-(11, 'Armin Beh', 999788, 'armin@Test.com', 'e10adc3949ba59abbe56e057f20f883e', 'Sitio Sao Pedro', 'Taquaral', 26);
-
 -- --------------------------------------------------------
 
 --
@@ -433,19 +407,6 @@ CREATE TABLE `vendas` (
 --
 -- Fazendo dump de dados para tabela `vendas`
 --
-
-INSERT INTO `vendas` (`id`, `data`, `quantidade`, `preco`, `total`, `proprietarios_id`, `produtos_id`) VALUES
-(41, '2017-10-20', 5, 13, 65, 6, 55),
-(42, '2017-10-16', 10, 10, 100, 6, 55),
-(43, '2017-10-20', 12, 12, 144, 6, 54),
-(44, '2017-10-20', 12, 12, 144, 6, 54),
-(45, '2017-10-21', 12, 12, 144, 6, 54),
-(46, '2017-10-20', 6, 4, 24, 6, 54),
-(47, '2017-09-04', 50, 10, 500, 6, 55),
-(48, '2017-09-21', 50, 20, 1000, 6, 55),
-(49, '2017-11-14', 50, 30, 1500, 6, 55),
-(50, '2017-11-24', 50, 20, 1000, 6, 55);
-
 --
 -- Índices de tabelas apagadas
 --

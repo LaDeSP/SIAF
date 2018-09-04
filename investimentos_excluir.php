@@ -13,18 +13,10 @@
 
 	if($resultado){
 		echo "
-		<META HTTP-EQUIV=REFRESH CONTENT = '0;URL=investimentos.php'>
-		<script type=\"text/javascript\">
-		  alert(\"Investimento excluído!\");
-		</script>
-		";
+		<META HTTP-EQUIV=REFRESH CONTENT = '0;URL=investimentos.php?type=success&text=investimento excluído com sucesso!&title=Sucesso '>";
 	}
 	else{
 		echo "
-		<META HTTP-EQUIV=REFRESH CONTENT = '0;URL=investimentos.php'>
-		<script type=\"text/javascript\">
-		  alert(\"Não foi possível excluir o investimento!\");
-		</script>
-		";
+		<META HTTP-EQUIV=REFRESH CONTENT = '0;URL=investimentos.php?type=error&text=Não foi possível excluir o investimento!&title=Erro '>";
 	}
 ?>

@@ -6,16 +6,16 @@ class bd{
 	private $host = 'localhost';
 
 	//usuario
-	private $usuario = 'siaf';
+	private $usuario = 'root';
 
 	//senha
-	private $senha = '123456';
+	private $senha = '';
 
 	//banco de dados
 	private $bd = 'siaf';
 
 	private $conn=NULL;
-	
+
 
 	public function conecta_mysql(){
 
@@ -30,9 +30,9 @@ class bd{
 			echo 'Erro ao tentar se conectar com o BD MySQL: ' .mysqli_connect_error();
 		}
 
-		return $this->conn; 
+		return $this->conn;
 	}
-	
+
 	function __construct()
 	{
 		$this->conecta_mysql();

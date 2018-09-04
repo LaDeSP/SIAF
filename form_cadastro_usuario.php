@@ -20,7 +20,7 @@
 
 		<title>Sistema</title>
 		<link rel="icon" href="imagens/favicon.png">
-		
+
 		<!-- jquery - link cdn -->
 		<script src="js/JQuery/jquery-2.2.4.min.js"></script>
 
@@ -32,7 +32,7 @@
 		<!-- bootstrap - link cdn -->
 		<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
 		<link href="style.css" rel="stylesheet">
-		
+
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	</head>
 
@@ -53,7 +53,7 @@
 	          <span class="img-logo">Logo</span>
 	          </a>
 	        </div>
-	        
+
 	        <div id="navbar" class="navbar-collapse collapse">
 	          <ul class="nav navbar-nav navbar-right">
 	            <li><a href="index.php">Voltar</a></li>
@@ -69,8 +69,8 @@
 	    	<div class="col-md-7">
 	    		<h3 class="page-header espaco">Identificação</h3>
 
-	    		<?php 
-	    			include_once('bd.class.php'); 
+	    		<?php
+	    			include_once('bd.class.php');
 
 	    			$objBd = new bd();
 					$link = $objBd->conecta_mysql();
@@ -91,7 +91,7 @@
 						?>
 						<input type="email" class="form-control" id="email" name="email" placeholder="Ex: joao@seuemail.com" required="requiored">
 					</div>
-					
+
 					<div class="form-group">
 						<label for="senha" class="control-label">Senha *</label>
 						<input type="password" class="form-control" id="senha" name="senha" placeholder="Senha" required="requiored">
@@ -131,7 +131,7 @@
 							<label for="id_cidade" class="control-label">Cidade *</label><br />
 							<select name="id_cidade" id="id_cidade">
 								<option value="">Selecione...</option>
-							</select> 
+							</select>
 						</div>
 					</div>
 					<br />
@@ -150,7 +150,7 @@
 
 
 	    </div>
-	
+
 		<script src="bootstrap/js/bootstrap.min.js"></script>
 
 		<script type="text/javascript">
@@ -163,8 +163,8 @@
 				});
 			});
 		</script>
-	
-		<?php 
+
+		<?php
 			function registraUsuario(){
 				$objBd = new bd();
 				$link = $objBd->conecta_mysql();
@@ -177,9 +177,9 @@
 				$telefone = $_POST['telefone'];
 				$local = $_POST['local'];
 
-				$email_existe = false; 
+				$email_existe = false;
 
-				//verifica se o email já foi cadastrado 
+				//verifica se o email já foi cadastrado
 				$sql = " SELECT * FROM proprietarios WHERE email = '$email' ";
 
 				if($resultado_id = mysqli_query($link, $sql)){

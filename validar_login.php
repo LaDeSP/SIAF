@@ -23,14 +23,12 @@
 			$_SESSION['email'] = $dados_user['email'];
 			$_SESSION['id'] =  $dados_user['id'];
 
-			header('Location: home.php');
-		}
-		else{
+			header('Location: home.php?msg=1');
+		}else{
 			//redireciona para uma página
 			header('Location: index.php?erro=1');
 		}
-	}
-	else{
+	}else{
 		echo 'Erro na execução da consulta, favor entrar em contato com o administrador do site';
 	}
 ?>

@@ -45,7 +45,7 @@
 <html lang="pt-br">
 	<head>
 		<?php require_once("head.php")  ?>
-
+		<title>Investimentos</title>
 	</head>
 
 	<body>
@@ -301,21 +301,43 @@
 
 				if($sql){
 					echo "
-		            <META HTTP-EQUIV=REFRESH CONTENT = '0;URL=investimentos.php'>
+		            <META HTTP-EQUIV=REFRESH CONTENT = '3;URL=investimentos.php'>
 		            <script type=\"text/javascript\">
-		              alert(\"Investimento registrado!\");
+              
+		             $(window).load(function() {
+		                 modal({
+		                 type: 'success',
+		                 title: 'Sucesso',
+		                 text: 'Investimento registrado!',
+		                 autoclose: false,
+		                 size: 'large',
+		                 center: false,
+		                 theme: 'atlant',
+		                });
+		              });
 		            </script>
 		            ";
 				}
 				else{
 					echo "
-		            <META HTTP-EQUIV=REFRESH CONTENT = '0;URL=investimentos.php'>
-		            <script type=\"text/javascript\">
-		              alert(\"Não foi possível registrar o investimento!\");
-		            </script>
+		            <META HTTP-EQUIV=REFRESH CONTENT = '3;URL=investimentos.php'>
+		           	<script type=\"text/javascript\">
+              		$(window).load(function() {
+                		modal({
+                 			type: 'error',
+                 			title: 'Erro',
+                 			text: 'Não foi possível registrar o Investimento!',
+                 			autoclose: false,
+                 			size: 'large',
+                 			center: false,
+                 			theme: 'atlant',
+                		});
+             		 });
+           		 	</script>
 		            ";
 				}
 			}
+			
 
 			if(isset($_POST['salvar'])){
 				registraInvestimento();
@@ -335,21 +357,45 @@
 				$valor=moeda_clean($valor);
 				$sql = " UPDATE investimentos SET nome_investimento = '$nome', descricao = '$descricao', data = '$data1', valor = '$valor' WHERE id = '$cod' ";
 
+
 				$resultado = mysqli_query($link, $sql);
 
-				if(mysqli_affected_rows($link) != 0){
+				if(mysql_affected_rows($link) != 0){
 					echo "
 						<META HTTP-EQUIV=REFRESH CONTENT = '0;URL=investimentos.php'>
 						<script type=\"text/javascript\">
-							alert(\"Investimento alterado com sucesso!\");
-						</script>
+
+			             $(window).load(function() {
+			                 modal({
+			                 type: 'success',
+			                 title: 'Sucesso',
+			                 text: 'Investimento alterado com sucesso!',
+			                 autoclose: false,
+			                 size: 'large',
+			                 center: false,
+			                 theme: 'atlant',
+			                });
+			              });
+
+			        
+			            </script>
 						";
 				}else{
 					echo "
 						<META HTTP-EQUI=REFRESH CONTENT = '0;URL=investimentos.php'>
 						<script type=\"text/javascript\">
-							alert(\"Investimento não pode ser alterado!\");
-						</script>
+			              $(window).load(function() {
+			                 modal({
+			                 type: 'error',
+			                 title: 'Error',
+			                 text: 'Investimento não pode ser alterado!',
+			                 autoclose: true,
+			                 size: 'large',
+			                 center: false,
+			                 theme: 'atlant',
+			                });
+			              });
+			            </script>
 					";
 			}
 		}

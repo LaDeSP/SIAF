@@ -1,5 +1,5 @@
 <meta charset="UTF-8">
-<title>Despesas</title>
+
 <link rel="icon" href="imagens/favicon.png">
 <!-- jquery - link cdn -->
 
@@ -31,7 +31,7 @@
 
 
 <script src="js/charttable/jquery.highchartTable-min.js" type="text/javascript"></script>
-	
+
 	<script type="text/javascript">
 		$(document).ready(function() {
   			$('table.highchart').highchartTable();

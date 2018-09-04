@@ -45,11 +45,9 @@
 <html lang="pt-br">
   <head>
 
-    
+
 <?php require_once("head.php")  ?>
-
-   
-
+<title>Despesas</title>
 
   </head>
 
@@ -170,7 +168,7 @@
                         if(result==true){
                         location.href='despesas_excluir.php?desp=<?php echo $despesa['id']?>'
                       }
-          
+
                     }
                     }); $('.modal-btn').attr('style', 'display: inline !important'); };" class="btn btn-xs btn-danger"">Excluir</a>
             </td>
@@ -308,7 +306,7 @@
           $nome = $_POST['nome'];
           $descricao = $_POST['descricao'];
           $valor = $_POST['valor'];
-        
+
           $quant = $_POST['quant'];
 
           $data = str_replace("/", "-", $_POST["data"]);
@@ -339,7 +337,7 @@
             echo "
             <META HTTP-EQUIV=REFRESH CONTENT = '2;URL=despesas.php'>
             <script type=\"text/javascript\">
-              
+
              $(window).load(function() {
                  modal({
                  type: 'success',
@@ -413,9 +411,8 @@
                 });
               });
 
-        
-            </script>
-            ";
+
+            </script>";
         }else{
           echo "
             <META HTTP-EQUI=REFRESH CONTENT = '3;URL=despesas.php'>
