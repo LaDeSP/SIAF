@@ -3,7 +3,7 @@ $(document).ready( function() {
   autoDate();
 
   el=$(".data");
-  el.each(function(e){ 
+  el.each(function(e){
     $(this).datepicker({language: 'pt-BR' } );
 
   });
@@ -17,13 +17,16 @@ $(document).ready( function() {
 
 function autoDate(){
   el=$(".data")
-  el.each(function(e){ 
+  el.each(function(e){
   var date=this.value;
   that=this;
+  var url=window.location.href;
+  var urlbase=url.substr(0,url.lastIndexOf('/'));
+  url=urlbase+'/service_data.php';
   if(date===""){
     $.ajax( {
       type:'Get',
-      url:'http://localhost/SIAF/service_data.php',
+      url:url,
       success:function(dado) {
       that.value=dado.data;
     }
@@ -32,8 +35,8 @@ function autoDate(){
   }
 
   });
-  
-  
+
+
 }
 
 

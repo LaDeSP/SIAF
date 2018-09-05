@@ -16,7 +16,8 @@
 
 		<!-- bootstrap - link cdn -->
 		<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
-		<link href="estilos.css" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.css">
+		<link rel="stylesheet" type="text/css" href="estilos.css">
 
 		<script>
 			$(document).ready( function(){
@@ -70,9 +71,9 @@
 
 	        <div id="navbar" class="navbar-collapse collapse">
 	          <ul class="nav navbar-nav navbar-right">
-	            <li><a href="form_cadastro_usuario.php">Cadastre-se</a></li>
-	            <li class="<?= $erro == 1 ? 'open' : '' ?>">
-	            	<a id="entrar" data-target="#" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Entrar</a>
+	            <li id="botao" style="margin-right: 5px"><a href="form_cadastro_usuario.php">  Cadastre-se</a></li>
+	            <li id="botao" style="background-color: rgba(51, 255, 51, 0.3)" class="<?= $erro == 1 ? 'open' : '' ?>">
+	            	<a id="entrar" data-target="#" href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> Entrar </a>
 					<ul class="dropdown-menu" aria-labelledby="entrar">
 						<div class="col-md-12">
 				    		<p>Já possui cadastro?</h3>
@@ -87,7 +88,7 @@
 									<input type="password" class="form-control red" id="campo_senha" name="senha" placeholder="Senha" required="requiored">
 								</div>
 
-								<button type="buttom" class="btn btn-primary" id="btn_login">Entrar</button>
+								<button  type="buttom" class="btn btn-primary" id="btn_login">Entrar</button>
 
 								<br /><br />
 							</form>
@@ -95,9 +96,8 @@
 							<?php
 
 							if($erro == 1){
-								echo '<font color="#FF0000">E-mail ou senha incorretos </font>';
+								echo '<p class="alert-danger">Email ou senha incorretos!</p>';
 							}
-
 							?>
 
 						</form>

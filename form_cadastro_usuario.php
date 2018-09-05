@@ -20,7 +20,7 @@
 
 		<title>Sistema</title>
 		<link rel="icon" href="imagens/favicon.png">
-		
+
 		<!-- jquery - link cdn -->
 		<script src="js/JQuery/jquery-2.2.4.min.js"></script>
 
@@ -32,7 +32,7 @@
 		<!-- bootstrap - link cdn -->
 		<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
 		<link href="style.css" rel="stylesheet">
-		
+
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	</head>
 
@@ -53,7 +53,7 @@
 	          <span class="img-logo">Logo</span>
 	          </a>
 	        </div>
-	        
+
 	        <div id="navbar" class="navbar-collapse collapse">
 	          <ul class="nav navbar-nav navbar-right">
 	            <li><a href="index.php">Voltar</a></li>
@@ -69,8 +69,8 @@
 	    	<div class="col-md-7">
 	    		<h3 class="page-header espaco">Identificação</h3>
 
-	    		<?php 
-	    			include_once('bd.class.php'); 
+	    		<?php
+	    			include_once('bd.class.php');
 
 	    			$objBd = new bd();
 					$link = $objBd->conecta_mysql();
@@ -78,7 +78,7 @@
 
 	    		<form method="post" action="form_cadastro_usuario.php" id="formCadastrarse">
 					<div class="form-group">
-		            	<label for="nome" class="control-label">Nome *</label>
+		            	<label for="nome" class="control-label">Nome do proprietário*</label>
 						<input type="text" class="form-control" id="nome" name="nome" placeholder="Ex: João" required="requiored">
 					</div>
 
@@ -89,27 +89,27 @@
 							echo '<font style="color:#FF0000">Este e-mail já foi cadastrado!</font>';
 							}
 						?>
-						<input type="email" class="form-control" id="email" name="email" placeholder="Ex: joao@seuemail.com" required="requiored">
+						<input type="email" class="form-control" id="email" name="email" placeholder="Ex: joao@seuemail.com" required>
 					</div>
-					
+
 					<div class="form-group">
 						<label for="senha" class="control-label">Senha *</label>
-						<input type="password" class="form-control" id="senha" name="senha" placeholder="Senha" required="requiored">
+						<input type="password" class="form-control" id="senha" name="senha" placeholder="Senha" required>
 					</div>
 
 					<div class="form-group">
 						<label for="telefone" class="control-label">Telefone *</label>
-						<input type="text" class="form-control" id="telefone" name="telefone" placeholder="Ex: (67) 99309-9373" required="requiored">
+						<input type="text" class="form-control" id="telefone" name="telefone" placeholder="Ex: (67) 99309-9373" required>
 					</div>
 
 					<div class="form-group">
-						<label for="propriedade" class="control-label">Propriedade *</label>
-						<input type="text" class="form-control" id="propriedade" name="propriedade" placeholder="Propriedade" required="requiored">
+						<label for="propriedade" class="control-label">Nome da Propriedade *</label>
+						<input type="text" class="form-control" id="propriedade" name="propriedade" placeholder="Propriedade" required>
 					</div>
 
 					<div class="form-group">
 						<label for="local" class="control-label">Localização</label>
-						<input type="text" class="form-control" id="local" name="local" placeholder="Localização">
+						<input type="text" class="form-control" id="local" name="local" placeholder="Localização" required>
 					</div>
 
 					<div class="row">
@@ -131,7 +131,7 @@
 							<label for="id_cidade" class="control-label">Cidade *</label><br />
 							<select name="id_cidade" id="id_cidade">
 								<option value="">Selecione...</option>
-							</select> 
+							</select>
 						</div>
 					</div>
 					<br />
@@ -150,7 +150,7 @@
 
 
 	    </div>
-	
+
 		<script src="bootstrap/js/bootstrap.min.js"></script>
 
 		<script type="text/javascript">
@@ -163,8 +163,8 @@
 				});
 			});
 		</script>
-	
-		<?php 
+
+		<?php
 			function registraUsuario(){
 				$objBd = new bd();
 				$link = $objBd->conecta_mysql();
@@ -177,9 +177,9 @@
 				$telefone = $_POST['telefone'];
 				$local = $_POST['local'];
 
-				$email_existe = false; 
+				$email_existe = false;
 
-				//verifica se o email já foi cadastrado 
+				//verifica se o email já foi cadastrado
 				$sql = " SELECT * FROM proprietarios WHERE email = '$email' ";
 
 				if($resultado_id = mysqli_query($link, $sql)){

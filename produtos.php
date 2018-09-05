@@ -44,6 +44,7 @@
 <html lang="pt-br">
 	<head>
 		<?php require_once("head.php")  ?>
+		<title>Produtos</title>
 	</head>
 
 	<body>
@@ -264,17 +265,38 @@
 
 				if(mysqli_num_rows($result)){
 		            echo "
-		            <META HTTP-EQUIV=REFRESH CONTENT = '0;URL=produtos.php'>
+		            <META HTTP-EQUIV=REFRESH CONTENT = '3;URL=produtos.php'>
 		            <script type=\"text/javascript\">
-		              alert(\"Produto registrado!\");
+              
+		             $(window).load(function() {
+		                 modal({
+		                 type: 'success',
+		                 title: 'Sucesso',
+		                 text: 'Produto registrado!',
+		                 autoclose: false,
+		                 size: 'large',
+		                 center: false,
+		                 theme: 'atlant',
+		                });
+		              });
 		            </script>
 		            ";
 				}
 				else{
 					echo "
-		            <META HTTP-EQUIV=REFRESH CONTENT = '0;URL=produtos.php'>
+		            <META HTTP-EQUIV=REFRESH CONTENT = '3;URL=produtos.php'>
 		            <script type=\"text/javascript\">
-		              alert(\"Não foi possível registrar o produto!\");
+		              $(window).load(function() {
+		                 modal({
+		                 type: 'error',
+		                 title: 'Erro',
+		                 text: 'Não foi possível registrar o produto!',
+		                 autoclose: false,
+		                 size: 'large',
+		                 center: false,
+		                 theme: 'atlant',
+		                });
+		              });
 		            </script>
 		            ";
 				}
@@ -298,17 +320,40 @@
 
 				if(mysqli_affected_rows($link) != 0){
 						echo "
-							<META HTTP-EQUIV=REFRESH CONTENT = '0;URL=produtos.php'>
+							<META HTTP-EQUIV=REFRESH CONTENT = '3;URL=produtos.php'>
 							<script type=\"text/javascript\">
-								alert(\"Produto alterado com sucesso!\");
-							</script>
+
+				             $(window).load(function() {
+				                 modal({
+				                 type: 'success',
+				                 title: 'Sucesso',
+				                 text: 'Produto alterado com sucesso!',
+				                 autoclose: false,
+				                 size: 'large',
+				                 center: false,
+				                 theme: 'atlant',
+				                });
+				              });
+
+				        
+				            </script>
 							";
 						}else{
 						echo "
-							<META HTTP-EQUI=REFRESH CONTENT = '0;URL=produtos.php'>
+							<META HTTP-EQUI=REFRESH CONTENT = '3;URL=produtos.php'>
 							<script type=\"text/javascript\">
-								alert(\"Produto não pode ser alterado!\");
-							</script>
+				              $(window).load(function() {
+				                 modal({
+				                 type: 'error',
+				                 title: 'Error',
+				                 text: 'Produto não pode ser alterado!',
+				                 autoclose: true,
+				                 size: 'large',
+				                 center: false,
+				                 theme: 'atlant',
+				                });
+				              });
+				            </script>
 						";
 					}
 			}

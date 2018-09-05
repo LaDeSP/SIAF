@@ -1,5 +1,7 @@
 <?php
-
+	
+	set_time_limit(0);
+	
 	require_once('bd.class.php');
 	require_once('funcoes.php');
 	session_start();
@@ -44,6 +46,7 @@
 <!DOCTYPE HTML>
 <html lang="pt-br">
 	<head>
+		<title>Vendas</title>
 		<?php require_once("head.php")  ?>
 	</head>
 
@@ -82,7 +85,7 @@
 									<select name="select_produto">
 									<option>Selecione...</option>
 									<?php
-										$result_produto = " SELECT produtos.id, nome_produto FROM produtos INNER JOIN estoques on produtos_id = produtos.id WHERE estoques.proprietarios_id = 6 and estoques.quantidade>0 GROUP BY produtos.id, nome_produto ORDER BY nome_produto ASC";
+										$result_produto = " SELECT produtos.id, nome_produto FROM produtos INNER JOIN estoques on produtos_id = produtos.id WHERE estoques.proprietarios_id = $id and estoques.quantidade>0 GROUP BY produtos.id, nome_produto ORDER BY nome_produto ASC";
 										$resultado_produto = mysqli_query($link, $result_produto);
 										while($row_produto = mysqli_fetch_assoc($resultado_produto)){ ?>
 											<option value="<?php echo $row_produto['id']; ?>">
@@ -318,17 +321,38 @@
 		        if(mysqli_num_rows($result)){
 
 		        	echo "
-		        		<META HTTP-EQUIV=REFRESH CONTENT = '0;URL=vendas.php'>
+		        		<META HTTP-EQUIV=REFRESH CONTENT = '3;URL=vendas.php'>
 		        		<script type=\"text/javascript\">
-		        			alert(\"Venda registrada!\");
-		        		</script>
+              
+			             $(window).load(function() {
+			                 modal({
+			                 type: 'success',
+			                 title: 'Sucesso',
+			                 text: 'Venda registrada!',
+			                 autoclose: false,
+			                 size: 'large',
+			                 center: false,
+			                 theme: 'atlant',
+			                });
+			              });
+			            </script>
 		        	";
 		        }else{
 		        	echo"
-		        		<META HTTP-EQUIV=REFRESH CONTENT = '0;URL=vendas.php'>
-		        		<script type=\"text/javascript\">
-		        			alert(\"Não foi possível registrar a venda!\");
-		        		</script>
+		        		<META HTTP-EQUIV=REFRESH CONTENT = '3;URL=vendas.php'>
+		        		 <script type=\"text/javascript\">
+		              $(window).load(function() {
+		                 modal({
+		                 type: 'error',
+		                 title: 'Erro',
+		                 text: 'Não foi possível registrar a venda!',
+		                 autoclose: false,
+		                 size: 'large',
+		                 center: false,
+		                 theme: 'atlant',
+		                });
+		              });
+		            </script>
 		        	";
 		        }
 			}
@@ -349,22 +373,45 @@
 				$link = $objBd->conecta_mysql();
 				$preco=moeda_clean($preco);
 				$sql = "CALL vendas_edt('$data1','$quantidade','$preco','$cod');";
-				
+
 				$resultado = mysqli_query($link, $sql);
 
 				if(mysqli_affected_rows($link) != 0){
 					echo "
-						<META HTTP-EQUIV=REFRESH CONTENT = '0;URL=vendas.php'>
+						<META HTTP-EQUIV=REFRESH CONTENT = '3;URL=vendas.php'>
 						<script type=\"text/javascript\">
-							alert(\"Venda alterada com sucesso!\");
-						</script>
+
+			             $(window).load(function() {
+			                 modal({
+			                 type: 'success',
+			                 title: 'Sucesso',
+			                 text: 'Venda alterada com sucesso!',
+			                 autoclose: false,
+			                 size: 'large',
+			                 center: false,
+			                 theme: 'atlant',
+			                });
+			              });
+
+        
+            			</script>
 						";
 				}else{
 					echo "
-						<META HTTP-EQUI=REFRESH CONTENT = '0;URL=vendas.php'>
+						<META HTTP-EQUI=REFRESH CONTENT = '3;URL=vendas.php'>
 						<script type=\"text/javascript\">
-							alert(\"Venda não pode ser alterada!\");
-						</script>
+			              $(window).load(function() {
+			                 modal({
+			                 type: 'error',
+			                 title: 'Error',
+			                 text: 'Venda não pode ser alterada!',
+			                 autoclose: true,
+			                 size: 'large',
+			                 center: false,
+			                 theme: 'atlant',
+			                });
+			              });
+			            </script>
 					";
 				}
 			}

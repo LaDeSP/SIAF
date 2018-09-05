@@ -1,13 +1,14 @@
 <?php
-function moeda_clean($value)
-{
+function moeda_clean($value){
+
   $value=str_replace('.', '', $value);
   $value=str_replace(',', '.', $value);
   return filter_var($value, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
 }
+
 function formata_moeda($value){
   setlocale(LC_MONETARY, 'pt_BR.UTF-8', 'Portuguese_Brazil.1252');
-  return money_format('%n',$value);
+  return money_format('%n', $value);
 }
 function formata_data($data){
   $data = str_replace("/", "-", $data);
