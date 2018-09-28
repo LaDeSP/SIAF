@@ -11,23 +11,12 @@
 	$link = $objBd->conecta_mysql();
 
 	$email = $_SESSION['email'];
-	$select = "select id from proprietarios where email = '$email'";
-
-	$result = mysqli_query($link, $select);
-
-	if($result){
-		$user_id = array();
-
-		$row = mysqli_fetch_array($result, MYSQLI_ASSOC);
-		$user_id = $row;
-	}
-
-	$id = $user_id['id'];
+	$id = $_SESSION['id'];
 
 	$pagina = (isset($_GET['pagina'])) ? $_GET['pagina'] : 1;
 
 	$sql = " SELECT  estoques.produtos_id,estoques.id, nome_produto,estoques.quantidade, unidade FROM estoques inner JOIN produtos on produtos_id = produtos.id WHERE estoques.proprietarios_id = $id and estoques.quantidade > 0 ORDER BY produtos.nome_produto ";
-	 	
+
 	$resultado = mysqli_query($link, $sql);
 
    	$total_estoques = mysqli_num_rows($resultado);
@@ -35,7 +24,7 @@
   	$num_pg = ceil($total_estoques/$quantidade_pg);
   	$inicio = ($quantidade_pg*$pagina)-$quantidade_pg;
 
-  	$result_estoques = " SELECT  estoques.produtos_id,estoques.id, nome_produto,estoques.quantidade, unidade FROM estoques inner JOIN produtos on produtos_id = produtos.id WHERE estoques.proprietarios_id = 6 and estoques.quantidade > 0 ORDER BY produtos.nome_produto  LIMIT $inicio, $quantidade_pg";
+  	$result_estoques = " SELECT  estoques.produtos_id,estoques.id, nome_produto,estoques.quantidade, unidade FROM estoques inner JOIN produtos on produtos_id = produtos.id WHERE estoques.proprietarios_id = $id and estoques.quantidade > 0 ORDER BY produtos.nome_produto  LIMIT $inicio, $quantidade_pg";
 
    	$resultado_estoques = mysqli_query($link, $result_estoques);
   	$total_estoques = mysqli_num_rows($resultado_estoques);
@@ -45,6 +34,7 @@
 <html lang="pt-br">
 	<head>
 		<?php require_once("head.php")  ?>
+		<title>Estoque</title>
 	</head>
 
 	<body>
@@ -117,7 +107,6 @@
 			<table class="table table-striped table-hover table-condensed">
 				<thead>
 					<tr>
-						<th>Código</th>
 						<th>Produto</th>
 						<th>Quantidade</th>
 						<th>Unidade</th>
@@ -130,7 +119,6 @@
 				<?php while($estoque = mysqli_fetch_assoc($resultado_estoques)){
 						if($estoque['quantidade'] > 0) {?>
 					<tr class="linha">
-						<td><?php echo $estoque['id']; ?></td>
 						<td><?php echo $estoque['nome_produto']; ?></td>
 						<td><?php echo $estoque['quantidade']; ?></td>
 						<td><?php echo $estoque['unidade']; ?></td>
@@ -141,10 +129,23 @@
 								data-quantidade="<?php echo $estoque['quantidade']; ?>">
 								Editar
 						</button>
-						
-						<a href="javascript: if(confirm ('Tem certeza que deseja excluir esse produto do estoque?')) location.href='estoque_excluir.php?estoq=<?php echo $estoque['id']?>';" class="btn btn-xs btn-danger"">
-						Excluir
-						</a>
+						<a  href="javascript:m(); function m(){ modal({
+	                      	type: 'confirm',
+		                      	title: 'Confimação',
+		                      	text: 'Tem certeza que deseja excluir o estoque?',
+		                      	buttonText: {
+	                        	yes: 'Confirmar',
+	                        	cancel: 'Cancelar'
+		                      	},
+		                      	callback: function(result) {
+		                        	$('.modal-btn').attr('style', 'display: none !important');
+		                        	if(result==true){
+		                        	location.href='estoque_excluir.php?estoq=<?php echo $estoque['id']?>'
+		                      	}
+
+		                    	}
+                    		}); $('.modal-btn').attr('style', 'display: inline !important'); };" class="btn btn-xs btn-danger"">Excluir</a>
+                    		
 						<button type="button" class="btn btn-xs btn-warning" data-toggle="modal" data-target="#exampleModal2"
 								data-codestoque="<?php echo $estoque['id']; ?>"
 								data-produtosid="<?php echo $estoque['produtos_id']; ?>"
@@ -308,7 +309,7 @@
 			$('#exampleModal2').on('show.bs.modal', function (event) {
 				var button = $(event.relatedTarget) // Button that triggered the modal
 				var recipientcod = button.data('codestoque')
-				var recipientcodproduto = button.data('produtosid') 
+				var recipientcodproduto = button.data('produtosid')
 			  // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
 			  // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
 				var modal = $(this)
@@ -353,17 +354,38 @@
 
 		        if($sql){
 		        	echo "
-		        		<META HTTP-EQUIV=REFRESH CONTENT = '0;URL=estoque.php'>
-		        		<script type=\"text/javascript\">
-		        			alert(\"Produto(s) registrado(s) no estoque!\");
-		        		</script>
+		        		<META HTTP-EQUIV=REFRESH CONTENT = '2;URL=estoque.php'>
+		        		 <script type=\"text/javascript\">
+			              
+			             $(window).load(function() {
+			                 modal({
+			                 type: 'success',
+			                 title: 'Sucesso',
+			                 text: 'Produto registrado no estoque!',
+			                 autoclose: false,
+			                 size: 'large',
+			                 center: false,
+			                 theme: 'atlant',
+			                });
+			              });
+			            </script>
 		        	";
 		        }else{
 		        	echo"
-		        		<META HTTP-EQUIV=REFRESH CONTENT = '0;URL=estoque.php'>
-		        		<script type=\"text/javascript\">
-		        			alert(\"Não foi possível registrar produto(s) no estoque!\");
-		        		</script>
+		        		<META HTTP-EQUIV=REFRESH CONTENT = '2;URL=estoque.php'>
+			            <script type=\"text/javascript\">
+			              $(window).load(function() {
+			                 modal({
+			                 type: 'error',
+			                 title: 'Erro',
+			                 text: 'Não foi possível registrar produto(s) no estoque!',
+			                 autoclose: false,
+			                 size: 'large',
+			                 center: false,
+			                 theme: 'atlant',
+			                });
+			              });
+			            </script>
 		        	";
 		        }
 			}
@@ -386,18 +408,39 @@
 
 				if(mysqli_affected_rows($link) != 0){
 					echo "
-					<META HTTP-EQUIV=REFRESH CONTENT = '0;URL=estoque.php'>
-					<script type=\"text/javascript\">
-						alert(\"Estoque alterado com sucesso!\");
-					</script>
-					";
+					<META HTTP-EQUIV=REFRESH CONTENT = '2;URL=estoque.php'>
+		        		 <script type=\"text/javascript\">
+			              
+			             $(window).load(function() {
+			                 modal({
+			                 type: 'success',
+			                 title: 'Sucesso',
+			                 text: 'Estoque alterado com sucesso!',
+			                 autoclose: false,
+			                 size: 'large',
+			                 center: false,
+			                 theme: 'atlant',
+			                });
+			              });
+			            </script>
+		        	";
 				}else{
 					echo "
-						<META HTTP-EQUI=REFRESH CONTENT = '0;URL=estoque.php'>
-						<script type=\"text/javascript\">
-							alert(\"Estoque não pode ser alterado!\");
-						</script>
-					";
+						<META HTTP-EQUIV=REFRESH CONTENT = '2;URL=estoque.php'>
+			            <script type=\"text/javascript\">
+			              $(window).load(function() {
+			                 modal({
+			                 type: 'error',
+			                 title: 'Erro',
+			                 text: 'Estoque não pode ser alterado!',
+			                 autoclose: false,
+			                 size: 'large',
+			                 center: false,
+			                 theme: 'atlant',
+			                });
+			              });
+			            </script>
+		        	";
 				}
 
 			}
@@ -424,17 +467,38 @@
 
 		        if(mysqli_num_rows($resultado)){
 		        	echo "
-		        		<META HTTP-EQUIV=REFRESH CONTENT = '0;URL=estoque.php'>
-		        		<script type=\"text/javascript\">
-		        			alert(\"Perda registrada!\");
-		        		</script>
-		        	";
+		        		<META HTTP-EQUIV=REFRESH CONTENT = '2;URL=estoque.php'>
+		        		 <script type=\"text/javascript\">
+			              
+			             $(window).load(function() {
+			                 modal({
+			                 type: 'success',
+			                 title: 'Sucesso',
+			                 text: 'Perda registrada!',
+			                 autoclose: false,
+			                 size: 'large',
+			                 center: false,
+			                 theme: 'atlant',
+			                });
+			              });
+			           </script>
+			        ";
 		        }else{
 		        	echo"
-		        		<META HTTP-EQUIV=REFRESH CONTENT = '0;URL=estoque.php'>
-		        		<script type=\"text/javascript\">
-		        			alert(\"Não foi possível registrar perda!\");
-		        		</script>
+		        		<META HTTP-EQUIV=REFRESH CONTENT = '2;URL=estoque.php'>
+			            <script type=\"text/javascript\">
+			              $(window).load(function() {
+			                 modal({
+			                 type: 'error',
+			                 title: 'Erro',
+			                 text: 'Não foi possível registrar perda!',
+			                 autoclose: false,
+			                 size: 'large',
+			                 center: false,
+			                 theme: 'atlant',
+			                });
+			              });
+			            </script>
 		        	";
 		        }
 

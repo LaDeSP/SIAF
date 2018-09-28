@@ -44,6 +44,7 @@
 <html lang="pt-br">
 	<head>
 		<?php require_once("head.php")  ?>
+		<title>Produtos</title>
 	</head>
 
 	<body>
@@ -78,6 +79,10 @@
 									<label for="nome" class="control-label">Nome *</label>
 									<input type="text" class="form-control" id="nome" name="nome" placeholder="Ex: Mandioca" required="requiored">
 								</div>
+								<div class="form-group">
+									<label for="destino" class="control-label">Destino *</label>
+									<input type="text" class="form-control" id="destino" name="destino" placeholder="Ex: Feira" required="requiored">
+								</div>
 
 								<div class="form-group">
 									<label for="unidade" class="control-label">Unidade *</label><br />
@@ -106,9 +111,9 @@
 			<table class="table table-striped table-hover table-condensed">
 				<thead>
 					<tr>
-						<th>Código</th>
 						<th>Produto</th>
 						<th>Unidade</th>
+						<th>Destino</th>
 						<th>Ações</th>
 					</tr>
 				</thead>
@@ -116,17 +121,31 @@
 				<tbody>
 				<?php while($produtos = mysqli_fetch_assoc($resultado_produtos)){ ?>
 					<tr class="linha">
-						<td><?php echo $produtos['id']; ?></td>
 						<td><?php echo $produtos['nome_produto']; ?></td>
 						<td><?php echo $produtos['unidade']; ?></td>
+						<td><?php echo $produtos['destino']; ?></td>
 						<td>
 						<button type="button" class="btn btn-xs btn-primary" data-toggle="modal" data-target="#exampleModal" data-codproduto="<?php echo $produtos['id']; ?>" data-nome="<?php echo $produtos['nome_produto']; ?>"
-						data-unidade="<?php echo $produtos['unidade']; ?>">
+						data-unidade="<?php echo $produtos['unidade']; ?>" data-destino="<?php echo $produtos['destino']; ?>">
 						Editar
 						</button>
-						<a href="javascript: if(confirm ('Tem certeza que deseja excluir este produto?')) location.href='produtos_excluir.php?prod=<?php echo $produtos['id']?>';" class="btn btn-xs btn-danger"">
-						Excluir
-						</a>
+						<a  href="javascript:m(); function m(){ modal({
+	                      	type: 'confirm',
+		                      	title: 'Confimação',
+		                      	text: 'Tem certeza que deseja excluir este produto?',
+		                      	buttonText: {
+	                        	yes: 'Confirmar',
+	                        	cancel: 'Cancelar'
+		                      	},
+		                      	callback: function(result) {
+		                        	$('.modal-btn').attr('style', 'display: none !important');
+		                        	if(result==true){
+		                        	location.href='produtos_excluir.php?prod=<?php echo $produtos['id']?>'
+		                      	}
+
+		                    	}
+                    		}); $('.modal-btn').attr('style', 'display: inline !important'); };" class="btn btn-xs btn-danger"">Excluir</a>
+
 						</td>
 					</tr>
 				<?php } ?>
@@ -192,13 +211,16 @@
 		      <div class="modal-body">
 		        <form method="POST" action="produtos.php" id="formEditarCad">
 		          <div class="form-group">
-		            <label for="produto-name" class="control-label">Nome:</label>
+		            <label for="produto-name" class="control-label">Nome *</label>
 		            <input name="nome" type="text" class="form-control" id="produto-name" required="requiored">
-		          </div>
-
+		         </div>
+		         <div class="form-group">
+					<label for="destino-name" class="control-label">Destino *</label>
+					<input name="destino" type="text" class="form-control" id="destino-name" required="requiored">
+				</div>
 				  <div class="form-group">
-					<label for="unidade" class="control-label">Unidade *</label><br />
-					<select name="unidade" id="unidade" required="requiored">
+					<label for="unidade-name" class="control-label">Unidade *</label><br />
+					<select name="unidade" id="unidade-name" required="requiored">
 						<option>Selecione...</option>
 						<option value="KG">KG</option>
 						<option value="LT">LT</option>
@@ -206,14 +228,14 @@
 						<option value="DZ">DZ</option>
 					</select>
 				   </div>
-
+		          </div>
 		          <input name="id" type="hidden" id="cod-produto">
 			      <div class="modal-footer">
 			        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
 			        <button name="editar" type="submit" class="btn btn-success">Alterar</button>
 			      </div>
 		        </form>
-		      </div>
+		      </div>	
 		    </div>
 		  </div>
 		</div>
@@ -226,6 +248,7 @@
 				var recipientnome = button.data('nome') // Extract info from data-* attributes
 				var recipientcod = button.data('codproduto')
 				var recipientunidade = button.data('unidade')
+				var recipientdestino = button.data('destino')
 			  // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
 			  // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
 				var modal = $(this)
@@ -233,6 +256,7 @@
 			 	modal.find('#cod-produto').val(recipientcod)
 			 	modal.find('#produto-name').val(recipientnome)
 			 	modal.find('#unidade-name').val(recipientunidade)
+			 	modal.find('#destino-name').val(recipientdestino)
 			})
 		</script>
 
@@ -243,6 +267,7 @@
 
 				$nome =$_POST['nome'];
 				$unidade = $_POST['unidade'];
+				$destino = $_POST['destino'];
 
 				$email = $_SESSION['email'];
 				$select = "select id from proprietarios where email = '$email'";
@@ -257,24 +282,45 @@
 
 				$id = $user_id['id'];
 
-				$sql = " CALL produtos('$nome', '$unidade', '$id') ";
+				$sql = " CALL produtos('$nome', '$unidade', '$id', '$destino')";
 
 				//executar a query
 				$result=mysqli_query($link, $sql);
-
+				
 				if(mysqli_num_rows($result)){
 		            echo "
-		            <META HTTP-EQUIV=REFRESH CONTENT = '0;URL=produtos.php'>
+		            <META HTTP-EQUIV=REFRESH CONTENT = '2;URL=produtos.php'>
 		            <script type=\"text/javascript\">
-		              alert(\"Produto registrado!\");
+              
+		             $(window).load(function() {
+		                 modal({
+		                 type: 'success',
+		                 title: 'Sucesso',
+		                 text: 'Produto registrado!',
+		                 autoclose: false,
+		                 size: 'large',
+		                 center: false,
+		                 theme: 'atlant',
+		                });
+		              });
 		            </script>
 		            ";
 				}
 				else{
 					echo "
-		            <META HTTP-EQUIV=REFRESH CONTENT = '0;URL=produtos.php'>
+		            <META HTTP-EQUIV=REFRESH CONTENT = '2;URL=produtos.php'>
 		            <script type=\"text/javascript\">
-		              alert(\"Não foi possível registrar o produto!\");
+		              $(window).load(function() {
+		                 modal({
+		                 type: 'error',
+		                 title: 'Erro',
+		                 text: 'Não foi possível registrar o produto!',
+		                 autoclose: false,
+		                 size: 'large',
+		                 center: false,
+		                 theme: 'atlant',
+		                });
+		              });
 		            </script>
 		            ";
 				}
@@ -291,24 +337,48 @@
 				$cod = $_POST['id'];
 				$nome = $_POST['nome'];
 				$unidade = $_POST['unidade'];
+				$destino = $_POST['destino'];
 
-				$sql = " UPDATE produtos SET nome_produto = '$nome', unidade = '$unidade' WHERE id = '$cod' ";
+				$sql = "CALL produtos_edt('$nome', '$unidade', '$destino', '$id')";
 
 				$resultado = mysqli_query($link, $sql);
 
 				if(mysqli_affected_rows($link) != 0){
 						echo "
-							<META HTTP-EQUIV=REFRESH CONTENT = '0;URL=produtos.php'>
+							<META HTTP-EQUIV=REFRESH CONTENT = '2;URL=produtos.php'>
 							<script type=\"text/javascript\">
-								alert(\"Produto alterado com sucesso!\");
-							</script>
+
+				             $(window).load(function() {
+				                 modal({
+				                 type: 'success',
+				                 title: 'Sucesso',
+				                 text: 'Produto alterado com sucesso!',
+				                 autoclose: false,
+				                 size: 'large',
+				                 center: false,
+				                 theme: 'atlant',
+				                });
+				              });
+
+				        
+				            </script>
 							";
 						}else{
 						echo "
-							<META HTTP-EQUI=REFRESH CONTENT = '0;URL=produtos.php'>
+							<META HTTP-EQUI=REFRESH CONTENT = '2;URL=produtos.php'>
 							<script type=\"text/javascript\">
-								alert(\"Produto não pode ser alterado!\");
-							</script>
+				              $(window).load(function() {
+				                 modal({
+				                 type: 'error',
+				                 title: 'Error',
+				                 text: 'Produto não pode ser alterado!',
+				                 autoclose: true,
+				                 size: 'large',
+				                 center: false,
+				                 theme: 'atlant',
+				                });
+				              });
+				            </script>
 						";
 					}
 			}

@@ -7,22 +7,14 @@
 	$objBd = new bd();
 	$link = $objBd->conecta_mysql();
 
-	$sql = " DELETE FROM produtos WHERE id = '$cod' ";
-
+	$sql = "CALL produtos_del('$cod'); ";
 	$resultado = mysqli_query($link, $sql);
 
-	if($resultado){
-		echo "
-		<script>
-			alert('Produto excluido!');
-			location.href='produtos.php';
-		</script>";
+	if(mysqli_affected_rows($link)){
+		echo "<META HTTP-EQUIV=REFRESH CONTENT = '0;URL=produtos.php?type=success&text=Produto excluido!&title=Sucesso '> ";
 	}
 	else{
 		echo "
-		<script>
-			alert('Não foi possível deletar o produto!');
-			location.href='produtos.php';
-		</script>";
+		<META HTTP-EQUIV=REFRESH CONTENT = '0;URL=produtos.php?type=error&text=Não foi possível excluir o produto!&title=Erro '> ";
 	}
 ?>

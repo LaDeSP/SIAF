@@ -1,5 +1,7 @@
 <?php
-
+	
+	set_time_limit(0);
+	
 	require_once('bd.class.php');
 	require_once('funcoes.php');
 	session_start();
@@ -44,6 +46,7 @@
 <!DOCTYPE HTML>
 <html lang="pt-br">
 	<head>
+		<title>Vendas</title>
 		<?php require_once("head.php")  ?>
 	</head>
 
@@ -82,7 +85,7 @@
 									<select name="select_produto">
 									<option>Selecione...</option>
 									<?php
-										$result_produto = " SELECT produtos.id, nome_produto FROM produtos INNER JOIN estoques on produtos_id = produtos.id WHERE estoques.proprietarios_id = 6 and estoques.quantidade>0 GROUP BY produtos.id, nome_produto ORDER BY nome_produto ASC";
+										$result_produto = " SELECT produtos.id, nome_produto FROM produtos INNER JOIN estoques on produtos_id = produtos.id WHERE estoques.proprietarios_id = $id and estoques.quantidade>0 GROUP BY produtos.id, nome_produto ORDER BY nome_produto ASC";
 										$resultado_produto = mysqli_query($link, $result_produto);
 										while($row_produto = mysqli_fetch_assoc($resultado_produto)){ ?>
 											<option value="<?php echo $row_produto['id']; ?>">
@@ -103,11 +106,12 @@
 										<label for="quantidade" class="control-label">Quantidade *</label>
 									   	<input type="text" class="form-control" id="quantidade" name="quantidade" placeholder="Quantidade" required="requiored">
 									</div>
+
 								</div>
 
 								<div class="input-group date">
-										<label for="data" class="control-label">Data *</label>
-									   	<input type="text" class="form-control data" id="data" name="data" required="requiored">
+									<label for="data" class="control-label">Data *</label> <br />
+									<input type="text" class="form-control data" id="data" name="data" required="requiored">
 								</div>
 
 								<br />
@@ -128,8 +132,7 @@
 
 			<table class="table table-striped table-hover table-condensed">
 				<thead>
-					<tr >
-						<th>Código</th>
+					<tr>
 						<th>Produto</th>
 						<th>Quantidade</th>
 						<th>Preço Unitario (R$)</th>
@@ -143,7 +146,6 @@
 				<tbody>
 				<?php while($venda = mysqli_fetch_assoc($resultado_vendas)){ ?>
 					<tr class="linha">
-						<td><?php echo $venda['id']; ?></td>
 						<td><?php echo $venda['nome_produto']; ?></td>
 						<td><?php echo $venda['quantidade']; ?></td>
 						<td><?php echo formata_moeda($venda['preco']); ?></td>
@@ -158,9 +160,23 @@
 								data-data="<?php echo $venda['data']; ?>">
 								Editar
 						</button>
-						<a href="javascript: if(confirm ('Tem certeza que deseja excluir essa venda?')) location.href='vendas_excluir.php?venda=<?php echo $venda['id']?>';" class="btn btn-xs btn-danger"">
-						Excluir
-						</a>
+						<a  href="javascript:m(); function m(){ modal({
+	                      	type: 'confirm',
+		                      	title: 'Confimação',
+		                      	text: 'Tem certeza que deseja excluir esta venda?',
+		                      	buttonText: {
+	                        	yes: 'Confirmar',
+	                        	cancel: 'Cancelar'
+		                      	},
+		                      	callback: function(result) {
+		                        	$('.modal-btn').attr('style', 'display: none !important');
+		                        	if(result==true){
+		                        	location.href='vendas_excluir.php?venda=<?php echo $venda['id']?>'
+		                      	}
+
+		                    	}
+                    		}); $('.modal-btn').attr('style', 'display: inline !important'); };" class="btn btn-xs btn-danger"">Excluir</a>
+
 						</td>
 					</tr>
 				<?php } ?>
@@ -314,21 +330,41 @@
 				$sql = " CALL vendas ('$data1','$quantidade','$preco','$id','$codproduto') ";
 
 				$result=mysqli_query($link, $sql);
-
+				
 		        if(mysqli_num_rows($result)){
-
 		        	echo "
-		        		<META HTTP-EQUIV=REFRESH CONTENT = '0;URL=vendas.php'>
+		        		<META HTTP-EQUIV=REFRESH CONTENT = '3;URL=vendas.php'>
 		        		<script type=\"text/javascript\">
-		        			alert(\"Venda registrada!\");
-		        		</script>
+              
+			             $(window).load(function() {
+			                 modal({
+			                 type: 'success',
+			                 title: 'Sucesso',
+			                 text: 'Venda registrada!',
+			                 autoclose: false,
+			                 size: 'large',
+			                 center: false,
+			                 theme: 'atlant',
+			                });
+			              });
+			            </script>
 		        	";
 		        }else{
 		        	echo"
-		        		<META HTTP-EQUIV=REFRESH CONTENT = '0;URL=vendas.php'>
-		        		<script type=\"text/javascript\">
-		        			alert(\"Não foi possível registrar a venda!\");
-		        		</script>
+		        		<META HTTP-EQUIV=REFRESH CONTENT = '3;URL=vendas.php'>
+		        		 <script type=\"text/javascript\">
+		              $(window).load(function() {
+		                 modal({
+		                 type: 'error',
+		                 title: 'Erro',
+		                 text: 'Não foi possível registrar a venda!',
+		                 autoclose: false,
+		                 size: 'large',
+		                 center: false,
+		                 theme: 'atlant',
+		                });
+		              });
+		            </script>
 		        	";
 		        }
 			}
@@ -349,22 +385,45 @@
 				$link = $objBd->conecta_mysql();
 				$preco=moeda_clean($preco);
 				$sql = "CALL vendas_edt('$data1','$quantidade','$preco','$cod');";
-				
+
 				$resultado = mysqli_query($link, $sql);
 
 				if(mysqli_affected_rows($link) != 0){
 					echo "
-						<META HTTP-EQUIV=REFRESH CONTENT = '0;URL=vendas.php'>
+						<META HTTP-EQUIV=REFRESH CONTENT = '3;URL=vendas.php'>
 						<script type=\"text/javascript\">
-							alert(\"Venda alterada com sucesso!\");
-						</script>
+
+			             $(window).load(function() {
+			                 modal({
+			                 type: 'success',
+			                 title: 'Sucesso',
+			                 text: 'Venda alterada com sucesso!',
+			                 autoclose: false,
+			                 size: 'large',
+			                 center: false,
+			                 theme: 'atlant',
+			                });
+			              });
+
+        
+            			</script>
 						";
 				}else{
 					echo "
-						<META HTTP-EQUI=REFRESH CONTENT = '0;URL=vendas.php'>
+						<META HTTP-EQUI=REFRESH CONTENT = '3;URL=vendas.php'>
 						<script type=\"text/javascript\">
-							alert(\"Venda não pode ser alterada!\");
-						</script>
+			              $(window).load(function() {
+			                 modal({
+			                 type: 'error',
+			                 title: 'Error',
+			                 text: 'Venda não pode ser alterada!',
+			                 autoclose: true,
+			                 size: 'large',
+			                 center: false,
+			                 theme: 'atlant',
+			                });
+			              });
+			            </script>
 					";
 				}
 			}

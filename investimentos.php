@@ -45,7 +45,7 @@
 <html lang="pt-br">
 	<head>
 		<?php require_once("head.php")  ?>
-
+		<title>Investimentos</title>
 	</head>
 
 	<body>
@@ -118,7 +118,6 @@
 			<table class="table table-striped table-hover table-condensed">
 				<thead>
 					<tr>
-						<th>Código</th>
 						<th>Investimento</th>
 						<th>Descrição</th>
 						<th>Valor R$</th>
@@ -131,7 +130,6 @@
 				<tbody>
 				<?php while($investimento = mysqli_fetch_assoc($resultado_investimentos)){ ?>
 					<tr class="linha">
-						<td><?php echo $investimento['id']; ?></td>
 						<td><?php echo $investimento['nome_investimento']; ?></td>
 						<td><?php echo $investimento['descricao']; ?></td>
 						<td><?php echo formata_moeda($investimento['valor']); ?></td>
@@ -145,9 +143,21 @@
 								data-data="<?php echo date("d/m/Y", strtotime($investimento['data'])); ?>">
 								Editar
 						</button>
-						<a href="javascript: if(confirm ('Tem certeza que deseja excluir este investimento?')) location.href='investimentos_excluir.php?inves=<?php echo $investimento['id']?>';" class="btn btn-xs btn-danger"">
-						Excluir
-						</a>
+						<a  href="javascript:m(); function m(){ modal({
+	                      	type: 'confirm',
+		                      	title: 'Confimação',
+		                      	text: 'Tem certeza que deseja excluir este investimento?',
+		                      	buttonText: {
+	                        	yes: 'Confirmar',
+	                        	cancel: 'Cancelar'
+		                      	},
+		                      	callback: function(result) {
+		                        	$('.modal-btn').attr('style', 'display: none !important');
+		                        	if(result==true){
+		                        	location.href='investimentos_excluir.php?inves=<?php echo $investimento['id']?>'
+		                      	}
+		                    	}
+                    		}); $('.modal-btn').attr('style', 'display: inline !important'); };" class="btn btn-xs btn-danger"">Excluir</a>
 						</td>
 					</tr>
 				<?php } ?>
@@ -294,28 +304,50 @@
 
 		        $id = $user_id['id'];
 				$valor=moeda_clean($valor);
-				$sql = " insert into investimentos(nome_investimento, descricao, data, valor, proprietarios_id) values ('$nome', '$descricao', '$data1', '$valor', '$id') ";
+				$sql = "CALL investimentos('$nome', '$descricao', '$data1', '$valor', '$id');";
 
 				//executar a query
 				mysqli_query($link, $sql);
 
 				if($sql){
 					echo "
-		            <META HTTP-EQUIV=REFRESH CONTENT = '0;URL=investimentos.php'>
+		            <META HTTP-EQUIV=REFRESH CONTENT = '2;URL=investimentos.php'>
 		            <script type=\"text/javascript\">
-		              alert(\"Investimento registrado!\");
+              
+		             $(window).load(function() {
+		                 modal({
+		                 type: 'success',
+		                 title: 'Sucesso',
+		                 text: 'Investimento registrado!',
+		                 autoclose: false,
+		                 size: 'large',
+		                 center: false,
+		                 theme: 'atlant',
+		                });
+		              });
 		            </script>
 		            ";
 				}
 				else{
 					echo "
-		            <META HTTP-EQUIV=REFRESH CONTENT = '0;URL=investimentos.php'>
-		            <script type=\"text/javascript\">
-		              alert(\"Não foi possível registrar o investimento!\");
-		            </script>
+		            <META HTTP-EQUIV=REFRESH CONTENT = '2;URL=investimentos.php'>
+		           	<script type=\"text/javascript\">
+              		$(window).load(function() {
+                		modal({
+                 			type: 'error',
+                 			title: 'Erro',
+                 			text: 'Não foi possível registrar o Investimento!',
+                 			autoclose: false,
+                 			size: 'large',
+                 			center: false,
+                 			theme: 'atlant',
+                		});
+             		 });
+           		 	</script>
 		            ";
 				}
 			}
+			
 
 			if(isset($_POST['salvar'])){
 				registraInvestimento();
@@ -335,21 +367,45 @@
 				$valor=moeda_clean($valor);
 				$sql = " UPDATE investimentos SET nome_investimento = '$nome', descricao = '$descricao', data = '$data1', valor = '$valor' WHERE id = '$cod' ";
 
+
 				$resultado = mysqli_query($link, $sql);
 
-				if(mysqli_affected_rows($link) != 0){
+				if(mysql_affected_rows($link) != 0){
 					echo "
-						<META HTTP-EQUIV=REFRESH CONTENT = '0;URL=investimentos.php'>
+						<META HTTP-EQUIV=REFRESH CONTENT = '2;URL=investimentos.php'>
 						<script type=\"text/javascript\">
-							alert(\"Investimento alterado com sucesso!\");
-						</script>
+
+			             $(window).load(function() {
+			                 modal({
+			                 type: 'success',
+			                 title: 'Sucesso',
+			                 text: 'Investimento alterado com sucesso!',
+			                 autoclose: false,
+			                 size: 'large',
+			                 center: false,
+			                 theme: 'atlant',
+			                });
+			              });
+
+			        
+			            </script>
 						";
 				}else{
 					echo "
-						<META HTTP-EQUI=REFRESH CONTENT = '0;URL=investimentos.php'>
+						<META HTTP-EQUI=REFRESH CONTENT = '2;URL=investimentos.php'>
 						<script type=\"text/javascript\">
-							alert(\"Investimento não pode ser alterado!\");
-						</script>
+			              $(window).load(function() {
+			                 modal({
+			                 type: 'error',
+			                 title: 'Error',
+			                 text: 'Investimento não pode ser alterado!',
+			                 autoclose: true,
+			                 size: 'large',
+			                 center: false,
+			                 theme: 'atlant',
+			                });
+			              });
+			            </script>
 					";
 			}
 		}
