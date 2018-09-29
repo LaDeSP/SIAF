@@ -118,7 +118,6 @@
 			<table class="table table-striped table-hover table-condensed">
 				<thead>
 					<tr>
-						<th>Código</th>
 						<th>Investimento</th>
 						<th>Descrição</th>
 						<th>Valor R$</th>
@@ -131,7 +130,6 @@
 				<tbody>
 				<?php while($investimento = mysqli_fetch_assoc($resultado_investimentos)){ ?>
 					<tr class="linha">
-						<td><?php echo $investimento['id']; ?></td>
 						<td><?php echo $investimento['nome_investimento']; ?></td>
 						<td><?php echo $investimento['descricao']; ?></td>
 						<td><?php echo formata_moeda($investimento['valor']); ?></td>
@@ -145,9 +143,21 @@
 								data-data="<?php echo date("d/m/Y", strtotime($investimento['data'])); ?>">
 								Editar
 						</button>
-						<a href="javascript: if(confirm ('Tem certeza que deseja excluir este investimento?')) location.href='investimentos_excluir.php?inves=<?php echo $investimento['id']?>';" class="btn btn-xs btn-danger"">
-						Excluir
-						</a>
+						<a  href="javascript:m(); function m(){ modal({
+	                      	type: 'confirm',
+		                      	title: 'Confimação',
+		                      	text: 'Tem certeza que deseja excluir este investimento?',
+		                      	buttonText: {
+	                        	yes: 'Confirmar',
+	                        	cancel: 'Cancelar'
+		                      	},
+		                      	callback: function(result) {
+		                        	$('.modal-btn').attr('style', 'display: none !important');
+		                        	if(result==true){
+		                        	location.href='investimentos_excluir.php?inves=<?php echo $investimento['id']?>'
+		                      	}
+		                    	}
+                    		}); $('.modal-btn').attr('style', 'display: inline !important'); };" class="btn btn-xs btn-danger"">Excluir</a>
 						</td>
 					</tr>
 				<?php } ?>
@@ -294,14 +304,14 @@
 
 		        $id = $user_id['id'];
 				$valor=moeda_clean($valor);
-				$sql = " insert into investimentos(nome_investimento, descricao, data, valor, proprietarios_id) values ('$nome', '$descricao', '$data1', '$valor', '$id') ";
+				$sql = "CALL investimentos('$nome', '$descricao', '$data1', '$valor', '$id');";
 
 				//executar a query
 				mysqli_query($link, $sql);
 
 				if($sql){
 					echo "
-		            <META HTTP-EQUIV=REFRESH CONTENT = '3;URL=investimentos.php'>
+		            <META HTTP-EQUIV=REFRESH CONTENT = '2;URL=investimentos.php'>
 		            <script type=\"text/javascript\">
               
 		             $(window).load(function() {
@@ -320,7 +330,7 @@
 				}
 				else{
 					echo "
-		            <META HTTP-EQUIV=REFRESH CONTENT = '3;URL=investimentos.php'>
+		            <META HTTP-EQUIV=REFRESH CONTENT = '2;URL=investimentos.php'>
 		           	<script type=\"text/javascript\">
               		$(window).load(function() {
                 		modal({
@@ -362,7 +372,7 @@
 
 				if(mysql_affected_rows($link) != 0){
 					echo "
-						<META HTTP-EQUIV=REFRESH CONTENT = '0;URL=investimentos.php'>
+						<META HTTP-EQUIV=REFRESH CONTENT = '2;URL=investimentos.php'>
 						<script type=\"text/javascript\">
 
 			             $(window).load(function() {
@@ -382,7 +392,7 @@
 						";
 				}else{
 					echo "
-						<META HTTP-EQUI=REFRESH CONTENT = '0;URL=investimentos.php'>
+						<META HTTP-EQUI=REFRESH CONTENT = '2;URL=investimentos.php'>
 						<script type=\"text/javascript\">
 			              $(window).load(function() {
 			                 modal({

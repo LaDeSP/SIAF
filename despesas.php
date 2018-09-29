@@ -43,7 +43,7 @@
 
 <!DOCTYPE HTML>
 <html lang="pt-br">
-  <head>
+<head>
 
 
 <?php require_once("head.php")  ?>
@@ -100,7 +100,7 @@
                 </div>
 
                 <div class="input-group date">
-                    <label for="data" class="control-label">Data *</label>
+                    <label for="data" class="control-label">Data *</label> <br />
                     <input type="text" class="form-control data" id="data" name="data" required="requiored">
                 </div>
                 <br />
@@ -123,7 +123,6 @@
       <table class="table table-striped table-hover table-condensed">
         <thead>
           <tr>
-            <th>Código</th>
             <th>Despesa</th>
             <th>Descrição</th>
             <th>Valor R$</th>
@@ -137,9 +136,6 @@
         <?php while($despesa = mysqli_fetch_assoc($resultado_despesas)){
           ?>
           <tr class="linha">
-
-
-            <td><?php echo $despesa['id']; ?></td>
             <td><?php echo $despesa['nome_despesa']; ?></td>
             <td><?php echo $despesa['descricao']; ?></td>
             <td><?php echo formata_moeda($despesa['valor']); ?></td>
@@ -328,8 +324,7 @@
 
           $id = $user_id['id'];
           $valor=moeda_clean($valor);
-          $sql = "insert into despesas(nome_despesa, descricao, quantidade, data, valor, proprietarios_id) values ('$nome', '$descricao', '$quant', '$data1', '$valor', '$id') ";
-
+          $sql = " CALL despesas('$nome', '$descricao', '$quant', '$data1', '$valor', '$id')";
           //executar a query
           mysqli_query($link, $sql);
 
@@ -391,8 +386,8 @@
         $link = $objBd->conecta_mysql();
         require_once('funcoes.php');
         $valor=moeda_clean($valor);
-        $sql = " UPDATE despesas SET nome_despesa = '$nome', descricao = '$descricao', quantidade = '$quantidade', data = '$data1', valor = '$valor'
-              WHERE id = '$cod' ";
+        $sql = " CALL despesas_edt('$nome','$descricao','$quantidade','$data1','$valor', '$cod');";
+
         $resultado = mysqli_query($link, $sql);
         if(mysqli_affected_rows($link) != 0){
           echo "
@@ -415,7 +410,7 @@
             </script>";
         }else{
           echo "
-            <META HTTP-EQUI=REFRESH CONTENT = '3;URL=despesas.php'>
+            <META HTTP-EQUI=REFRESH CONTENT = '2;URL=despesas.php'>
             <script type=\"text/javascript\">
               $(window).load(function() {
                  modal({

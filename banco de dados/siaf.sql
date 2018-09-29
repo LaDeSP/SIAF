@@ -1,22 +1,8 @@
--- phpMyAdmin SQL Dump
--- version 4.7.4
--- https://www.phpmyadmin.net/
---
--- Host: localhost
--- Tempo de geração: 24/10/2017 às 04:46
--- Versão do servidor: 10.1.26-MariaDB
--- Versão do PHP: 7.1.9
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
 
 --
 -- Banco de dados: `siaf`
@@ -40,6 +26,39 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `estoque` (`quantidade` INT, `propri
 	SET AUTOCOMMIT =1;
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `despesas` (`nome_despesa` VARCHAR(30), `descricao` VARCHAR(30), `quantidade` INT, `data` date, `valor` FLOAT, `proprietarios_id` INT) BEGIN
+  SET SESSION AUTOCOMMIT=0;
+  SET AUTOCOMMIT =0;
+    START TRANSACTION;
+      INSERT INTO despesas(`nome_despesa`, `descricao`, `quantidade`, `data`, `valor`, `proprietarios_id`) VALUES (nome_despesa, descricao, quantidade, data, valor, proprietarios_id);
+      SELECT "suscesso" AS suscesso; 
+    COMMIT;
+    SET SESSION AUTOCOMMIT=1;
+  SET AUTOCOMMIT =1;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `despesas_edt` (`nome_despesa` VARCHAR(30), `descricao` VARCHAR(30), `quantidade` INT, `data` date, `valor` FLOAT, `cod` INT)  BEGIN
+  SET SESSION AUTOCOMMIT=0;
+  SET AUTOCOMMIT =0;
+    START TRANSACTION;
+        UPDATE despesas SET `nome_despesa` = nome_despesa, `descricao` = descricao, `quantidade` = quantidade, `data` = data, `valor` = valor WHERE `id` = cod;
+        SELECT 'suscesso' as suscesso;
+    COMMIT;
+    SET SESSION AUTOCOMMIT=1;
+  SET AUTOCOMMIT =1;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `investimentos`(`nome` VARCHAR(30), `descricao` VARCHAR(30), `data` DATE, `valor` FLOAT, `id` INT)  BEGIN
+  SET SESSION AUTOCOMMIT=0;
+  SET AUTOCOMMIT =0;
+    START TRANSACTION;
+        INSERT INTO investimentos(`nome_investimento`, `descricao`, `data`, `valor`, `proprietarios_id`) VALUES(nome, descricao, data, valor, id);
+        SELECT "suscesso" AS suscesso;
+    COMMIT;
+    SET SESSION AUTOCOMMIT=1;
+  SET AUTOCOMMIT =1;
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `perdas` (`quantidade` INT, `motivo` VARCHAR(255), `data1` DATE, `perda` INT, `produto` INT)  BEGIN
 	DECLARE qtdEstoque INTEGER;
 	SET SESSION AUTOCOMMIT=0;
@@ -56,31 +75,45 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `perdas` (`quantidade` INT, `motivo`
 	SET AUTOCOMMIT =1;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `produtos` (`nome` VARCHAR(255), `unidade` VARCHAR(15), `id` INT)  BEGIN
-	DECLARE produto_id INTEGER;
-	SET SESSION AUTOCOMMIT=0;
-	SET AUTOCOMMIT =0;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `produtos` (`nome` VARCHAR(255), `unidade` VARCHAR(15), `id` INT, `destino` VARCHAR(15)) BEGIN
+  DECLARE produto_id INTEGER;
+  SET SESSION AUTOCOMMIT=0;
+  SET AUTOCOMMIT =0;
     START TRANSACTION;
-    	insert into produtos(`nome_produto`, `unidade`, `proprietarios_id`) values (nome, unidade, id );
-    	SELECT LAST_INSERT_ID() INTO produto_id;	
-    	insert into estoques(`quantidade`, `proprietarios_id`, `produtos_id`) values (0,id,produto_id);
-    	SELECT "suscesso" AS suscesso; 
+      insert into produtos(`nome_produto`, `unidade`, `proprietarios_id`,`destino`) values (nome, unidade, id, destino);
+      SELECT LAST_INSERT_ID() INTO produto_id;  
+      insert into estoques(`quantidade`, `proprietarios_id`, `produtos_id`) values (0,id,produto_id);
+      SELECT "suscesso" AS suscesso; 
     COMMIT;
-    
     SET SESSION AUTOCOMMIT=1;
-	SET AUTOCOMMIT =1;
+  SET AUTOCOMMIT =1;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `produtos_edt` (`nome` VARCHAR(255), `unidade` VARCHAR(15), `cod` INT, `destino` VARCHAR(15)) BEGIN
+  DECLARE produto_id INTEGER;
+  SET SESSION AUTOCOMMIT=0;
+  SET AUTOCOMMIT =0;
+    START TRANSACTION;
+      UPDATE produtos SET `nome_produto` = nome, `unidade` = unidade, `destino` = destino WHERE `id` = cod;  
+      SELECT "suscesso" AS suscesso; 
+    COMMIT;
+    SET SESSION AUTOCOMMIT=1;
+  SET AUTOCOMMIT =1;
 END$$
 
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `produtos_del` (`id` INT)  BEGIN
-	SET SESSION AUTOCOMMIT=0;
-	SET AUTOCOMMIT =0;
+  SET SESSION AUTOCOMMIT=0;
+  SET AUTOCOMMIT =0;
     START TRANSACTION;
-			DELETE FROM produtos WHERE produtos.id = id;
-    		SELECT 'suscesso' as suscesso;
+      DELETE FROM vendas WHERE vendas.produtos_id = id;
+      DELETE FROM perda_produtos WHERE perda_produtos.produtos_id = id;
+      DELETE FROM estoques  WHERE estoques.produtos_id=id;
+      DELETE FROM produtos WHERE produtos.id = id;
+      SELECT "suscesso" as suscesso;
     COMMIT;
     SET SESSION AUTOCOMMIT=1;
-	SET AUTOCOMMIT =1;
+  SET AUTOCOMMIT =1;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `vendas` (`data1` DATE, `quantidade` INT, `preco` FLOAT, `id` INT, `codproduto` INT)  BEGIN
@@ -137,6 +170,8 @@ END$$
 
 
 DELIMITER ;
+
+
 -- --------------------------------------------------------
 
 --
@@ -153,9 +188,6 @@ CREATE TABLE `despesas` (
   `proprietarios_id` int(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Fazendo dump de dados para tabela `despesas`
---
 -- --------------------------------------------------------
 
 --
@@ -214,9 +246,7 @@ CREATE TABLE `estoques` (
   `produtos_id` int(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Fazendo dump de dados para tabela `estoques`
---
+-- --------------------------------------------------------
 
 --
 -- Estrutura para tabela `investimentos`
@@ -230,10 +260,6 @@ CREATE TABLE `investimentos` (
   `valor` float DEFAULT NULL,
   `proprietarios_id` int(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Fazendo dump de dados para tabela `investimentos`
---
 
 -- --------------------------------------------------------
 
@@ -347,10 +373,6 @@ CREATE TABLE `perda_produtos` (
   `produtos_id` int(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Fazendo dump de dados para tabela `perda_produtos`
---
-
 -- --------------------------------------------------------
 
 --
@@ -361,12 +383,9 @@ CREATE TABLE `produtos` (
   `id` int(10) NOT NULL,
   `nome_produto` varchar(30) DEFAULT NULL,
   `unidade` char(3) DEFAULT NULL,
-  `proprietarios_id` int(10) DEFAULT NULL
+  `proprietarios_id` int(10) DEFAULT NULL,
+  `destino` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Fazendo dump de dados para tabela `produtos`
---
 
 -- --------------------------------------------------------
 
@@ -386,8 +405,6 @@ CREATE TABLE `proprietarios` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Fazendo dump de dados para tabela `proprietarios`
---
 -- --------------------------------------------------------
 
 --
@@ -404,9 +421,6 @@ CREATE TABLE `vendas` (
   `produtos_id` int(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Fazendo dump de dados para tabela `vendas`
---
 --
 -- Índices de tabelas apagadas
 --
@@ -484,7 +498,7 @@ ALTER TABLE `vendas`
 -- AUTO_INCREMENT de tabela `despesas`
 --
 ALTER TABLE `despesas`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `estados`
@@ -496,13 +510,13 @@ ALTER TABLE `estados`
 -- AUTO_INCREMENT de tabela `estoques`
 --
 ALTER TABLE `estoques`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `investimentos`
 --
 ALTER TABLE `investimentos`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `municipios`
@@ -514,25 +528,25 @@ ALTER TABLE `municipios`
 -- AUTO_INCREMENT de tabela `perda_produtos`
 --
 ALTER TABLE `perda_produtos`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `produtos`
 --
 ALTER TABLE `produtos`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `proprietarios`
 --
 ALTER TABLE `proprietarios`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de tabela `vendas`
 --
 ALTER TABLE `vendas`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
 
 --
 -- Restrições para dumps de tabelas
@@ -589,7 +603,3 @@ ALTER TABLE `vendas`
   ADD CONSTRAINT `vendas_ibfk_1` FOREIGN KEY (`proprietarios_id`) REFERENCES `proprietarios` (`id`),
   ADD CONSTRAINT `vendas_ibfk_2` FOREIGN KEY (`produtos_id`) REFERENCES `produtos` (`id`);
 COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

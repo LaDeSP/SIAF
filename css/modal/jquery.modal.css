@@ -184,6 +184,7 @@
     text-align: right;
     background-color: #f9f9f9;
     border-top: 1px solid #ddd;
+    margin-bottom: 5px !important;
 }
 
 #modal-window .modal-box .modal-buttons a.modal-btn {
@@ -289,6 +290,10 @@
     background-color: #8149B4;
     border-color: #6922AD;
     color: #fff;
+}
+
+.modal-buttons{
+    margin-bottom: 5px !important;
 }
 
 #modal-window .modal-box .modal-buttons a.modal-btn.btn-purple:hover {

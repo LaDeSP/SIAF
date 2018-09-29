@@ -107,7 +107,6 @@
 			<table class="table table-striped table-hover table-condensed">
 				<thead>
 					<tr>
-						<th>Código</th>
 						<th>Produto</th>
 						<th>Quantidade</th>
 						<th>Unidade</th>
@@ -120,7 +119,6 @@
 				<?php while($estoque = mysqli_fetch_assoc($resultado_estoques)){
 						if($estoque['quantidade'] > 0) {?>
 					<tr class="linha">
-						<td><?php echo $estoque['id']; ?></td>
 						<td><?php echo $estoque['nome_produto']; ?></td>
 						<td><?php echo $estoque['quantidade']; ?></td>
 						<td><?php echo $estoque['unidade']; ?></td>
@@ -131,10 +129,23 @@
 								data-quantidade="<?php echo $estoque['quantidade']; ?>">
 								Editar
 						</button>
+						<a  href="javascript:m(); function m(){ modal({
+	                      	type: 'confirm',
+		                      	title: 'Confimação',
+		                      	text: 'Tem certeza que deseja excluir o estoque?',
+		                      	buttonText: {
+	                        	yes: 'Confirmar',
+	                        	cancel: 'Cancelar'
+		                      	},
+		                      	callback: function(result) {
+		                        	$('.modal-btn').attr('style', 'display: none !important');
+		                        	if(result==true){
+		                        	location.href='estoque_excluir.php?estoq=<?php echo $estoque['id']?>'
+		                      	}
 
-						<a href="javascript: if(confirm ('Tem certeza que deseja excluir esse produto do estoque?')) location.href='estoque_excluir.php?estoq=<?php echo $estoque['id']?>';" class="btn btn-xs btn-danger"">
-						Excluir
-						</a>
+		                    	}
+                    		}); $('.modal-btn').attr('style', 'display: inline !important'); };" class="btn btn-xs btn-danger"">Excluir</a>
+                    		
 						<button type="button" class="btn btn-xs btn-warning" data-toggle="modal" data-target="#exampleModal2"
 								data-codestoque="<?php echo $estoque['id']; ?>"
 								data-produtosid="<?php echo $estoque['produtos_id']; ?>"
@@ -343,7 +354,7 @@
 
 		        if($sql){
 		        	echo "
-		        		<META HTTP-EQUIV=REFRESH CONTENT = '3;URL=estoque.php'>
+		        		<META HTTP-EQUIV=REFRESH CONTENT = '2;URL=estoque.php'>
 		        		 <script type=\"text/javascript\">
 			              
 			             $(window).load(function() {
@@ -361,7 +372,7 @@
 		        	";
 		        }else{
 		        	echo"
-		        		<META HTTP-EQUIV=REFRESH CONTENT = '3;URL=estoque.php'>
+		        		<META HTTP-EQUIV=REFRESH CONTENT = '2;URL=estoque.php'>
 			            <script type=\"text/javascript\">
 			              $(window).load(function() {
 			                 modal({
@@ -397,7 +408,7 @@
 
 				if(mysqli_affected_rows($link) != 0){
 					echo "
-					<META HTTP-EQUIV=REFRESH CONTENT = '3;URL=estoque.php'>
+					<META HTTP-EQUIV=REFRESH CONTENT = '2;URL=estoque.php'>
 		        		 <script type=\"text/javascript\">
 			              
 			             $(window).load(function() {
@@ -415,7 +426,7 @@
 		        	";
 				}else{
 					echo "
-						<META HTTP-EQUIV=REFRESH CONTENT = '3;URL=estoque.php'>
+						<META HTTP-EQUIV=REFRESH CONTENT = '2;URL=estoque.php'>
 			            <script type=\"text/javascript\">
 			              $(window).load(function() {
 			                 modal({

@@ -31,8 +31,7 @@
 
 		<!-- bootstrap - link cdn -->
 		<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
-		<link href="style.css" rel="stylesheet">
-
+		<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.css">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	</head>
 
@@ -48,15 +47,14 @@
 	            <span class="icon-bar"></span>
 	            <span class="icon-bar"></span>
 	          </button>
-	          <!--<img src="imagens/logo.png" />-->
-	          <a href="home.php" class="navbar-brand">
-	          <span class="img-logo">Logo</span>
+	          <a href="index.php" class="navbar-brand">
+	          <span class="img-logo"> <img src="imagens/log.png" width="110px" height="45px" style="margin-top: -12%"></span>
 	          </a>
 	        </div>
-
+	        
 	        <div id="navbar" class="navbar-collapse collapse">
 	          <ul class="nav navbar-nav navbar-right">
-	            <li><a href="index.php">Voltar</a></li>
+	            <li id="botao" style="background-color: rgba(51, 255, 51, 0.3)"><a  href="index.php">Voltar</a></li>
 	          </ul>
 	        </div><!--/.nav-collapse -->
 	      </div>
@@ -64,6 +62,7 @@
 
 
 	    <div class="container">
+	    	<br />,
 	    	<div class="col-md-2"></div>
 
 	    	<div class="col-md-7">
@@ -78,12 +77,12 @@
 
 	    		<form method="post" action="form_cadastro_usuario.php" id="formCadastrarse">
 					<div class="form-group">
-		            	<label for="nome" class="control-label">Nome do proprietário*</label>
+		            	<label for="nome" class="control-label">Nome do proprietário <span style="color: red">*</span></label>
 						<input type="text" class="form-control" id="nome" name="nome" placeholder="Ex: João" required="requiored">
 					</div>
 
 					<div class="form-group">
-						<label for="email" class="control-label">E-mail *</label>
+						<label for="email" class="control-label">E-mail <span style="color: red">*</span></label>
 						<?php
 							if($erro_email){
 							echo '<font style="color:#FF0000">Este e-mail já foi cadastrado!</font>';
@@ -93,17 +92,17 @@
 					</div>
 
 					<div class="form-group">
-						<label for="senha" class="control-label">Senha *</label>
+						<label for="senha" class="control-label">Senha <span style="color: red">*</span></label>
 						<input type="password" class="form-control" id="senha" name="senha" placeholder="Senha" required>
 					</div>
 
 					<div class="form-group">
-						<label for="telefone" class="control-label">Telefone *</label>
+						<label for="telefone" class="control-label">Telefone <span style="color: red">*</span></label>
 						<input type="text" class="form-control" id="telefone" name="telefone" placeholder="Ex: (67) 99309-9373" required>
 					</div>
 
 					<div class="form-group">
-						<label for="propriedade" class="control-label">Nome da Propriedade *</label>
+						<label for="propriedade" class="control-label">Nome da Propriedade <span style="color: red">*</span></label>
 						<input type="text" class="form-control" id="propriedade" name="propriedade" placeholder="Propriedade" required>
 					</div>
 
@@ -114,8 +113,8 @@
 
 					<div class="row">
 						<div class="form-group col-md-6">
-							<label for="id_estado" class="control-label">Estado *</label><br />
-							<select name="id_estado" id="id_estado">
+							<label for="id_estado" class="control-label">Estado <span style="color: red">*</span></label><br />
+							<select name="id_estado" id="id_estado" required>
 								<option value="">Selecione...</option>
 								<?php
 									$result_estado = "SELECT * FROM estados ORDER BY nome_estado";
@@ -128,8 +127,8 @@
 						</div>
 
 						<div class="form-group col-md-6">
-							<label for="id_cidade" class="control-label">Cidade *</label><br />
-							<select name="id_cidade" id="id_cidade">
+							<label for="id_cidade" class="control-label">Cidade <span style="color: red">*</span></label><br />
+							<select name="id_cidade" id="id_cidade" required>
 								<option value="">Selecione...</option>
 							</select>
 						</div>

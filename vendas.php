@@ -106,11 +106,12 @@
 										<label for="quantidade" class="control-label">Quantidade *</label>
 									   	<input type="text" class="form-control" id="quantidade" name="quantidade" placeholder="Quantidade" required="requiored">
 									</div>
+
 								</div>
 
 								<div class="input-group date">
-										<label for="data" class="control-label">Data *</label>
-									   	<input type="text" class="form-control data" id="data" name="data" required="requiored">
+									<label for="data" class="control-label">Data *</label> <br />
+									<input type="text" class="form-control data" id="data" name="data" required="requiored">
 								</div>
 
 								<br />
@@ -131,8 +132,7 @@
 
 			<table class="table table-striped table-hover table-condensed">
 				<thead>
-					<tr >
-						<th>Código</th>
+					<tr>
 						<th>Produto</th>
 						<th>Quantidade</th>
 						<th>Preço Unitario (R$)</th>
@@ -146,7 +146,6 @@
 				<tbody>
 				<?php while($venda = mysqli_fetch_assoc($resultado_vendas)){ ?>
 					<tr class="linha">
-						<td><?php echo $venda['id']; ?></td>
 						<td><?php echo $venda['nome_produto']; ?></td>
 						<td><?php echo $venda['quantidade']; ?></td>
 						<td><?php echo formata_moeda($venda['preco']); ?></td>
@@ -161,9 +160,23 @@
 								data-data="<?php echo $venda['data']; ?>">
 								Editar
 						</button>
-						<a href="javascript: if(confirm ('Tem certeza que deseja excluir essa venda?')) location.href='vendas_excluir.php?venda=<?php echo $venda['id']?>';" class="btn btn-xs btn-danger"">
-						Excluir
-						</a>
+						<a  href="javascript:m(); function m(){ modal({
+	                      	type: 'confirm',
+		                      	title: 'Confimação',
+		                      	text: 'Tem certeza que deseja excluir esta venda?',
+		                      	buttonText: {
+	                        	yes: 'Confirmar',
+	                        	cancel: 'Cancelar'
+		                      	},
+		                      	callback: function(result) {
+		                        	$('.modal-btn').attr('style', 'display: none !important');
+		                        	if(result==true){
+		                        	location.href='vendas_excluir.php?venda=<?php echo $venda['id']?>'
+		                      	}
+
+		                    	}
+                    		}); $('.modal-btn').attr('style', 'display: inline !important'); };" class="btn btn-xs btn-danger"">Excluir</a>
+
 						</td>
 					</tr>
 				<?php } ?>
@@ -317,9 +330,8 @@
 				$sql = " CALL vendas ('$data1','$quantidade','$preco','$id','$codproduto') ";
 
 				$result=mysqli_query($link, $sql);
-
+				
 		        if(mysqli_num_rows($result)){
-
 		        	echo "
 		        		<META HTTP-EQUIV=REFRESH CONTENT = '3;URL=vendas.php'>
 		        		<script type=\"text/javascript\">
