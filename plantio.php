@@ -23,8 +23,7 @@
     	$user_id = $row;
   	}
 
-  	$email = $user_id['email'];
-
+  	    
   	$pagina = (isset($_GET['pagina'])) ? $_GET['pagina'] : 1;
 
 
