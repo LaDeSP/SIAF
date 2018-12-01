@@ -28,7 +28,7 @@
   	$pagina = (isset($_GET['pagina'])) ? $_GET['pagina'] : 1;
 
 
-  	$result_plantio = "SELECT idplantio, data, num_talhao, area, num_plantas, plantiomensal_idplantiomensal FROM plantio inner JOIN plantiomensal on idplantiomensal = plantiomensal_idplantiomensal WHERE plantiomensal.proprietarios_email = '". $email ."' ORDER BY data ASC;";
+  	$result_plantio = "SELECT idplanto, data, num_talhao, area, num_plantas, plantiomensal_idplantiomensal FROM plantio inner JOIN plantiomensal on idplantiomensal = plantiomensal_idplantiomensal WHERE plantiomensal.proprietarios_email = '". $email ."' ORDER BY data ASC;";
 
   	$resultado = mysqli_query($link, $result_plantio);
 
