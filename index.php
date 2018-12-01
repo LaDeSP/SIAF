@@ -92,7 +92,7 @@
 		<div class="row" >
 			<div class="col-xs-12 col-sm-12 col-md-12 mt-2 mt-sm-2 text-center text-white" id="rodape">
 				<span style="color: white">© SIAF - Sistema de Informação para a Agricultura Familiar | Todos os direitos reservados.</span><br />
-	    		<span style="color: white">Desenvolvido por Paulo Abreu.</span>
+	    		<span style="color: white">Desenvolvido pelo laboratório de ensino de computação (LECO).</span>
 			</div>
 		</div>	
 
