@@ -159,7 +159,7 @@ while($row_estado = mysqli_fetch_assoc($resultado_estado)){
 </div>
 <br />
 <button type="submit" class="btn btn-primary form-control" name="submit">Cadastrar</button>
-</form>
+
 </div>
 <div class="col-md-3"></div>
 
@@ -169,10 +169,6 @@ while($row_estado = mysqli_fetch_assoc($resultado_estado)){
 <div class="col-md-4"></div>
 <div class="col-md-4"></div>
 
-</div>
-
-
-</div>
 
 <script src="bootstrap/js/bootstrap.min.js"></script>
 
