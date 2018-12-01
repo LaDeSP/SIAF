@@ -12,7 +12,7 @@
   	$link = $objBd->conecta_mysql();
 
   	$email = $_SESSION['email'];
-  	$select = "select email from proprietarios where email = '$email'";
+  	$select = "select email from proprietarios where email = '". $email ."';";
 
   	$result = mysqli_query($link, $select);
 
@@ -27,7 +27,7 @@
 
   	$pagina = (isset($_GET['pagina'])) ? $_GET['pagina'] : 1;
 
-  	$sql = "SELECT idplantiomensal, cultura, variedade, observacao FROM plantiomensal WHERE proprietarios_email = $email ORDER BY idplantiomensal";
+  	$sql = "SELECT idplantiomensal, cultura, variedade, observacao FROM plantiomensal WHERE proprietarios_email = '". $email ."' ORDER BY idplantiomensal;";
 
   	$resultado = mysqli_query($link, $sql);
 
@@ -274,7 +274,7 @@
 				$link = $objBd->conecta_mysql();
 
 		        $email = $_SESSION['email'];
-		        $select = "select email from proprietarios where email = '$email'";
+		        $select = "select email from proprietarios where email = '". $email. "';";
 		        $resultado = mysqli_query($link, $select);
 
 		        if($resultado){
@@ -286,7 +286,7 @@
 
 		        $email = $user_id['email'];
 				
-				$sql = "CALL plantiomensal('$cultura', '$variedade', '$observacao', '$email');";
+				$sql = "CALL plantiomensal('".$cultura."', '".$variedade."', '".$observacao."', '".$email."');";
 
 				//executar a query
 				mysqli_query($link, $sql);

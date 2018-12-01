@@ -11,7 +11,7 @@
 	$link = $objBd->conecta_mysql();
 
 	$email = $_SESSION['email'];
-	$select = "select email from proprietarios where email = '$email'";
+	$select = "select email from proprietarios where email = '".$email."';";
 
 	$result = mysqli_query($link, $select);
 
@@ -26,7 +26,7 @@
 
 	$pagina = (isset($_GET['pagina'])) ? $_GET['pagina'] : 1;
 
-	$sql = " SELECT * FROM produtos WHERE proprietarios_email = $email ORDER BY nome_produto ASC ";
+	$sql = " SELECT * FROM produtos WHERE proprietarios_email = '". $email. "' ORDER BY nome_produto ASC";
 
 	$resultado = mysqli_query($link, $sql);
 
@@ -35,7 +35,7 @@
 	$num_pg = ceil($total_produtos/$quantidade_pg);
 	$inicio = ($quantidade_pg*$pagina)-$quantidade_pg;
 
-	$result_produtos = " SELECT * FROM produtos WHERE proprietarios_email = $email ORDER BY nome_produto ASC LIMIT $inicio, $quantidade_pg  ";
+	$result_produtos = "SELECT * FROM produtos WHERE proprietarios_email = '". $email ."' ORDER BY nome_produto ASC LIMIT ".$inicio.$quantidade_pg .";";
 	$resultado_produtos = mysqli_query($link, $result_produtos);
 	$total_produtos = mysqli_num_rows($resultado_produtos);
 ?>

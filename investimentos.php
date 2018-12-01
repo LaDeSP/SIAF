@@ -36,7 +36,7 @@
   	$num_pg = ceil($total_investimentos/$quantidade_pg);
   	$inicio = ($quantidade_pg*$pagina)-$quantidade_pg;
 
-  	$result_investimentos = " SELECT id, nome_investimento, descricao, valor, data FROM investimentos WHERE proprietarios_email = $email ORDER BY data ASC LIMIT $inicio, $quantidade_pg ";
+  	$result_investimentos = "SELECT id, nome_investimento, descricao, valor, data FROM investimentos WHERE proprietarios_email = '".$email."' ORDER BY data ASC LIMIT ".$inicio.$quantidade_pg.";";
   	$resultado_investimentos = mysqli_query($link, $result_investimentos);
   	$total_investimentos = mysqli_num_rows($resultado_investimentos);
 ?>

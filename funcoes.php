@@ -9,7 +9,7 @@ function moeda_clean($value){
 function formata_moeda($value){
   try{
       setlocale(LC_MONETARY, 'pt_BR.UTF-8');
-      return money_format('%n', $value);
+      return 'R$' . number_format($value, 2);
   }catch (\Exception $e){
     return $value;
   }

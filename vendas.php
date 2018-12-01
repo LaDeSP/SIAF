@@ -14,7 +14,7 @@
 	$link = $objBd->conecta_mysql();
 
 	$email = $_SESSION['email'];
-	$select = "select email from proprietarios where email = '$email'";
+	$select = "select email from proprietarios where email = '".$email."';";
 
 	$result = mysqli_query($link, $select);
 
@@ -29,7 +29,7 @@
 
 	$pagina = (isset($_GET['pagina'])) ? $_GET['pagina'] : 1;
 
-	$sql = "SELECT vendas.id, nome_produto, quantidade, preco, total, data FROM vendas, produtos WHERE produtos_id = produtos.id AND vendas.proprietarios_email = $email  ORDER BY data DESC";
+	$sql = "SELECT vendas.id, nome_produto, quantidade, preco, total, data FROM vendas, produtos WHERE produtos_id = produtos.id AND vendas.proprietarios_email = '".$email."' ORDER BY data DESC";
 
 	$resultado = mysqli_query($link, $sql);
 
@@ -38,7 +38,7 @@
   	$num_pg = ceil($total_vendas/$quantidade_pg);
   	$inicio = ($quantidade_pg*$pagina)-$quantidade_pg;
 
-  	$result_vendas = "SELECT vendas.id, nome_produto, quantidade, preco, total, data FROM vendas, produtos WHERE produtos_id = produtos.id AND vendas.proprietarios_email = $email  ORDER BY data DESC LIMIT $inicio, $quantidade_pg";
+  	$result_vendas = "SELECT vendas.id, nome_produto, quantidade, preco, total, data FROM vendas, produtos WHERE produtos_id = produtos.id AND vendas.proprietarios_email = '". $email. "' ORDER BY data DESC LIMIT ".$inicio.$quantidade_pg.";";
   	$resultado_vendas = mysqli_query($link, $result_vendas);
   	$total_vendas = mysqli_num_rows($resultado_vendas);
 ?>

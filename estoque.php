@@ -15,7 +15,7 @@
 
 	$pagina = (isset($_GET['pagina'])) ? $_GET['pagina'] : 1;
 
-	$sql = " SELECT  estoques.produtos_id,estoques.id, nome_produto,estoques.quantidade, unidade FROM estoques inner JOIN produtos on produtos_id = produtos.id WHERE estoques.proprietarios_email = $email and estoques.quantidade > 0 ORDER BY produtos.nome_produto ";
+	$sql = "SELECT estoques.produtos_id,estoques.id, nome_produto,estoques.quantidade, unidade FROM estoques inner JOIN produtos on produtos_id = produtos.id WHERE estoques.proprietarios_email = '". $email ."' and estoques.quantidade > 0 ORDER BY produtos.nome_produto;";
 
 	$resultado = mysqli_query($link, $sql);
 
@@ -24,7 +24,7 @@
   	$num_pg = ceil($total_estoques/$quantidade_pg);
   	$inicio = ($quantidade_pg*$pagina)-$quantidade_pg;
 
-  	$result_estoques = " SELECT  estoques.produtos_id,estoques.id, nome_produto,estoques.quantidade, unidade FROM estoques inner JOIN produtos on produtos_id = produtos.id WHERE estoques.proprietarios_email = $email and estoques.quantidade > 0 ORDER BY produtos.nome_produto  LIMIT $inicio, $quantidade_pg";
+  	$result_estoques = "SELECT estoques.produtos_id,estoques.id, nome_produto,estoques.quantidade, unidade FROM estoques inner JOIN produtos on produtos_id = produtos.id WHERE estoques.proprietarios_email = '". $email ."' and estoques.quantidade > 0 ORDER BY produtos.nome_produto  LIMIT ".$inicio.$quantidade_pg.";";
 
    	$resultado_estoques = mysqli_query($link, $result_estoques);
   	$total_estoques = mysqli_num_rows($resultado_estoques);

@@ -305,12 +305,12 @@ INSERT INTO `municipios` (`nome_municipio`, `estados_id`) VALUES
 -- Table `siaf`.`proprietarios`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `siaf`.`proprietarios` (
-  `email` VARCHAR(40) NULL DEFAULT NULL,
-  `telefone` INT(11) NULL DEFAULT NULL,
-  `senha` VARCHAR(32) NULL DEFAULT NULL,
+  `email` VARCHAR(100) NULL DEFAULT NULL,
+  `telefone` varchar(20) NULL DEFAULT NULL,
+  `senha` VARCHAR(255) NULL DEFAULT NULL,
   `nome_propriedade` VARCHAR(30) NULL DEFAULT NULL,
   `localizacao` VARCHAR(30) NULL DEFAULT NULL,
-  `nome_proprietario` VARCHAR(30) NULL DEFAULT NULL,
+  `nome_proprietario` VARCHAR(255) NULL DEFAULT NULL,
   `municipios_id` INT(10) NOT NULL,
   PRIMARY KEY (`email`),
   INDEX `fk_proprietarios_municipios1_idx` (`municipios_id` ASC),
@@ -331,8 +331,8 @@ CREATE TABLE IF NOT EXISTS `siaf`.`plantiomensal` (
   `idplantiomensal` INT NOT NULL AUTO_INCREMENT,
   `cultura` VARCHAR(45) NULL,
   `variedade` VARCHAR(45) NULL,
-  `observação` VARCHAR(45) NULL,
-  `proprietarios_email` VARCHAR(30) NOT NULL,
+  `observacao` VARCHAR(45) NULL,
+  `proprietarios_email` VARCHAR(100) NOT NULL,
   PRIMARY KEY (`idplantiomensal`),
   INDEX `fk_plantiomensal_proprietarios1_idx` (`proprietarios_email` ASC),
   CONSTRAINT `fk_plantiomensal_proprietarios1`
@@ -392,7 +392,7 @@ CREATE TABLE IF NOT EXISTS `siaf`.`despesas` (
   `quantidade` INT(6) NULL DEFAULT NULL,
   `valor` FLOAT NULL DEFAULT NULL,
   `data` DATE NOT NULL,
-  `proprietarios_email` VARCHAR(40) NOT NULL,
+  `proprietarios_email` VARCHAR(100) NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_despesas_proprietarios1_idx` (`proprietarios_email` ASC),
   CONSTRAINT `fk_despesas_proprietarios1`
@@ -411,7 +411,7 @@ CREATE TABLE IF NOT EXISTS `siaf`.`produtos` (
   `id` INT(10) NOT NULL AUTO_INCREMENT,
   `nome_produto` VARCHAR(30) NULL DEFAULT NULL,
   `unidade` CHAR(3) NULL DEFAULT NULL,
-  `proprietarios_email` VARCHAR(40) NOT NULL,
+  `proprietarios_email` VARCHAR(100) NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_produtos_proprietarios1_idx` (`proprietarios_email` ASC),
   CONSTRAINT `fk_produtos_proprietarios1`
@@ -430,7 +430,7 @@ CREATE TABLE IF NOT EXISTS `siaf`.`estoques` (
   `id` INT(10) NOT NULL AUTO_INCREMENT,
   `quantidade` INT(6) NULL DEFAULT NULL,
   `produtos_id` INT(10) NULL DEFAULT NULL,
-  `proprietarios_email` VARCHAR(40) NOT NULL,
+  `proprietarios_email` VARCHAR(100) NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `produtos_id` (`produtos_id` ASC),
   INDEX `fk_estoques_proprietarios1_idx` (`proprietarios_email` ASC),
@@ -455,7 +455,7 @@ CREATE TABLE IF NOT EXISTS `siaf`.`investimentos` (
   `descricao` VARCHAR(30) NULL DEFAULT NULL,
   `data` DATE NULL DEFAULT NULL,
   `valor` FLOAT NULL DEFAULT NULL,
-  `proprietarios_email` VARCHAR(40) NOT NULL,
+  `proprietarios_email` VARCHAR(100) NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_investimentos_proprietarios1_idx` (`proprietarios_email` ASC),
   CONSTRAINT `fk_investimentos_proprietarios1`
@@ -501,7 +501,7 @@ CREATE TABLE IF NOT EXISTS `siaf`.`vendas` (
   `total` FLOAT NOT NULL,
   `destino` VARCHAR(30) NOT NULL,
   `produtos_id` INT(10) NULL DEFAULT NULL,
-   `proprietarios_email` VARCHAR(40) NOT NULL,
+   `proprietarios_email` VARCHAR(100) NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `produtos_id` (`produtos_id` ASC),
   CONSTRAINT `vendas_ibfk_2`
@@ -538,7 +538,7 @@ DELIMITER ;
 
 DELIMITER $$
 USE `siaf`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `plantiomensal`(`cultura` VARCHAR(45), `variedade` VARCHAR(45), `observacao` VARCHAR(45) , `proprietarios_email` VARCHAR(40))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `plantiomensal`(`cultura` VARCHAR(45), `variedade` VARCHAR(45), `observacao` VARCHAR(45) , `proprietarios_email` VARCHAR(100))
 BEGIN
   SET SESSION AUTOCOMMIT=0;
   SET AUTOCOMMIT =0;
@@ -593,7 +593,7 @@ DELIMITER ;
 
 DELIMITER $$
 USE `siaf`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `despesas`(`nome_despesa` VARCHAR(30), `descricao` VARCHAR(30), `quantidade` INT, `data` date, `valor` FLOAT, `proprietarios_email` VARCHAR(40))
+CREATE DEFINER=`root`@`localhost` PROCEDURE `despesas`(`nome_despesa` VARCHAR(30), `descricao` VARCHAR(30), `quantidade` INT, `data` date, `valor` FLOAT, `proprietarios_email` VARCHAR(100))
 BEGIN
   SET SESSION AUTOCOMMIT=0;
   SET AUTOCOMMIT =0;
@@ -633,7 +633,7 @@ DELIMITER ;
 
 DELIMITER $$
 USE `siaf`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `estoque`(`quantidade` INT, `proprietarios_email` VARCHAR(40), `produtos_id` INT)
+CREATE DEFINER=`root`@`localhost` PROCEDURE `estoque`(`quantidade` INT, `proprietarios_email` VARCHAR(100), `produtos_id` INT)
 BEGIN
 	SET SESSION AUTOCOMMIT=0;
 	SET AUTOCOMMIT =0;

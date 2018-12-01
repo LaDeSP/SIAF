@@ -12,7 +12,7 @@
   	$link = $objBd->conecta_mysql();
 
   	$email = $_SESSION['email'];
-  	$select = "select id from proprietarios where email = '$email'";
+  	$select = "select id from proprietarios where email = '". $email. "';";
 
   	$result = mysqli_query($link, $select);
 
@@ -28,7 +28,7 @@
   	$pagina = (isset($_GET['pagina'])) ? $_GET['pagina'] : 1;
 
 
-  	$result_plantio = "SELECT idplantio, data, num_talhao, area, num_plantas, plantiomensal_idplantiomensal FROM plantio inner JOIN plantiomensal on idplantiomensal = plantiomensal_idplantiomensal WHERE plantiomensal.proprietarios_email = $email ORDER BY data ASC";
+  	$result_plantio = "SELECT idplantio, data, num_talhao, area, num_plantas, plantiomensal_idplantiomensal FROM plantio inner JOIN plantiomensal on idplantiomensal = plantiomensal_idplantiomensal WHERE plantiomensal.proprietarios_email = '". $email ."' ORDER BY data ASC;";
 
   	$resultado = mysqli_query($link, $result_plantio);
 
@@ -78,7 +78,7 @@
 										<select name="plantiomensal_idplantiomensal">
 										<option>Selecione...</option>
 										<?php
-											$result_plantiomensal = " SELECT * FROM plantiomensal WHERE proprietarios_id = $id ORDER BY idplantiomensal";
+											$result_plantiomensal = " SELECT * FROM plantiomensal WHERE proprietarios_id = ".$id." ORDER BY idplantiomensal";
 											$resultado_plantiomensal = mysqli_query($link, $result_plantiomensal);
 											while($row_plantio = mysqli_fetch_assoc($resultado_plantiomensal)){ ?>
 												<option value="<?php echo $row_plantio['idplantiomensal']; ?>">
