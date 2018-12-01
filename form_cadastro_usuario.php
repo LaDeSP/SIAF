@@ -136,7 +136,7 @@ if($erro_email){
 </div>
 
 <div class="row">
-<div class="form-group col-md-6"
+<div class="form-group col-md-6">
 <label for="id_estado" class="control-label">Estado <span style="color: red">*</span></label><br />
     <select name="id_estado" id="id_estado" required>
 <option selected="Selecione..." value="">Selecione...</option>
