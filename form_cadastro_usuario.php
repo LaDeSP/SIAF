@@ -102,7 +102,7 @@ $link = $objBd->conecta_mysql();
 <form method="post" action="form_cadastro_usuario.php" id="formCadastrarse">
 <div class="form-group">
 <label for="nome" class="control-label">Nome Completo do proprietário <span style="color: red">*</span></label>
-<input type="text" pattern="[A-Za-zÀ-ú0-9., -]{5,40}$" class="form-control" id="nome" name="nome" placeholder="Ex: João" required="requiored">
+<input type="text" pattern="[A-Za-zÀ-ú0-9., -]{6,255}$" class="form-control" id="nome" name="nome" placeholder="Ex: João" oninvalid="setCustomValidity('Por favor, insira pelo menos 7 letras!')" required="requiored">
 </div>
 
 <div class="form-group">
