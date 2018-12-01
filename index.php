@@ -16,7 +16,6 @@
 
 		<script>
 			$(document).ready( function(){
-
 				$('#btn_login').click(function(){
 
 					var campo_vazio = false;
@@ -27,14 +26,12 @@
 					}else{
 						$('#campo_usuario').css({'border-color': '#CCC'});
 					}
-
 					if($('#campo_senha').val() == ''){
 						$('#campo_senha').css({'border-color': '#FF0000'});
 						campo_vazio = true;
 					}else{
 						$('#campo_senha').css({'border-color': '#CCC'});
 					}
-
 					if(campo_vazio) return false;
 				});
 			});
@@ -73,6 +70,7 @@
 							<center>
 								<button  type="button" class="btn1" id="btn_login">Entrar</button>
 							</center> <br /> 
+				
 							<font size="3%">
 								<a  href=""> Esqueceu sua senha? </a> <br>
 								<a style="color: black; font-weight: 800" href="form_cadastro_usuario.php">  Cadastre-se</a>	
@@ -82,14 +80,12 @@
 										echo '<p class="alert-danger">Email ou senha incorretos!</p>';
 										echo "<meta HTTP-EQUIV='refresh' CONTENT='2;URL=index.php'>";
 								}
-				?>
+								?>
 							</font>
 						</form>
 			        </div>
 	            </div>
 				
-
-	   
 
 	</body>
 	
