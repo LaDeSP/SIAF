@@ -7,8 +7,8 @@ function moeda_clean($value){
 }
 
 function formata_moeda($value){
-  setlocale(LC_MONETARY, 'pt_BR.UTF-8', 'Portuguese_Brazil.1252');
-  return money_format('%n', $value);
+      setlocale(LC_MONETARY, 'pt_BR.UTF-8');
+      return money_format('%n', $value);
 }
 function formata_data($data){
   $data = str_replace("/", "-", $data);

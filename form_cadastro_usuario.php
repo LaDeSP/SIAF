@@ -132,13 +132,13 @@ if($erro_email){
 
 <div class="form-group">
 <label for="local" class="control-label">Localização</label>
-<input type="text" class="form-control" pattern="[A-Za-zÀ-ú0-9., -]{5,}$" id="local" name="local" placeholder="Localização" required>
+<input type="text" class="form-control" pattern="[A-Za-zÀ-ú0-9., -]{5,}$" id="local" name="local" placeholder="Localização">
 </div>
 
 <div class="row">
 <div class="form-group col-md-6"
 <label for="id_estado" class="control-label">Estado <span style="color: red">*</span></label><br />
-<select name="id_estado" id="id_estado" required>
+    <select name="id_estado" id="id_estado" required>
 <option selected="Selecione..." value="">Selecione...</option>
 <?php
 $result_estado = "SELECT * FROM estados ORDER BY nome_estado";
