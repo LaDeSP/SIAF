@@ -44,7 +44,6 @@ session_start();
 <html lang="pt-br">
 <head>
 
-
 <?php require_once("head.php")  ?>
 <title>Despesas</title>
 
