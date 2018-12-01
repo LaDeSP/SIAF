@@ -66,7 +66,7 @@ INSERT INTO `estados` (`id`, `nome_estado`, `sigla`) VALUES
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `siaf`.`municipios` (
   `id` INT(10) NOT NULL AUTO_INCREMENT,
-  `nome_municipio` VARCHAR(30) NULL DEFAULT NULL,
+  `nome_municipio` VARCHAR(60) NULL DEFAULT NULL,
   `estados_id` INT(2) NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_municipios_estados1_idx` (`estados_id` ASC),
