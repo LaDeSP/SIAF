@@ -29,7 +29,7 @@
 
 		<div style="position: absolute;">
 			<?php
-					if($msg != 0){
+			/*		if($msg != 0){
 						echo "
 							<META HTTP-EQUIV=REFRESH CONTENT = '2;URL=home.php'>
 							<script type=\"text/javascript\">
@@ -37,7 +37,8 @@
 							</script>
 							";
 					}
-				?>
+			*/		
+			?>
 		</div>
 		
 			<?php
