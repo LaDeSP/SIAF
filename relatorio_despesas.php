@@ -18,7 +18,7 @@
 
 	
 	$objBd = new bd();
-	$query='SELECT d.nome_despesa,d.descricao,d.quantidade,d.valor,ROUND( (d.quantidade*d.valor),2) total,d.data FROM despesas d WHERE d.proprietarios_id=? ORDER BY d.data';
+	$query='SELECT d.nome_despesa,d.descricao,d.quantidade,d.valor,ROUND( (d.quantidade*d.valor),2) total,d.data FROM despesas d WHERE d.proprietarios_id=? ORDER BY d.data;';
 	$param=array( );
 	$param[0]=$_SESSION['id'];
 	$type="s";
@@ -57,7 +57,6 @@
 	</div>
 
 		
-	</div>
 <?php
 	$objBd = new bd();
 	$query="SELECT d.nome_despesa,ROUND( SUM(d.quantidade*d.valor),2) total FROM despesas d WHERE d.proprietarios_id=? GROUP by nome_despesa

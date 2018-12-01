@@ -1,22 +1,8 @@
--- phpMyAdmin SQL Dump
--- version 4.7.4
--- https://www.phpmyadmin.net/
---
--- Host: localhost
--- Tempo de geração: 24/10/2017 às 04:46
--- Versão do servidor: 10.1.26-MariaDB
--- Versão do PHP: 7.1.9
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
 
 --
 -- Banco de dados: `siaf`
@@ -38,6 +24,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `estoque` (`quantidade` INT, `propri
     COMMIT;
     SET SESSION AUTOCOMMIT=1;
 	SET AUTOCOMMIT =1;
+ 
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `perdas` (`quantidade` INT, `motivo` VARCHAR(255), `data1` DATE, `perda` INT, `produto` INT)  BEGIN
@@ -83,6 +70,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `produtos_del` (`id` INT)  BEGIN
 	SET AUTOCOMMIT =1;
 END$$
 
+ 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `vendas` (`data1` DATE, `quantidade` INT, `preco` FLOAT, `id` INT, `codproduto` INT)  BEGIN
 	DECLARE qtdEstoque INTEGER;
 	SET SESSION AUTOCOMMIT=0;
@@ -99,6 +87,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `vendas` (`data1` DATE, `quantidade`
 	SET AUTOCOMMIT =1;
 END$$
 
+ 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `vendas_del` (`id` INT)  BEGIN
 	SET SESSION AUTOCOMMIT=0;
 	SET AUTOCOMMIT =0;
@@ -111,6 +100,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `vendas_del` (`id` INT)  BEGIN
 	SET AUTOCOMMIT =1;
 END$$
 
+ 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `vendas_edt` (`data1` DATE, `quantidade` INT, `preco` FLOAT, `id` INT)  BEGIN
 	DECLARE qtdEstoque INTEGER;
 	DECLARE qtdanterior INTEGER;
@@ -137,6 +127,7 @@ END$$
 
 
 DELIMITER ;
+
 -- --------------------------------------------------------
 
 --
@@ -153,6 +144,7 @@ CREATE TABLE `despesas` (
   `proprietarios_id` int(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+ 
 --
 -- Fazendo dump de dados para tabela `despesas`
 --
@@ -214,6 +206,7 @@ CREATE TABLE `estoques` (
   `produtos_id` int(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+ 
 --
 -- Fazendo dump de dados para tabela `estoques`
 --
@@ -231,6 +224,7 @@ CREATE TABLE `investimentos` (
   `proprietarios_id` int(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+ 
 --
 -- Fazendo dump de dados para tabela `investimentos`
 --
@@ -347,11 +341,12 @@ CREATE TABLE `perda_produtos` (
   `produtos_id` int(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+ 
 --
 -- Fazendo dump de dados para tabela `perda_produtos`
 --
 
--- --------------------------------------------------------
+-----------------------
 
 --
 -- Estrutura para tabela `produtos`
@@ -361,9 +356,11 @@ CREATE TABLE `produtos` (
   `id` int(10) NOT NULL,
   `nome_produto` varchar(30) DEFAULT NULL,
   `unidade` char(3) DEFAULT NULL,
-  `proprietarios_id` int(10) DEFAULT NULL
+  `proprietarios_id` int(10) DEFAULT NULL,
+  `destino` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+ 
 --
 -- Fazendo dump de dados para tabela `produtos`
 --
@@ -386,6 +383,7 @@ CREATE TABLE `proprietarios` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
+ 
 -- Fazendo dump de dados para tabela `proprietarios`
 --
 -- --------------------------------------------------------
@@ -405,6 +403,7 @@ CREATE TABLE `vendas` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
+ 
 -- Fazendo dump de dados para tabela `vendas`
 --
 --
@@ -484,7 +483,7 @@ ALTER TABLE `vendas`
 -- AUTO_INCREMENT de tabela `despesas`
 --
 ALTER TABLE `despesas`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `estados`
@@ -496,13 +495,13 @@ ALTER TABLE `estados`
 -- AUTO_INCREMENT de tabela `estoques`
 --
 ALTER TABLE `estoques`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `investimentos`
 --
 ALTER TABLE `investimentos`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `municipios`
@@ -514,25 +513,25 @@ ALTER TABLE `municipios`
 -- AUTO_INCREMENT de tabela `perda_produtos`
 --
 ALTER TABLE `perda_produtos`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `produtos`
 --
 ALTER TABLE `produtos`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `proprietarios`
 --
 ALTER TABLE `proprietarios`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de tabela `vendas`
 --
 ALTER TABLE `vendas`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
 
 --
 -- Restrições para dumps de tabelas
@@ -589,7 +588,3 @@ ALTER TABLE `vendas`
   ADD CONSTRAINT `vendas_ibfk_1` FOREIGN KEY (`proprietarios_id`) REFERENCES `proprietarios` (`id`),
   ADD CONSTRAINT `vendas_ibfk_2` FOREIGN KEY (`produtos_id`) REFERENCES `produtos` (`id`);
 COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

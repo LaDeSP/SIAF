@@ -6,7 +6,7 @@
 
 	$id = $_GET['id'];
 
-	$result_cidade = " SELECT * FROM municipios WHERE estados_id = $id ORDER BY nome_municipio";
+	$result_cidade = "SELECT * FROM municipios WHERE estados_id = ".$id ." ORDER BY nome_municipio";
 	$resultado_cidade = mysqli_query($link, $result_cidade);
 	while($row_cidade = mysqli_fetch_assoc($resultado_cidade)){
 		$nome = $row_cidade['nome_municipio'];

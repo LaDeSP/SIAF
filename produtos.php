@@ -11,7 +11,7 @@
 	$link = $objBd->conecta_mysql();
 
 	$email = $_SESSION['email'];
-	$select = "select id from proprietarios where email = '$email'";
+	$select = "select email from proprietarios where email = '".$email."';";
 
 	$result = mysqli_query($link, $select);
 
@@ -22,11 +22,11 @@
 		$user_id = $row;
 	}
 
-	$id = $user_id['id'];
+	$email = $user_id['email'];
 
 	$pagina = (isset($_GET['pagina'])) ? $_GET['pagina'] : 1;
 
-	$sql = " SELECT * FROM produtos WHERE proprietarios_id = $id ORDER BY nome_produto ASC ";
+	$sql = " SELECT * FROM produtos WHERE proprietarios_email = '". $email. "' ORDER BY nome_produto ASC;";
 
 	$resultado = mysqli_query($link, $sql);
 
@@ -35,7 +35,7 @@
 	$num_pg = ceil($total_produtos/$quantidade_pg);
 	$inicio = ($quantidade_pg*$pagina)-$quantidade_pg;
 
-	$result_produtos = " SELECT * FROM produtos WHERE proprietarios_id = $id ORDER BY nome_produto ASC LIMIT $inicio, $quantidade_pg  ";
+	$result_produtos = "SELECT * FROM produtos WHERE proprietarios_email = '". $email ."' ORDER BY nome_produto ASC LIMIT ".$inicio.$quantidade_pg .";";
 	$resultado_produtos = mysqli_query($link, $result_produtos);
 	$total_produtos = mysqli_num_rows($resultado_produtos);
 ?>
@@ -47,7 +47,7 @@
 		<title>Produtos</title>
 	</head>
 
-	<body>
+	<body class="branco">
 
 		<?php
 		require_once("menu.php");
@@ -77,12 +77,14 @@
 
 								<div class="form-group">
 									<label for="nome" class="control-label">Nome *</label>
-									<input type="text" class="form-control" id="nome" name="nome" placeholder="Ex: Mandioca" required="requiored">
+
+									<input type="text" pattern="[A-Za-zÀ-ú0-9., -]{5,}$"" class="form-control" id="nome" name="nome" placeholder="Ex: Mandioca" required>
 								</div>
+								
 
 								<div class="form-group">
 									<label for="unidade" class="control-label">Unidade *</label><br />
-									<select name="unidade" id="unidade" required="requiored">
+									<select name="unidade" id="unidade" required>
 										<option value="">Selecione...</option>
 										<option value="KG">KG</option>
 										<option value="LT">LT</option>
@@ -107,7 +109,6 @@
 			<table class="table table-striped table-hover table-condensed">
 				<thead>
 					<tr>
-						<th>Código</th>
 						<th>Produto</th>
 						<th>Unidade</th>
 						<th>Ações</th>
@@ -117,17 +118,30 @@
 				<tbody>
 				<?php while($produtos = mysqli_fetch_assoc($resultado_produtos)){ ?>
 					<tr class="linha">
-						<td><?php echo $produtos['id']; ?></td>
 						<td><?php echo $produtos['nome_produto']; ?></td>
 						<td><?php echo $produtos['unidade']; ?></td>
 						<td>
 						<button type="button" class="btn btn-xs btn-primary" data-toggle="modal" data-target="#exampleModal" data-codproduto="<?php echo $produtos['id']; ?>" data-nome="<?php echo $produtos['nome_produto']; ?>"
-						data-unidade="<?php echo $produtos['unidade']; ?>">
+						data-unidade="<?php echo $produtos['unidade']; ?>" data-destino="<?php echo $produtos['destino']; ?>">
 						Editar
 						</button>
-						<a href="javascript: if(confirm ('Tem certeza que deseja excluir este produto?')) location.href='produtos_excluir.php?prod=<?php echo $produtos['id']?>';" class="btn btn-xs btn-danger"">
-						Excluir
-						</a>
+						<a  href="javascript:m(); function m(){ modal({
+	                      	type: 'confirm',
+		                      	title: 'Confimação',
+		                      	text: 'Tem certeza que deseja excluir este produto?',
+		                      	buttonText: {
+	                        	yes: 'Confirmar',
+	                        	cancel: 'Cancelar'
+		                      	},
+		                      	callback: function(result) {
+		                        	$('.modal-btn').attr('style', 'display: none !important');
+		                        	if(result==true){
+		                        	location.href='produtos_excluir.php?prod=<?php echo $produtos['id']?>'
+		                      	}
+
+		                    	}
+                    		}); $('.modal-btn').attr('style', 'display: inline !important'); };" class="btn btn-xs btn-danger"">Excluir</a>
+
 						</td>
 					</tr>
 				<?php } ?>
@@ -181,7 +195,6 @@
 			<div class="col-md-4"></div>
 
 		</div>
-	    </div>
 
 		<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
 		  <div class="modal-dialog" role="document">
@@ -193,13 +206,16 @@
 		      <div class="modal-body">
 		        <form method="POST" action="produtos.php" id="formEditarCad">
 		          <div class="form-group">
-		            <label for="produto-name" class="control-label">Nome:</label>
-		            <input name="nome" type="text" class="form-control" id="produto-name" required="requiored">
-		          </div>
-
+		            <label for="produto-name" class="control-label">Nome *</label>
+		            <input name="nome" type="text" class="form-control" id="produto-name" required>
+		         </div>
+		         <div class="form-group">
+					<label for="destino-name" class="control-label">Destino *</label>
+					<input name="destino" type="text" class="form-control" id="destino-name" required>
+				</div>
 				  <div class="form-group">
-					<label for="unidade" class="control-label">Unidade *</label><br />
-					<select name="unidade" id="unidade" required="requiored">
+					<label for="unidade-name" class="control-label">Unidade *</label><br />
+					<select name="unidade" id="unidade-name" required>
 						<option>Selecione...</option>
 						<option value="KG">KG</option>
 						<option value="LT">LT</option>
@@ -207,17 +223,15 @@
 						<option value="DZ">DZ</option>
 					</select>
 				   </div>
-
+		          </div>
 		          <input name="id" type="hidden" id="cod-produto">
 			      <div class="modal-footer">
 			        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
 			        <button name="editar" type="submit" class="btn btn-success">Alterar</button>
 			      </div>
-		        </form>
-		      </div>
+		      </div>	
 		    </div>
 		  </div>
-		</div>
 
 		<script src="bootstrap/js/bootstrap.min.js"></script>
 
@@ -244,9 +258,9 @@
 
 				$nome =$_POST['nome'];
 				$unidade = $_POST['unidade'];
-
 				$email = $_SESSION['email'];
-				$select = "select id from proprietarios where email = '$email'";
+
+				$select = "select email from proprietarios where email = '".$email."';";
 				$resultado = mysqli_query($link, $select);
 
 				if($resultado){
@@ -256,16 +270,16 @@
 					$user_id = $row;
 				}
 
-				$id = $user_id['id'];
+				$email = $user_id['email'];
 
-				$sql = " CALL produtos('$nome', '$unidade', '$id') ";
+				$sql = " CALL produtos('$nome', '$unidade', '$email')";
 
 				//executar a query
 				$result=mysqli_query($link, $sql);
-
+				
 				if(mysqli_num_rows($result)){
 		            echo "
-		            <META HTTP-EQUIV=REFRESH CONTENT = '3;URL=produtos.php'>
+		            <META HTTP-EQUIV=REFRESH CONTENT = '2;URL=produtos.php'>
 		            <script type=\"text/javascript\">
               
 		             $(window).load(function() {
@@ -284,7 +298,7 @@
 				}
 				else{
 					echo "
-		            <META HTTP-EQUIV=REFRESH CONTENT = '3;URL=produtos.php'>
+		            <META HTTP-EQUIV=REFRESH CONTENT = '2;URL=produtos.php'>
 		            <script type=\"text/javascript\">
 		              $(window).load(function() {
 		                 modal({
@@ -313,14 +327,12 @@
 				$cod = $_POST['id'];
 				$nome = $_POST['nome'];
 				$unidade = $_POST['unidade'];
-
-				$sql = " UPDATE produtos SET nome_produto = '$nome', unidade = '$unidade' WHERE id = '$cod' ";
-
+				$sql = "CALL produtos_edt('".$nome."', '".$unidade."', '".$id."')";
 				$resultado = mysqli_query($link, $sql);
 
 				if(mysqli_affected_rows($link) != 0){
 						echo "
-							<META HTTP-EQUIV=REFRESH CONTENT = '3;URL=produtos.php'>
+							<META HTTP-EQUIV=REFRESH CONTENT = '2;URL=produtos.php'>
 							<script type=\"text/javascript\">
 
 				             $(window).load(function() {
@@ -340,7 +352,7 @@
 							";
 						}else{
 						echo "
-							<META HTTP-EQUI=REFRESH CONTENT = '3;URL=produtos.php'>
+							<META HTTP-EQUI=REFRESH CONTENT = '2;URL=produtos.php'>
 							<script type=\"text/javascript\">
 				              $(window).load(function() {
 				                 modal({

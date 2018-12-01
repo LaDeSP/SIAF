@@ -7,7 +7,7 @@
 	$objBd = new bd();
 	$link = $objBd->conecta_mysql();
 
-	$sql = " DELETE FROM investimentos WHERE id = '$cod' ";
+	$sql = "DELETE FROM investimentos WHERE id = '".$cod."';";
 
 	$resultado = mysqli_query($link, $sql);
 

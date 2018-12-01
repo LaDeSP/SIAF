@@ -7,7 +7,7 @@
 	$objBd = new bd();
 	$link = $objBd->conecta_mysql();
 
-	$sql = "CALL vendas_del('$cod'); ";
+	$sql = "CALL vendas_del('".$cod."');";
 	$resultado = mysqli_query($link, $sql);
 	
 	if(mysqli_affected_rows($link)){

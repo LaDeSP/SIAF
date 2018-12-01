@@ -1,5 +1,4 @@
 <?php
-
   require_once('bd.class.php');
   require_once('funcoes.php');
   session_start();
@@ -12,7 +11,8 @@
   $link = $objBd->conecta_mysql();
 
   $email = $_SESSION['email'];
-  $select = "select id from proprietarios where email = '$email'";
+
+  $select = "select email from proprietarios where email = '".$email."';";
 
   $result = mysqli_query($link, $select);
 
@@ -22,36 +22,33 @@
     $row = mysqli_fetch_array($result, MYSQLI_ASSOC);
     $user_id = $row;
   }
-
-  $id = $user_id['id'];
+  $email = $user_id['email'];
 
   $pagina = (isset($_GET['pagina'])) ? $_GET['pagina'] : 1;
 
-  $sql = " SELECT id, nome_despesa, descricao, valor, quantidade, data  FROM despesas WHERE proprietarios_id = $id ORDER BY data ASC";
+  $sql = "SELECT id, nome_despesa, descricao, valor, quantidade, data FROM despesas WHERE proprietarios_email = '".$email."'ORDER BY data ASC;";
 
   $resultado = mysqli_query($link, $sql);
-
   $total_despesas = mysqli_num_rows($resultado);
   $quantidade_pg = 10;
   $num_pg = ceil($total_despesas/$quantidade_pg);
   $inicio = ($quantidade_pg*$pagina)-$quantidade_pg;
-
-  $result_despesas = " SELECT id, nome_despesa, descricao, valor, quantidade, data FROM despesas WHERE proprietarios_id = $id ORDER BY data LIMIT $inicio, $quantidade_pg ";
+  $result_despesas = "SELECT id, nome_despesa, descricao, valor, quantidade, data FROM despesas WHERE proprietarios_email = '".$email."' ORDER BY data LIMIT ".$inicio.$quantidade_pg.";";
   $resultado_despesas = mysqli_query($link, $result_despesas);
   $total_despesas = mysqli_num_rows($resultado_despesas);
 ?>
 
 <!DOCTYPE HTML>
 <html lang="pt-br">
-  <head>
 
+<head>
 
 <?php require_once("head.php")  ?>
 <title>Despesas</title>
 
   </head>
 
-  <body>
+  <body class="branco">
 
     <?php require_once("menu.php");	?>
 
@@ -79,29 +76,30 @@
 
                 <div class="form-group">
                   <label for="nome" class="control-label">Nome *</label>
-                  <input type="text" class="form-control" id="nome" name="nome" placeholder="Ex: Conta de luz" required="requiored">
+                  <input type="text" pattern="[A-Za-zÀ-ú0-9., -]{5,}$" class="form-control" id="nome" name="nome" placeholder="Ex: Conta de luz" required>
                 </div>
 
                 <div class="form-group">
                   <label for="descricao" class="control-label">Descrição </label>
-                  <textarea class="form-control" id="descricao" name="descricao" placeholder="Descrição"></textarea>
+                  <textarea class="form-control" pattern="[A-Za-zÀ-ú0-9., -]{5,}$" id="descricao" name="descricao" placeholder="Descrição"></textarea>
                 </div>
 
                 <div class="row">
                   <div class="form-group col-md-8">
                     <label for="valor" class="control-label">Valor *</label>
-                    <input type="text" autofocus class="form-control ValoresItens" data-affixes-stay="true" data-prefix="R$ " data-thousands="." data-decimal="," id="valor-name" name="valor" placeholder="Valor R$" required="requiored">
+                    <input type="text" autofocus class="form-control ValoresItens" data-affixes-stay="true" data-prefix="R$ " data-thousands="." data-decimal="," id="valor-name" name="valor" placeholder="Valor R$" required>
+
                   </div>
 
                   <div class="form-group col-md-4">
                     <label for="quantidade" class="control-label">Quantidade *</label>
-                    <input type="text" class="form-control" id="quant" name="quant" placeholder="Quantidade" required="requiored">
+                    <input type="number" class="form-control" id="quant" name="quant" placeholder="Quantidade" required>
                   </div>
                 </div>
 
                 <div class="input-group date">
-                    <label for="data" class="control-label">Data *</label>
-                    <input type="text" class="form-control data" id="data" name="data" required="requiored">
+                    <label for="data" class="control-label">Data *</label> <br />
+                    <input type="text" class="form-control data" id="data" name="data" required="required">
                 </div>
                 <br />
 
@@ -123,7 +121,7 @@
       <table class="table table-striped table-hover table-condensed">
         <thead>
           <tr>
-            <th>Código</th>
+
             <th>Despesa</th>
             <th>Descrição</th>
             <th>Valor R$</th>
@@ -134,12 +132,9 @@
         </thead>
 
         <tbody>
-        <?php while($despesa = mysqli_fetch_assoc($resultado_despesas)){
-          ?>
+        <?php
+        while($despesa = mysqli_fetch_assoc($resultado_despesas)) {?>
           <tr class="linha">
-
-
-            <td><?php echo $despesa['id']; ?></td>
             <td><?php echo $despesa['nome_despesa']; ?></td>
             <td><?php echo $despesa['descricao']; ?></td>
             <td><?php echo formata_moeda($despesa['valor']); ?></td>
@@ -238,7 +233,7 @@
             <form method="POST" action="despesas.php">
               <div class="form-group">
                 <label for="despesa-name" class="control-label">Nome *</label>
-                <input type="text" class="form-control" id="despesa-name" name="nome" required="requiored">
+                <input type="text" class="form-control" pattern="[A-Za-zÀ-ú0-9., -]{5,}$" id="despesa-name" name="nome" required>
               </div>
               <div class="form-group">
                 <label for="descricao-name" class="control-label">Descrição </label>
@@ -248,19 +243,19 @@
               <div class="row">
           <div class="form-group col-md-8">
             <label for="valor-name" class="control-label">Valor R$ *</label>
-          <input type="text" autofocus class="form-control ValoresItens" data-affixes-stay="true" data-prefix="R$ " data-thousands="." data-decimal="," id="valor-name" name="valor" placeholder="Valor R$" required="requiored">
+          <input type="text" autofocus class="form-control ValoresItens" data-affixes-stay="true" data-prefix="R$ " data-thousands="." data-decimal="," id="valor-name" name="valor" placeholder="Valor R$" required>
           </div>
 
           <div class="form-group col-md-4">
             <label for="quantidade-name" class="control-label">Quantidade *</label>
-          <input type="text" class="form-control" id="quantidade-name" name="quantidade" required="requiored">
+          <input type="text" class="form-control" id="quantidade-name" name="quantidade" required>
           </div>
 
            </div>
 
           <div class="input-group date">
             <label for="data-name" class="control-label">Data *</label>
-          <input type="text" class="form-control data1 batata" id="data-name" name="data" required="requiored">
+          <input type="text" class="form-control data1 batata" id="data-name" name="data" required>
           </div>
           <br />
 
@@ -280,24 +275,24 @@
 
     <script type="text/javascript">
       $('#exampleModal').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget) // Button that triggered the modal
-        var recipientnome = button.data('nome') // Extract info from data-* attributes
-        var recipientcod = button.data('coddespesas')
-        var recipientdescricao = button.data('descricao')
-        var recipientvalor = button.data('valor')
-        var recipientquantidade = button.data('quantidade')
-        var recipientdata = button.data('data')
+        var button = $(event.relatedTarget); // Button that triggered the modal
+        var recipientnome = button.data('nome'); // Extract info from data-* attributes
+        var recipientcod = button.data('coddespesas');
+        var recipientdescricao = button.data('descricao');
+        var recipientvalor = button.data('valor');
+        var recipientquantidade = button.data('quantidade');
+        var recipientdata = button.data('data');
 
         // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
         // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-        var modal = $(this)
-        modal.find('.modal-title').text('Editar -  Despesa #' + recipientcod)
-        modal.find('#cod-investimento').val(recipientcod)
-        modal.find('#despesa-name').val(recipientnome)
-        modal.find('#descricao-name').val(recipientdescricao)
-        modal.find('#valor-name').val(recipientvalor)
-        modal.find('#quantidade-name').val(recipientquantidade)
-        modal.find('#data-name').val(recipientdata)
+        var modal = $(this);
+        modal.find('.modal-title').text('Editar -  Despesa #' + recipientcod);
+        modal.find('#cod-investimento').val(recipientcod);
+        modal.find('#despesa-name').val(recipientnome);
+        modal.find('#descricao-name').val(recipientdescricao);
+        modal.find('#valor-name').val(recipientvalor);
+        modal.find('#quantidade-name').val(recipientquantidade);
+        modal.find('#data-name').val(recipientdata);
       })
     </script>
 
@@ -316,7 +311,7 @@
           $link = $objBd->conecta_mysql();
 
           $email = $_SESSION['email'];
-          $select = "select id from proprietarios where email = '$email'";
+          $select = "select email from proprietarios where email = '". $email ."';";
           $resultado = mysqli_query($link, $select);
 
           if($resultado){
@@ -326,10 +321,9 @@
             $user_id = $row;
           }
 
-          $id = $user_id['id'];
+          $email = $user_id['email'];
           $valor=moeda_clean($valor);
-          $sql = "insert into despesas(nome_despesa, descricao, quantidade, data, valor, proprietarios_id) values ('$nome', '$descricao', '$quant', '$data1', '$valor', '$id') ";
-
+          $sql = " CALL despesas('$nome', '$descricao', '$quant', '$data1', '$valor', '$email')";
           //executar a query
           mysqli_query($link, $sql);
 
@@ -391,8 +385,7 @@
         $link = $objBd->conecta_mysql();
         require_once('funcoes.php');
         $valor=moeda_clean($valor);
-        $sql = " UPDATE despesas SET nome_despesa = '$nome', descricao = '$descricao', quantidade = '$quantidade', data = '$data1', valor = '$valor'
-              WHERE id = '$cod' ";
+        $sql = " CALL despesas_edt('$nome','$descricao','$quantidade','$data1','$valor', '$cod');";
         $resultado = mysqli_query($link, $sql);
         if(mysqli_affected_rows($link) != 0){
           echo "
@@ -415,7 +408,7 @@
             </script>";
         }else{
           echo "
-            <META HTTP-EQUI=REFRESH CONTENT = '3;URL=despesas.php'>
+            <META HTTP-EQUI=REFRESH CONTENT = '2;URL=despesas.php'>
             <script type=\"text/javascript\">
               $(window).load(function() {
                  modal({

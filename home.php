@@ -14,23 +14,17 @@
 <html lang="pt-br">
 	<head>
 		<meta charset="UTF-8">
-
+		<?php
+			require_once("head.php");
+		?>
 		<title>Início</title>
 		<link rel="icon" href="imagens/favicon.png">
 
-		<!-- jquery - link cdn -->
-		<script src="js/JQuery/jquery-2.2.4.min.js"></script>
-
-		<!-- bootstrap - link cdn -->
-		<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
-		<link href="estilos.css" rel="stylesheet">
-
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	</head>
 
-	<body>
+	<body class="branco">
 		<?php
-		require_once("menu.php");
+			require_once("menu.php");
 		?>
 
 		<div style="position: absolute;">
@@ -39,25 +33,29 @@
 						echo "
 							<META HTTP-EQUIV=REFRESH CONTENT = '2;URL=home.php'>
 							<script type=\"text/javascript\">
-							  alert(\"Loado com Sucesso!\");
+							  alert(\"Logado com Sucesso!\");
 							</script>
 							";
 					}
 				?>
 		</div>
+		
+			<?php
+				require_once("slider.php");
+			?>
+	    <!--<div class="container espaco">
 
-	    <div class="container espaco">
 		    <div class="capa">
+
 		    	<div class="texto-capa">
+		    		
+
 			    </div>
 		    </div>
 
-				<?php
-					require_once("slider.php");
-				?>
+				
 
-		</div>
-	    </div>
+		</div> -->
 
 		<script src="bootstrap/js/bootstrap.min.js"></script>
 

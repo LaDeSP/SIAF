@@ -58,8 +58,7 @@
 	</table>
 	</div>
 
-		
-	</div>
+
 <?php
 	$objBd = new bd();
 	$query="SELECT p.nome_produto ,sum(v.quantidade) as quantidade ,p.unidade,sum(v.total) as total FROM vendas v INNER JOIN produtos p on p.proprietarios_id=v.proprietarios_id and p.id=v.produtos_id WHERE v.proprietarios_id=? GROUP BY p.nome_produto,p.unidade 
