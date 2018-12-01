@@ -27,25 +27,23 @@
 
   	$pagina = (isset($_GET['pagina'])) ? $_GET['pagina'] : 1;
 
-  	$sql = " SELECT id, nome_investimento, descricao, valor, data FROM investimentos WHERE proprietarios_email = $email ORDER BY data ASC ";
 
-  	$resultado = mysqli_query($link, $sql);
+  	$result_semeaduras = "SELECT idsemeadura, data, num_mudas, plantiomensal_idplantiomensal FROM semeadura inner JOIN plantiomensal on idplantiomensal = plantiomensal_idplantiomensal WHERE plantiomensal.proprietarios_email = $email ORDER BY data ASC";
 
-   	$total_investimentos = mysqli_num_rows($resultado);
+  	$resultado = mysqli_query($link, $result_semeaduras);
+
+   	$total_semeaduras = mysqli_num_rows($resultado);
   	$quantidade_pg = 10;
-  	$num_pg = ceil($total_investimentos/$quantidade_pg);
+  	$num_pg = ceil($total_semeaduras/$quantidade_pg);
   	$inicio = ($quantidade_pg*$pagina)-$quantidade_pg;
 
-  	$result_investimentos = " SELECT id, nome_investimento, descricao, valor, data FROM investimentos WHERE proprietarios_email = $email ORDER BY data ASC LIMIT $inicio, $quantidade_pg ";
-  	$resultado_investimentos = mysqli_query($link, $result_investimentos);
-  	$total_investimentos = mysqli_num_rows($resultado_investimentos);
 ?>
 
 <!DOCTYPE HTML>
 <html lang="pt-br">
 	<head>
 		<?php require_once("head.php")  ?>
-		<title>Investimentos</title>
+		<title>Semeaduras</title>
 	</head>
 
 	<body class="branco">
@@ -56,7 +54,7 @@
 
 	    <div class="container">
 	    	<div class="page-header espaco">
-	    		<h1>Investimentos</h1>
+	    		<h1>Semeaduras</h1>
 	    	</div>
 
 	    	<div class="pull-right">
@@ -69,42 +67,47 @@
 					<div class="modal-content">
 						<div class="modal-header">
 							<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-							<h4 class="modal-title" id="myModalLabel">Registrar - Investimento</h4>
+							<h4 class="modal-title" id="myModalLabel">Registrar - Semeadura</h4>
 						</div>
 						<div class="modal-body">
 
-							<form method="POST" action="investimentos.php" enctype="multipart/form-data">
-
-
+							<form method="POST" action="semeadura.php" enctype="multipart/form-data">
 								<div class="form-group">
-									<label for="nome" class="control-label">Nome *</label>
-									<input type="text" class="form-control" pattern="[A-Za-zÀ-ú0-9., -]{5,}$" id="nome" name="nome" placeholder="Nome" required>
+									<label for="plantiomensal_idplantiomensal" class="control-label">Plantio Mensal *</label>
+										<br />
+										<select name="plantiomensal_idplantiomensal">
+										<option>Selecione...</option>
+										<?php
+											$result_plantiomensal = " SELECT * FROM plantiomensal WHERE proprietarios_id = $id ORDER BY idplantiomensal";
+											$resultado_plantiomensal = mysqli_query($link, $result_plantiomensal);
+											while($row_plantio = mysqli_fetch_assoc($resultado_plantiomensal)){ ?>
+												<option value="<?php echo $row_plantio['idplantiomensal']; ?>">
+												<?php echo $row_plantio['cultura']; ?> </option>
+											<?php
+											}
+											?>
+										</select>
 								</div>
+									
 
-					            <div class="form-group">
-					            	<label for="descricao" class="control-label">Descrição</label>
-					           	    <textarea class="form-control" id="descricao" pattern="[A-Za-zÀ-ú0-9., -]{5,}$" name="descricao" placeholder="Descrição"></textarea>
-					            </div>
-
-					            <div class="row">
-									<div class="form-group col-md-8">
-										<label for="valor" class="control-label">Valor R$ *</label>
-										<input type="number" class="form-control ValoresItens" data-affixes-stay="true" data-prefix="R$ " data-thousands="." data-decimal="," id="valor-name" name="valor" placeholder="Valor R$" id="valor" name="valor" placeholder="Valor R$" required>
+								<div class="row">
+									<div class="form-group col-md-5">
+										<label for="num_mudas" class="control-label">Quantidade de Mudas *</label> 
+										<input type="number" class="form-control" id="num_mudas" name="num_mudas" placeholder="Quantidade de Mudas" required>
 									</div>
-
+								
 									<div class="form-group date col-md-8">
 										<label for="data" class="control-label">Data *</label>
 									   	<input type="date" class="form-control data " id="data" name="data" required>
 									</div>
-
+								</div>
 									<div class="col-md-1"></div>
-								</div>
-								<br />
+									<br />
 
-								<div class="modal-footer">
-									<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-									<button type="submit" class="btn btn-success" name="salvar">Registrar</button>
-								</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+										<button type="submit" class="btn btn-success" name="salvar">Registrar</button>
+									</div>
 							</form>
 						</div>
 					</div>
@@ -118,49 +121,57 @@
 			<table class="table table-striped table-hover table-condensed">
 				<thead>
 					<tr>
-						<th>Investimento</th>
-						<th>Descrição</th>
-						<th>Valor R$</th>
+						<th>Plantio - Cultura</th>
+						<th>Quantidade de Mudas</th>
 						<th>Data</th>
-						<th>Ações</th>
 					</tr>
 				</thead>
 				</thead>
 
 				<tbody>
-				<?php while($investimento = mysqli_fetch_assoc($resultado_investimentos)){ ?>
-					<tr class="linha">
-						<td><?php echo $investimento['nome_investimento']; ?></td>
-						<td><?php echo $investimento['descricao']; ?></td>
-						<td><?php echo formata_moeda($investimento['valor']); ?></td>
-						<td><?php echo date("d/m/Y", strtotime($investimento['data'])); ?></td>
-						<td>
-						<button type="button" class="btn btn-xs btn-primary" data-toggle="modal" data-target="#exampleModal"
-								data-codinvestimento="<?php echo $investimento['id']; ?>"
-								data-nome="<?php echo $investimento['nome_investimento']; ?>"
-								data-descricao="<?php echo $investimento['descricao']; ?>"
-								data-valor="<?php echo formata_moeda($investimento['valor']); ?>"
-								data-data="<?php echo date("d/m/Y", strtotime($investimento['data'])); ?>">
-								Editar
-						</button>
-						<a  href="javascript:m(); function m(){ modal({
-	                      	type: 'confirm',
-		                      	title: 'Confimação',
-		                      	text: 'Tem certeza que deseja excluir este investimento?',
-		                      	buttonText: {
-	                        	yes: 'Confirmar',
-	                        	cancel: 'Cancelar'
-		                      	},
-		                      	callback: function(result) {
-		                        	$('.modal-btn').attr('style', 'display: none !important');
-		                        	if(result==true){
-		                        	location.href='investimentos_excluir.php?inves=<?php echo $investimento['id']?>'
-		                      	}
-		                    	}
-                    		}); $('.modal-btn').attr('style', 'display: inline !important'); };" class="btn btn-xs btn-danger"">Excluir</a>
-						</td>
-					</tr>
-				<?php } ?>
+
+				<?php while($semeadura = mysqli_fetch_assoc($resultado)){ ?>
+						<tr class="linha">
+							<td>
+								<?php
+									$result_plantiomensal = " SELECT * FROM plantiomensal WHERE proprietarios_email = $email ORDER BY idplantiomensal";
+											$resultado_plantiomensal = mysqli_query($link, $result_plantiomensal);
+								 while($plantio = mysqli_fetch_assoc($resultado_plantiomensal)){ 
+								 	?>
+									<?php echo $plantio['cultura']; ?>
+								<?php } ?>
+							</td>
+							<td><?php echo $semeadura['num_mudas']; ?></td>
+							<td><?php echo date("d/m/Y", strtotime($semeadura['data'])); ?></td>
+							
+							<td>
+							<!--<button type="button" class="btn btn-xs btn-primary" data-toggle="modal" data-target="#exampleModal"
+									data-codinvestimento="<?php echo $investimento['id']; ?>"
+									data-nome="<?php echo $investimento['nome_investimento']; ?>"
+									data-descricao="<?php echo $investimento['descricao']; ?>"
+									data-valor="<?php echo formata_moeda($investimento['valor']); ?>"
+									data-data="<?php echo date("d/m/Y", strtotime($investimento['data'])); ?>">
+									Editar
+							</button> --->
+							<a  href="javascript:m(); function m(){ modal({
+		                      	type: 'confirm',
+			                      	title: 'Confimação',
+			                      	text: 'Tem certeza que deseja excluir esta Semeadura?',
+			                      	buttonText: {
+		                        	yes: 'Confirmar',
+		                        	cancel: 'Cancelar'
+			                      	},
+			                      	callback: function(result) {
+			                        	$('.modal-btn').attr('style', 'display: none !important');
+			                        	if(result==true){
+			                        	location.href='semeadura_excluir.php?inves=<?php echo $semeadura['idsemeadura']?>'
+			                      	}
+			                    	}
+	                    		}); $('.modal-btn').attr('style', 'display: inline !important'); };" class="btn btn-xs btn-danger"">Excluir</a>
+							
+							</td>
+						</tr>
+					<?php } ?>
 				</tbody>
 
 			</table>
@@ -179,7 +190,7 @@
 		            <li>
 		            <?php
 		              if($pagina_anterior != 0){ ?>
-		                <a href="investimentos.php?pagina=<?php echo $pagina_anterior; ?>" aria-label="Previous">
+		                <a href="semeadura.php?pagina=<?php echo $pagina_anterior; ?>" aria-label="Previous">
 		                  <span aria-hidden="true">&laquo;</span>
 		                </a>
 		          <?php }else{ ?>
@@ -189,13 +200,13 @@
 
 		            <?php
 		              for($i = 1;  $i < $num_pg + 1; $i++){ ?>
-		                <li><a href="investimentos.php?pagina=<?php echo $i; ?>"><?php echo $i; ?></a></li>
+		                <li><a href="semeadura.php?pagina=<?php echo $i; ?>"><?php echo $i; ?></a></li>
 		            <?php } ?>
 
 		            <li>
 		            <?php
 		              if($pagina_posterior <= $num_pg){ ?>
-		                <a href="investimentos.php?pagina=<?php echo $pagina_posterior; ?>" aria-label="Previous">
+		                <a href="semeadura.php?pagina=<?php echo $pagina_posterior; ?>" aria-label="Previous">
 		                  <span aria-hidden="true">&raquo;</span>
 		                </a>
 		          <?php }else{ ?>
@@ -213,7 +224,7 @@
 
 
 
-		<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+		<!---<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
 		  <div class="modal-dialog" role="document">
 		    <div class="modal-content">
 		      <div class="modal-header">
@@ -254,10 +265,10 @@
 		      </div>
 		    </div>
 		  </div>
-		</div>
+		</div> --->
 
 		<script src="bootstrap/js/bootstrap.min.js"></script>
-
+		<!--
 		<script type="text/javascript">
 			$('#exampleModal').on('show.bs.modal', function (event) {
 				var button = $(event.relatedTarget) // Button that triggered the modal
@@ -278,13 +289,11 @@
 			 	modal.find('#data-name').val(recipientdata)
 			})
 		</script>
-
+		-->
 		<?php
-			function registraInvestimento(){
-				$nome = $_POST['nome'];
-				$descricao = $_POST['descricao'];
-				$valor = $_POST['valor'];
-
+			function registraSemeadura(){
+				$plantiomensal_idplantiomensal = $_POST['plantiomensal_idplantiomensal'];
+				$num_mudas = $_POST['num_mudas'];
 				$data = str_replace("/", "-", $_POST["data"]);
 			    $data1 = date('Y-m-d', strtotime($data));
 
@@ -301,24 +310,23 @@
 		            $row = mysqli_fetch_array($resultado, MYSQLI_ASSOC);
 		            $user_id = $row;
 		        }
-
+		       
 		        $email = $user_id['email'];
-				$valor=moeda_clean($valor);
-				$sql = "CALL investimentos('$nome', '$descricao', '$data1', '$valor', '$email');";
+				$sql = "CALL semeadura('$data1', '$num_mudas', '$plantiomensal_idplantiomensal');";
 
 				//executar a query
 				mysqli_query($link, $sql);
 
 				if($sql){
 					echo "
-		            <META HTTP-EQUIV=REFRESH CONTENT = '2;URL=investimentos.php'>
+		            <META HTTP-EQUIV=REFRESH CONTENT = '2;URL=semeadura.php'>
 		            <script type=\"text/javascript\">
               
 		             $(window).load(function() {
 		                 modal({
 		                 type: 'success',
 		                 title: 'Sucesso',
-		                 text: 'Investimento registrado!',
+		                 text: 'Semeadura registrada!',
 		                 autoclose: false,
 		                 size: 'large',
 		                 center: false,
@@ -330,13 +338,13 @@
 				}
 				else{
 					echo "
-		            <META HTTP-EQUIV=REFRESH CONTENT = '2;URL=investimentos.php'>
+		            <META HTTP-EQUIV=REFRESH CONTENT = '2;URL=semeadura.php'>
 		           	<script type=\"text/javascript\">
               		$(window).load(function() {
                 		modal({
                  			type: 'error',
                  			title: 'Erro',
-                 			text: 'Não foi possível registrar o Investimento!',
+                 			text: 'Não foi possível registrar a Semeadura!',
                  			autoclose: false,
                  			size: 'large',
                  			center: false,
@@ -350,10 +358,10 @@
 			
 
 			if(isset($_POST['salvar'])){
-				registraInvestimento();
+				registraSemeadura();
 			}
 
-			function editarInvestimento(){
+			/*function editarInvestimento(){
 				$cod = $_POST['id'];
 				$nome = $_POST['nome'];
 				$descricao = $_POST['descricao'];
@@ -412,7 +420,7 @@
 
 			if(isset($_POST['editar'])){
 				editarInvestimento();
-			}
+			}*/
 		?>
 	</body>
 </html>

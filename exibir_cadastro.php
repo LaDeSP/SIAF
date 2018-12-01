@@ -10,7 +10,7 @@
 
 	$email = $_SESSION['email'];
 
-	$sql = " SELECT proprietarios.id, nome_proprietario, email, telefone, nome_propriedade, localizacao, nome_municipio, estados.id, nome_estado FROM proprietarios, municipios, estados WHERE email = '$email' AND municipios_id = municipios.id AND estados_id = estados.id ";
+	$sql = " SELECT nome_proprietario, email, telefone, nome_propriedade, localizacao, nome_municipio, estados.id, nome_estado FROM proprietarios, municipios, estados WHERE email = '$email' AND municipios_id = municipios.id AND estados_id = estados.id ";
 
 	$objBd = new bd();
 	$link = $objBd->conecta_mysql();
@@ -37,69 +37,14 @@
 
 		<title>Meu Cadastro</title>
 		<link rel="icon" href="imagens/favicon.png">
-		
-		<!-- jquery - link cdn -->
-		<script src="js/JQuery/jquery-2.2.4.min.js"></script>
-
-		<!-- bootstrap - link cdn -->
-		<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
-		<link href="estilos.css" rel="stylesheet">
-		
+		<?php require_once("head.php")  ?>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	</head>
 
-	<body>
-
-		<!-- Static navbar -->
-	    <nav class="navbar navbar-default navbar-static-top">
-	      <div class="container">
-	        <div class="navbar-header">
-	          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-	            <span class="sr-only">Toggle navigation</span>
-	            <span class="icon-bar"></span>
-	            <span class="icon-bar"></span>
-	            <span class="icon-bar"></span>
-	          </button>
-	          <!--<img src="imagens/logo.png" />-->
-	          <a href="home.php" class="navbar-brand">
-	          <span class="img-logo">Logo</span>
-	          </a>
-	        </div>
-	        
-	        <div id="navbar" class="navbar-collapse collapse">
-	          <ul class="nav navbar-nav navbar-right">
-	          	<li><a href="home.php">Início</a></li>
-	            <li><a href="despesas.php">Despesas</a></li>
-	            <li><a href="investimentos.php">Investimentos</a></li>
-	            <li><a href="vendas.php">Vendas</a></li>
-	            <li><a href="estoque.php">Estoque</a></li>
-	            <li><a href="produtos.php">Produtos</a></li>
-	           	<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-user"></i>
-	            	Relatórios <b class="caret"></b></a>
-					  <ul class="dropdown-menu">
-					    <li><a href="#">Relatório de Despesas</a></li>
-					    <li><a href="#">Relatório de Investimentos</a></li>
-					    <li><a href="relatorio_vendas.php">Relatório de Vendas</a></li>
-					    <li><a href="#">Relatório de Perda de Produtos</a></li>
-					    <li><a href="#">Margens</a></li>
-					  </ul>
-	            </li>
-	            <li class="divisor" role="separator"></li>
-
-	            <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-user"></i>
-	            	Usuário <b class="caret"></b></a>
-					  <ul class="dropdown-menu">
-					    <li><a href="exibir_cadastro.php">Minha Conta</a></li>
-					    <li><a href="#">Atendimento</a></li>
-					    <li role="separator" class="divider"></li>
-					    <li><a href="sair.php">Sair</a></li>
-					  </ul>
-	            </li>
-	          </ul>
-	        </div>
-	      </div>
-	    </nav>
-
+	<body class="branco">
+		<?php
+			require_once("menu.php");
+		?>
 
 	    <div class="container">
 	    	<div class="page-header">
@@ -109,7 +54,6 @@
 	    	<div class="pull-right">
 	    	<?php foreach($dados_usuario as $usuario){ ?>
 	    		<button type="button" class="btn btn-md btn-primary" data-toggle="modal" data-target="#myModalcad"
-	    				data-id-proprietario="<?php echo $usuario['id']; ?>" 
 						data-nome="<?php echo $usuario['nome_proprietario']; ?>"
 						data-email="<?php echo $usuario['email']; ?>"
 						data-senha="<?php echo $usuario['senha']; ?>"
@@ -205,7 +149,7 @@
 										</select> 
 									</div>
 								</div>
-								<input name="id" type="hidden" id="id-proprietario">
+								<input name="email" type="hidden" id="email">
 								<div class="modal-footer">
 									<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
 									<button type="submit" class="btn btn-success">Salvar</button>
@@ -249,7 +193,7 @@
 			<div class="col-md-4"></div>
 
 		</div>
-	    </div>
+	  
 	
 		<script src="bootstrap/js/bootstrap.min.js"></script>
 
@@ -257,14 +201,12 @@
 			$('#id_estado').change(function (){
 				var valor = document.getElementById("id_estado").value;
 
-				$.get("cidade.php?search=" + valor, fuction (data) {
-					$("#id_cidade").find("option").remove();
+				$.get('cidade.php?search=' + valor, function (data) {
+					$('#id_cidade').find('option').remove();
 					$('#id_cidade').append(data);
 				});
 			});
-		</script>
-
-		<script type="text/javascript">
+		
 			$('#myModalcad').on('show.bs.modal', function (event) {
 				var button = $(event.relatedTarget) // Button that triggered the modal
 				var recipientnomeproprietario = button.data('nome') // Extract info from data-* attributes
@@ -273,11 +215,9 @@
 				var recipienttelefone = button.data('telefone')
 				var recipientpropriedade = button.data('propriedade')
 				var recipientlocalizacao = button.data('localizacao')
-				var recipientcod = button.data('id-proprietario')
 			  // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
 			  // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
 				var modal = $(this)
-			 	modal.find('#id-proprietario').val(recipientcod)
 			 	modal.find('#nome').val(recipientnomeproprietario)
 			 	modal.find('#email').val(recipientemail)
 			 	modal.find('#senha').val(recipientsenha)
@@ -287,14 +227,6 @@
 
 			});
 
-			$('#id_estado').change(function (){
-				var valor = document.getElementById("id_estado").value;
-
-				$.get("exibe_cidade.php?search=" + valor, fuction (data) {
-					$("#id_cidade").find("option").remove();
-					$('#id_cidade').append(data);
-				});
-			});
 		</script>
 
 	</body>

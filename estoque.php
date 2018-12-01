@@ -15,7 +15,7 @@
 
 	$pagina = (isset($_GET['pagina'])) ? $_GET['pagina'] : 1;
 
-	$sql = " SELECT  estoques.produtos_id,estoques.id, nome_produto,estoques.quantidade, unidade FROM estoques inner JOIN produtos on produtos_id = produtos.id WHERE estoques.proprietarios_id = $id and estoques.quantidade > 0 ORDER BY produtos.nome_produto ";
+	$sql = " SELECT  estoques.produtos_id,estoques.id, nome_produto,estoques.quantidade, unidade FROM estoques inner JOIN produtos on produtos_id = produtos.id WHERE estoques.proprietarios_email = $email and estoques.quantidade > 0 ORDER BY produtos.nome_produto ";
 
 	$resultado = mysqli_query($link, $sql);
 
@@ -24,7 +24,7 @@
   	$num_pg = ceil($total_estoques/$quantidade_pg);
   	$inicio = ($quantidade_pg*$pagina)-$quantidade_pg;
 
-  	$result_estoques = " SELECT  estoques.produtos_id,estoques.id, nome_produto,estoques.quantidade, unidade FROM estoques inner JOIN produtos on produtos_id = produtos.id WHERE estoques.proprietarios_id = $id and estoques.quantidade > 0 ORDER BY produtos.nome_produto  LIMIT $inicio, $quantidade_pg";
+  	$result_estoques = " SELECT  estoques.produtos_id,estoques.id, nome_produto,estoques.quantidade, unidade FROM estoques inner JOIN produtos on produtos_id = produtos.id WHERE estoques.proprietarios_email = $email and estoques.quantidade > 0 ORDER BY produtos.nome_produto  LIMIT $inicio, $quantidade_pg";
 
    	$resultado_estoques = mysqli_query($link, $result_estoques);
   	$total_estoques = mysqli_num_rows($resultado_estoques);
@@ -37,7 +37,7 @@
 		<title>Estoque</title>
 	</head>
 
-	<body>
+	<body class="branco">
 
 		<?php
 		require_once("menu.php");
@@ -85,7 +85,7 @@
 
 									<div class="form-group">
 										<label for="quantidade" class="control-label">Quantidade *</label>
-										<input type="text" class="form-control" id="quantidade" name="quantidade" placeholder="Quantidade" required="requiored">
+										<input type="number" class="form-control" id="quantidade" name="quantidade" placeholder="Quantidade" required>
 									</div>
 
 								<br />
@@ -329,7 +329,7 @@
 		        $link = $objBd->conecta_mysql();
 
 		        $email = $_SESSION['email'];
-		        $select = "select proprietarios.id, produtos.nome_produto from proprietarios, produtos where email = '$email'";
+		        $select = "select proprietarios.email, produtos.nome_produto from proprietarios, produtos where email = '$email'";
 		        $resultado = mysqli_query($link, $select);
 
 		          if($resultado){
@@ -339,10 +339,10 @@
 		            $user_id = $row;
 		          }
 
-		        $id = $user_id['id'];
+		        $email = $user_id['email'];
 
 		        if($user_id['nome_produto'] != $produto){
-		        	$sql = " CALL estoque ('$quant',$id, '$produto')";
+		        	$sql = " CALL estoque ('$quant', $email, '$produto')";
 
 		        	mysqli_query($link, $sql);
 		        }else{

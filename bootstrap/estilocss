@@ -1,22 +1,18 @@
+/*
+*
+* @author Paulo Abreu
+* @version 0,1
+*/
+
+/* =============== layout =============== */
+
+/* -- Barra de navegação -- */
 
 
- body{
+
+body{
 	height: 100%;
-	background: url('imagens/index1.jpg'),
-	linear-gradient(50deg, #c8e0c0, #c8e0c0);
-    background-size:100%;
-    bottom: 0;
-    color: black;
-    left: 0;
-    overflow: auto;
-    padding: 3em;
-    position: absolute;
-    right: 0;
-    top: 0;
-}
-
-.branco{
-	background: white !important;
+	background: url('imagens/index.jpg');
 }
 
 .img-logo {
@@ -26,11 +22,7 @@
 	background: url('imagens/log.png') no-repeat;
 	background-size: contain;
 	color: transparent;
-	margin-top: -12%;
 }
-
-
-
 
 nav.navbar-default{
 	padding: 10px 10px;
@@ -49,6 +41,12 @@ nav.navbar-default{
 
 .espaco{
 	margin-top: 125px;
+}
+
+form#formCadastrarse select{
+	width: 300px;
+	padding: 5px;
+	font-size: 14px;
 }
 
 form#formEditarCad select{
@@ -84,13 +82,10 @@ form#formEditarCad select{
 	padding-bottom: 20px;
 }
 
-#rodape{
-	background: #3339;
-	bottom: 0;
-	position: fixed;
-	margin-left: -6%;
-	width: 110%;
+footer{
+	background: #3333;
 	padding: 15px 0px 10px 0px;
+	text-align: center;
 }
 
 /* =============== tipografia =============== */
@@ -137,31 +132,6 @@ input:active{
   border-left-color: salmon;
 }
 
-.btn1 {
-    margin: 0;
-    padding: 0 20px;
-    vertical-align: middle;
-    background: #4aaf51;
-    border: 0;
-    font-family: 'Roboto', sans-serif;
-    font-size: 120%;
-    font-weight: 300;
-    line-height: 200%;
-    color: #fff;
-    -moz-border-radius: 4px;
-    -webkit-border-radius: 4px;
-    border-radius: 4px;
-    text-shadow: none;
-    -moz-box-shadow: none;
-    -webkit-box-shadow: none;
-    box-shadow: none;
-    -o-transition: all .3s;
-    -moz-transition: all .3s;
-    -webkit-transition: all .3s;
-    -ms-transition: all .3s;
-    transition: all .3s;
-}
-
 #data{
 	max-width: 150px;
 }
@@ -190,34 +160,3 @@ input:active{
 	border: 1px solid #84a783;
 }
 
-.cont {
-	margin-top: 0%;
-	background: rgba(255, 255, 255, 0.85);
-	border-radius: 5%;
-	text-align: center;
-}
-
-.lgindex{
-	margin-top: 0;
-	margin-left: -60%;
-	width: 10%; 
-	margin: 0;
-	padding: 0;
-}
-.lgindex2{
-	margin-top: -20%;
-	margin-left: -60%;
-	width: 50%; 
-	margin: 0;
-	padding: 0;
-}
-
-h3{
-	font-size: 24px !important;
-}
- 
-@media (min-width: 768){   
-	h3{
-		font-size: 14px !important;
-	}
-}

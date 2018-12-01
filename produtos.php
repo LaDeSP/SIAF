@@ -11,7 +11,7 @@
 	$link = $objBd->conecta_mysql();
 
 	$email = $_SESSION['email'];
-	$select = "select id from proprietarios where email = '$email'";
+	$select = "select email from proprietarios where email = '$email'";
 
 	$result = mysqli_query($link, $select);
 
@@ -22,11 +22,11 @@
 		$user_id = $row;
 	}
 
-	$id = $user_id['id'];
+	$email = $user_id['email'];
 
 	$pagina = (isset($_GET['pagina'])) ? $_GET['pagina'] : 1;
 
-	$sql = " SELECT * FROM produtos WHERE proprietarios_id = $id ORDER BY nome_produto ASC ";
+	$sql = " SELECT * FROM produtos WHERE proprietarios_email = $email ORDER BY nome_produto ASC ";
 
 	$resultado = mysqli_query($link, $sql);
 
@@ -35,7 +35,7 @@
 	$num_pg = ceil($total_produtos/$quantidade_pg);
 	$inicio = ($quantidade_pg*$pagina)-$quantidade_pg;
 
-	$result_produtos = " SELECT * FROM produtos WHERE proprietarios_id = $id ORDER BY nome_produto ASC LIMIT $inicio, $quantidade_pg  ";
+	$result_produtos = " SELECT * FROM produtos WHERE proprietarios_email = $email ORDER BY nome_produto ASC LIMIT $inicio, $quantidade_pg  ";
 	$resultado_produtos = mysqli_query($link, $result_produtos);
 	$total_produtos = mysqli_num_rows($resultado_produtos);
 ?>
@@ -47,7 +47,7 @@
 		<title>Produtos</title>
 	</head>
 
-	<body>
+	<body class="branco">
 
 		<?php
 		require_once("menu.php");
@@ -77,16 +77,13 @@
 
 								<div class="form-group">
 									<label for="nome" class="control-label">Nome *</label>
-									<input type="text" class="form-control" id="nome" name="nome" placeholder="Ex: Mandioca" required="requiored">
+									<input type="text" pattern="[A-Za-zÀ-ú0-9., -]{5,}$"" class="form-control" id="nome" name="nome" placeholder="Ex: Mandioca" required>
 								</div>
-								<div class="form-group">
-									<label for="destino" class="control-label">Destino *</label>
-									<input type="text" class="form-control" id="destino" name="destino" placeholder="Ex: Feira" required="requiored">
-								</div>
+								
 
 								<div class="form-group">
 									<label for="unidade" class="control-label">Unidade *</label><br />
-									<select name="unidade" id="unidade" required="requiored">
+									<select name="unidade" id="unidade" required>
 										<option value="">Selecione...</option>
 										<option value="KG">KG</option>
 										<option value="LT">LT</option>
@@ -113,7 +110,6 @@
 					<tr>
 						<th>Produto</th>
 						<th>Unidade</th>
-						<th>Destino</th>
 						<th>Ações</th>
 					</tr>
 				</thead>
@@ -123,7 +119,6 @@
 					<tr class="linha">
 						<td><?php echo $produtos['nome_produto']; ?></td>
 						<td><?php echo $produtos['unidade']; ?></td>
-						<td><?php echo $produtos['destino']; ?></td>
 						<td>
 						<button type="button" class="btn btn-xs btn-primary" data-toggle="modal" data-target="#exampleModal" data-codproduto="<?php echo $produtos['id']; ?>" data-nome="<?php echo $produtos['nome_produto']; ?>"
 						data-unidade="<?php echo $produtos['unidade']; ?>" data-destino="<?php echo $produtos['destino']; ?>">
@@ -248,7 +243,6 @@
 				var recipientnome = button.data('nome') // Extract info from data-* attributes
 				var recipientcod = button.data('codproduto')
 				var recipientunidade = button.data('unidade')
-				var recipientdestino = button.data('destino')
 			  // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
 			  // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
 				var modal = $(this)
@@ -256,7 +250,6 @@
 			 	modal.find('#cod-produto').val(recipientcod)
 			 	modal.find('#produto-name').val(recipientnome)
 			 	modal.find('#unidade-name').val(recipientunidade)
-			 	modal.find('#destino-name').val(recipientdestino)
 			})
 		</script>
 
@@ -267,10 +260,9 @@
 
 				$nome =$_POST['nome'];
 				$unidade = $_POST['unidade'];
-				$destino = $_POST['destino'];
-
 				$email = $_SESSION['email'];
-				$select = "select id from proprietarios where email = '$email'";
+
+				$select = "select email from proprietarios where email = '$email'";
 				$resultado = mysqli_query($link, $select);
 
 				if($resultado){
@@ -280,9 +272,9 @@
 					$user_id = $row;
 				}
 
-				$id = $user_id['id'];
+				$email = $user_id['email'];
 
-				$sql = " CALL produtos('$nome', '$unidade', '$id', '$destino')";
+				$sql = " CALL produtos('$nome', '$unidade', '$email')";
 
 				//executar a query
 				$result=mysqli_query($link, $sql);
@@ -337,9 +329,8 @@
 				$cod = $_POST['id'];
 				$nome = $_POST['nome'];
 				$unidade = $_POST['unidade'];
-				$destino = $_POST['destino'];
 
-				$sql = "CALL produtos_edt('$nome', '$unidade', '$destino', '$id')";
+				$sql = "CALL produtos_edt('$nome', '$unidade', '$id')";
 
 				$resultado = mysqli_query($link, $sql);
 

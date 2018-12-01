@@ -26,13 +26,29 @@
 
 		<script type="text/javascript" src="bootstrap/js/funcao.js"></script>
 
-		<script src="lib/sweetalert/sweetalert.min.js"></script>
-		<link rel="stylesheet" type="text/css" href="lib/sweetalert/sweetalert.css">
-
 		<!-- bootstrap - link cdn -->
 		<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
 		<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.css">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<style type="text/css">
+			input[type="tel"] {
+  				border: 1px solid #ddd;
+  				padding: 4px 8px;
+  			}
+			input[type="tel"]:focus {
+  				border: 1px solid #000;
+			}
+			.img-logo {
+				height: 55px;
+				width: 132px;
+				display: block;
+				background: url('imagens/log.png') no-repeat;
+				background-size: contain;
+				color: transparent;
+				margin-top: -12%;
+			}
+		</style>
 	</head>
 
 	<body>
@@ -41,6 +57,7 @@
 	    <nav class="navbar navbar-default navbar-static-top navbar-fixed-top">
 	      <div class="container">
 	        <div class="navbar-header">
+
 	          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
 	            <span class="sr-only">Toggle navigation</span>
 	            <span class="icon-bar"></span>
@@ -48,15 +65,16 @@
 	            <span class="icon-bar"></span>
 	          </button>
 	          <a href="index.php" class="navbar-brand">
-	          <span class="img-logo"> <img src="imagens/log.png" width="110px" height="45px" style="margin-top: -12%"></span>
+	          <span class="img-logo">Logo</span>
 	          </a>
 	        </div>
 	        
 	        <div id="navbar" class="navbar-collapse collapse">
-	          <ul class="nav navbar-nav navbar-right">
+	          <ul class="nav navbar-nav navbar-right" >
 	            <li id="botao" style="background-color: rgba(51, 255, 51, 0.3)"><a  href="index.php">Voltar</a></li>
 	          </ul>
-	        </div><!--/.nav-collapse -->
+	        </div>
+	        
 	      </div>
 	    </nav>
 
@@ -77,8 +95,8 @@
 
 	    		<form method="post" action="form_cadastro_usuario.php" id="formCadastrarse">
 					<div class="form-group">
-		            	<label for="nome" class="control-label">Nome do proprietário <span style="color: red">*</span></label>
-						<input type="text" class="form-control" id="nome" name="nome" placeholder="Ex: João" required="requiored">
+		            	<label for="nome" class="control-label">Nome Completo do proprietário <span style="color: red">*</span></label>
+						<input type="text" pattern="[A-Za-zÀ-ú0-9., -]{5,40}$" class="form-control" id="nome" name="nome" placeholder="Ex: João" required="requiored">
 					</div>
 
 					<div class="form-group">
@@ -88,34 +106,34 @@
 							echo '<font style="color:#FF0000">Este e-mail já foi cadastrado!</font>';
 							}
 						?>
-						<input type="email" class="form-control" id="email" name="email" placeholder="Ex: joao@seuemail.com" required>
+						<input type="email" class="form-control" id="email" pattern="^[\w]{1,}[\w.+-]{0,}@[\w-]{2,}([.][a-zA-Z]{2,}|[.][\w-]{2,}[.][a-zA-Z]{2,})$" name="email" placeholder="Ex: joao@seuemail.com" required>
 					</div>
 
 					<div class="form-group">
 						<label for="senha" class="control-label">Senha <span style="color: red">*</span></label>
-						<input type="password" class="form-control" id="senha" name="senha" placeholder="Senha" required>
+						<input type="password" pattern="^.{6,15}$" class="form-control" id="senha" name="senha" placeholder="Senha com no minímo 6 caracteres de letras e números" required>
 					</div>
 
 					<div class="form-group">
 						<label for="telefone" class="control-label">Telefone <span style="color: red">*</span></label>
-						<input type="text" class="form-control" id="telefone" name="telefone" placeholder="Ex: (67) 99309-9373" required>
+						<input pattern="^\d{12}$" type="number" class="form-control" id="telefone" name="telefone" placeholder="Ex: 67993099373" required>
 					</div>
 
 					<div class="form-group">
 						<label for="propriedade" class="control-label">Nome da Propriedade <span style="color: red">*</span></label>
-						<input type="text" class="form-control" id="propriedade" name="propriedade" placeholder="Propriedade" required>
+						<input type="text" class="form-control" pattern="[A-Za-zÀ-ú0-9., -]{5,}$" id="propriedade" name="propriedade" placeholder="Propriedade" required>
 					</div>
 
 					<div class="form-group">
 						<label for="local" class="control-label">Localização</label>
-						<input type="text" class="form-control" id="local" name="local" placeholder="Localização" required>
+						<input type="text" class="form-control" pattern="[A-Za-zÀ-ú0-9., -]{5,}$" id="local" name="local" placeholder="Localização" required>
 					</div>
 
 					<div class="row">
-						<div class="form-group col-md-6">
+						<div class="form-group col-md-6"
 							<label for="id_estado" class="control-label">Estado <span style="color: red">*</span></label><br />
 							<select name="id_estado" id="id_estado" required>
-								<option value="">Selecione...</option>
+								<option selected="Selecione..." value="">Selecione...</option>
 								<?php
 									$result_estado = "SELECT * FROM estados ORDER BY nome_estado";
 									$resultado_estado = mysqli_query($link, $result_estado);
@@ -156,7 +174,7 @@
 			$('#id_estado').change(function (){
 				var valor = document.getElementById("id_estado").value;
 
-				$.get("cidade.php?search=" + valor, fuction (data) {
+				$.get("exibe_cidade.php?search=" + valor, function (data) {
 					$("#id_cidade").find("option").remove();
 					$('#id_cidade').append(data);
 				});
@@ -205,7 +223,7 @@
 				}
 
 
-				$sql = " INSERT INTO proprietarios(nome_proprietario, telefone, email, senha, nome_propriedade, localizacao, municipios_id) values ('$nome', '$telefone', '$email', '$senha', '$propriedade', '$local', '$cidade') ";
+				$sql = "INSERT INTO proprietarios(email, telefone, senha, nome_proprietario, localizacao, nome_propriedade, municipios_id) values ( '$email', '$telefone', '$senha', '$nome', '$local', '$propriedade', '$cidade')";
 
 				mysqli_query($link, $sql);
 

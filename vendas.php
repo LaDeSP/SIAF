@@ -14,7 +14,7 @@
 	$link = $objBd->conecta_mysql();
 
 	$email = $_SESSION['email'];
-	$select = "select id from proprietarios where email = '$email'";
+	$select = "select email from proprietarios where email = '$email'";
 
 	$result = mysqli_query($link, $select);
 
@@ -25,11 +25,11 @@
 		$user_id = $row;
 	}
 
-	$id = $user_id['id'];
+	$email = $user_id['email'];
 
 	$pagina = (isset($_GET['pagina'])) ? $_GET['pagina'] : 1;
 
-	$sql = " SELECT vendas.id, nome_produto, quantidade, preco, total, data FROM vendas, produtos WHERE produtos_id = produtos.id AND vendas.proprietarios_id = $id  ORDER BY data DESC ";
+	$sql = "SELECT vendas.id, nome_produto, quantidade, preco, total, data FROM vendas, produtos WHERE produtos_id = produtos.id AND vendas.proprietarios_email = $email  ORDER BY data DESC";
 
 	$resultado = mysqli_query($link, $sql);
 
@@ -38,7 +38,7 @@
   	$num_pg = ceil($total_vendas/$quantidade_pg);
   	$inicio = ($quantidade_pg*$pagina)-$quantidade_pg;
 
-  	$result_vendas = " SELECT vendas.id, nome_produto, quantidade, preco, total, data FROM vendas, produtos WHERE produtos_id = produtos.id AND vendas.proprietarios_id = $id  ORDER BY data DESC LIMIT $inicio, $quantidade_pg";
+  	$result_vendas = " SELECT vendas.id, nome_produto, quantidade, preco, total, data FROM vendas, produtos WHERE produtos_id = produtos.id AND vendas.proprietarios_email = $email  ORDER BY data DESC LIMIT $inicio, $quantidade_pg";
   	$resultado_vendas = mysqli_query($link, $result_vendas);
   	$total_vendas = mysqli_num_rows($resultado_vendas);
 ?>
@@ -50,7 +50,7 @@
 		<?php require_once("head.php")  ?>
 	</head>
 
-	<body>
+	<body class="branco">
 
 		<?php
 		require_once("menu.php");
@@ -99,19 +99,24 @@
 								<div class="row">
 									<div class="form-group col-md-8">
 										<label for="preco" class="control-label">Preço (R$) *</label>
-										<input type="text" class="form-control ValoresItens" data-affixes-stay="true" data-prefix="R$ " data-thousands="." data-decimal="," id="preco" name="preco" placeholder="Preço R$" required="requiored">
+										<input type="number" class="form-control ValoresItens" data-affixes-stay="true" data-prefix="R$ " data-thousands="." data-decimal="," id="preco" name="preco" placeholder="Preço R$" required>
+									</div>
+
+									<div class="form-group">
+										<label for="destino" class="control-label">Destino *</label>
+										<input type="text" class="form-control" pattern="[A-Za-zÀ-ú0-9., -]{5,}$" id="destino" name="destino" placeholder="Ex: Feira" required>
 									</div>
 
 									<div class="form-group col-md-4">
 										<label for="quantidade" class="control-label">Quantidade *</label>
-									   	<input type="text" class="form-control" id="quantidade" name="quantidade" placeholder="Quantidade" required="requiored">
+									   	<input type="number" class="form-control" id="quantidade" name="quantidade" placeholder="Quantidade" required>
 									</div>
 
 								</div>
 
 								<div class="input-group date">
 									<label for="data" class="control-label">Data *</label> <br />
-									<input type="text" class="form-control data" id="data" name="data" required="requiored">
+									<input type="date" class="form-control data" id="data" name="data" required>
 								</div>
 
 								<br />
@@ -135,6 +140,7 @@
 					<tr>
 						<th>Produto</th>
 						<th>Quantidade</th>
+						<th>Destino</th>
 						<th>Preço Unitario (R$)</th>
 						<th>Total (R$)</th>
 						<th>Data</th>
@@ -148,6 +154,7 @@
 					<tr class="linha">
 						<td><?php echo $venda['nome_produto']; ?></td>
 						<td><?php echo $venda['quantidade']; ?></td>
+						<td><?php echo $venda['destino']; ?></td>
 						<td><?php echo formata_moeda($venda['preco']); ?></td>
 						<td><?php echo formata_moeda($venda['total']); ?></td>
 						<td><?php echo date("d/m/Y", strtotime($venda['data'])); ?></td>
@@ -155,6 +162,7 @@
 						<button type="button" class="btn btn-xs btn-primary" data-toggle="modal" data-target="#exampleModal"
 								data-codestoque="<?php echo $venda['id']; ?>"
 								data-nome="<?php echo $venda['nome_produto']; ?>"
+								data-destino="<?php echo $venda['destino']; ?>"
 								data-preco="<?php echo formata_moeda($venda['preco']); ?>"
 								data-quantidade="<?php echo $venda['quantidade']; ?>"
 								data-data="<?php echo $venda['data']; ?>">
@@ -253,6 +261,11 @@
 						<input name="preco" type="text" class="form-control ValoresItens" data-affixes-stay="true" data-prefix="R$ " data-thousands="." data-decimal="," id="preco-name" required="requiored">
 					  </div>
 
+					  <div class="form-group">
+							<label for="destino-name" class="control-label">Destino *</label>
+							<input type="text" class="form-control" pattern="[A-Za-zÀ-ú0-9., -]{5,}$" id="destino-name" name="destino-name" placeholder="Ex: Feira" required>
+						</div>
+
 					  <div class="form-group col-md-4">
 					  	<label for="quantidade-name" class="control-label">Quantidade *</label>
 						<input name="quantidade" type="text" class="form-control" id="quantidade-name" required="requiored">
@@ -285,6 +298,7 @@
 				var recipientcodproduto = button.data('nome') // Extract info from data-* attributes
 				var recipientcod = button.data('codestoque')
 				var recipientpreco = button.data('preco')
+				var recipientdestino = button.data('destino')
 				var recipientquantidade = button.data('quantidade')
 				var recipientdata = button.data('data')
 
@@ -295,6 +309,7 @@
 			 	modal.find('#cod-estoque').val(recipientcod)
 			 	modal.find('#produto-name').val(recipientcodproduto)
 			 	modal.find('#preco-name').val(recipientpreco)
+			 	modal.find('#destino-name').val(recipientdestino)
 			 	modal.find('#quantidade-name').val(recipientquantidade)
 			 	modal.find('#data-name').val(recipientdata)
 			})
@@ -307,7 +322,7 @@
 
 				$preco = $_POST['preco'];
 				$quantidade = $_POST['quantidade'];
-
+				$destino = $_POST['destino'];
 				$data = str_replace("/", "-", $_POST["data"]);
 			    $data1 = date('Y-m-d', strtotime($data));
 
@@ -315,7 +330,7 @@
 				$link = $objBd->conecta_mysql();
 
 		        $email = $_SESSION['email'];
-		        $select = "select id from proprietarios where email = '$email'";
+		        $select = "select email from proprietarios where email = '$email'";
 		        $resultado = mysqli_query($link, $select);
 
 		          if($resultado){
@@ -325,9 +340,9 @@
 		            $user_id = $row;
 		          }
 
-		        $id = $user_id['id'];
-						$preco=moeda_clean($preco);
-				$sql = " CALL vendas ('$data1','$quantidade','$preco','$id','$codproduto') ";
+		        $email = $user_id['email'];
+				$preco=moeda_clean($preco);
+				$sql = "CALL vendas('$data1','$quantidade','$preco','$email','$codproduto', '$destino') ";
 
 				$result=mysqli_query($link, $sql);
 				

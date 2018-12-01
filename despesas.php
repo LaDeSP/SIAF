@@ -12,7 +12,7 @@
   $link = $objBd->conecta_mysql();
 
   $email = $_SESSION['email'];
-  $select = "select id from proprietarios where email = '$email'";
+  $select = "select email from proprietarios where email = '$email'";
 
   $result = mysqli_query($link, $select);
 
@@ -23,11 +23,11 @@
     $user_id = $row;
   }
 
-  $id = $user_id['id'];
+  $email = $user_id['email'];
 
   $pagina = (isset($_GET['pagina'])) ? $_GET['pagina'] : 1;
 
-  $sql = " SELECT id, nome_despesa, descricao, valor, quantidade, data  FROM despesas WHERE proprietarios_id = $id ORDER BY data ASC";
+  $sql = " SELECT id, nome_despesa, descricao, valor, quantidade, data  FROM despesas WHERE proprietarios_email = $email ORDER BY data ASC";
 
   $resultado = mysqli_query($link, $sql);
 
@@ -36,7 +36,7 @@
   $num_pg = ceil($total_despesas/$quantidade_pg);
   $inicio = ($quantidade_pg*$pagina)-$quantidade_pg;
 
-  $result_despesas = " SELECT id, nome_despesa, descricao, valor, quantidade, data FROM despesas WHERE proprietarios_id = $id ORDER BY data LIMIT $inicio, $quantidade_pg ";
+  $result_despesas = "SELECT id, nome_despesa, descricao, valor, quantidade, data FROM despesas WHERE proprietarios_email = $email ORDER BY data LIMIT $inicio, $quantidade_pg ";
   $resultado_despesas = mysqli_query($link, $result_despesas);
   $total_despesas = mysqli_num_rows($resultado_despesas);
 ?>
@@ -51,7 +51,7 @@
 
   </head>
 
-  <body>
+  <body class="branco">
 
     <?php require_once("menu.php");	?>
 
@@ -79,23 +79,23 @@
 
                 <div class="form-group">
                   <label for="nome" class="control-label">Nome *</label>
-                  <input type="text" class="form-control" id="nome" name="nome" placeholder="Ex: Conta de luz" required="requiored">
+                  <input type="text" pattern="[A-Za-zÀ-ú0-9., -]{5,}$" class="form-control" id="nome" name="nome" placeholder="Ex: Conta de luz" required>
                 </div>
 
                 <div class="form-group">
                   <label for="descricao" class="control-label">Descrição </label>
-                  <textarea class="form-control" id="descricao" name="descricao" placeholder="Descrição"></textarea>
+                  <textarea class="form-control" pattern="[A-Za-zÀ-ú0-9., -]{5,}$" id="descricao" name="descricao" placeholder="Descrição"></textarea>
                 </div>
 
                 <div class="row">
                   <div class="form-group col-md-8">
                     <label for="valor" class="control-label">Valor *</label>
-                    <input type="text" autofocus class="form-control ValoresItens" data-affixes-stay="true" data-prefix="R$ " data-thousands="." data-decimal="," id="valor-name" name="valor" placeholder="Valor R$" required="requiored">
+                    <input type="text" autofocus class="form-control ValoresItens" data-affixes-stay="true" data-prefix="R$ " data-thousands="." data-decimal="," id="valor-name" name="valor" placeholder="Valor R$" required>
                   </div>
 
                   <div class="form-group col-md-4">
                     <label for="quantidade" class="control-label">Quantidade *</label>
-                    <input type="text" class="form-control" id="quant" name="quant" placeholder="Quantidade" required="requiored">
+                    <input type="number" class="form-control" id="quant" name="quant" placeholder="Quantidade" required>
                   </div>
                 </div>
 
@@ -133,8 +133,7 @@
         </thead>
 
         <tbody>
-        <?php while($despesa = mysqli_fetch_assoc($resultado_despesas)){
-          ?>
+        <?php while($despesa = mysqli_fetch_assoc($resultado_despesas)) {?>
           <tr class="linha">
             <td><?php echo $despesa['nome_despesa']; ?></td>
             <td><?php echo $despesa['descricao']; ?></td>
@@ -234,7 +233,7 @@
             <form method="POST" action="despesas.php">
               <div class="form-group">
                 <label for="despesa-name" class="control-label">Nome *</label>
-                <input type="text" class="form-control" id="despesa-name" name="nome" required="requiored">
+                <input type="text" class="form-control" pattern="[A-Za-zÀ-ú0-9., -]{5,}$" id="despesa-name" name="nome" required="requiored">
               </div>
               <div class="form-group">
                 <label for="descricao-name" class="control-label">Descrição </label>
@@ -312,7 +311,7 @@
           $link = $objBd->conecta_mysql();
 
           $email = $_SESSION['email'];
-          $select = "select id from proprietarios where email = '$email'";
+          $select = "select email from proprietarios where email = '$email'";
           $resultado = mysqli_query($link, $select);
 
           if($resultado){
@@ -322,9 +321,9 @@
             $user_id = $row;
           }
 
-          $id = $user_id['id'];
+          $email = $user_id['email'];
           $valor=moeda_clean($valor);
-          $sql = " CALL despesas('$nome', '$descricao', '$quant', '$data1', '$valor', '$id')";
+          $sql = " CALL despesas('$nome', '$descricao', '$quant', '$data1', '$valor', '$email')";
           //executar a query
           mysqli_query($link, $sql);
 
