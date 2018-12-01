@@ -102,7 +102,7 @@ $link = $objBd->conecta_mysql();
 <form method="post" action="form_cadastro_usuario.php" id="formCadastrarse">
 <div class="form-group">
 <label for="nome" class="control-label">Nome Completo do proprietário <span style="color: red">*</span></label>
-<input type="text" pattern="[A-Za-zÀ-ú0-9., -]{6,255}$" class="form-control" id="nome" name="nome" placeholder="Ex: João" required="requiored" oninvalid="this.setCustomValidity('Por favor, insira pelo menos 7 letras')">
+<input type="text" pattern="[A-Za-zÀ-ú0-9., -]{5,40}$" class="form-control" id="nome" name="nome" placeholder="Ex: João" required="requiored">
 </div>
 
 <div class="form-group">
@@ -132,13 +132,13 @@ if($erro_email){
 
 <div class="form-group">
 <label for="local" class="control-label">Localização</label>
-<input type="text" class="form-control" pattern="[A-Za-zÀ-ú0-9., -]{5,}$" id="local" name="local" placeholder="Localização" required>
+<input type="text" class="form-control" pattern="[A-Za-zÀ-ú0-9., -]{5,}$" id="local" name="local" placeholder="Localização">
 </div>
 
 <div class="row">
 <div class="form-group col-md-6"
 <label for="id_estado" class="control-label">Estado <span style="color: red">*</span></label><br />
-<select name="id_estado" id="id_estado" required>
+    <select name="id_estado" id="id_estado" required>
 <option selected="Selecione..." value="">Selecione...</option>
 <?php
 $result_estado = "SELECT * FROM estados ORDER BY nome_estado";

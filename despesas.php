@@ -1,8 +1,8 @@
 <?php
 
-  require_once('bd.class.php');
-  require_once('funcoes.php');
-  session_start();
+require_once('bd.class.php');
+require_once('funcoes.php');
+session_start();
 
   if(!isset($_SESSION['email'])){
     header('Location: index.php');
@@ -12,7 +12,7 @@
   $link = $objBd->conecta_mysql();
 
   $email = $_SESSION['email'];
-  $select = "select email from proprietarios where email = '$email'";
+  $select = "select email from proprietarios where email = '".$email."';";
 
   $result = mysqli_query($link, $select);
 
@@ -27,16 +27,15 @@
 
   $pagina = (isset($_GET['pagina'])) ? $_GET['pagina'] : 1;
 
-  $sql = " SELECT id, nome_despesa, descricao, valor, quantidade, data  FROM despesas WHERE proprietarios_email = $email ORDER BY data ASC";
+  $sql = "SELECT id, nome_despesa, descricao, valor, quantidade, data FROM despesas WHERE proprietarios_email = '".$email."'ORDER BY data ASC;";
 
   $resultado = mysqli_query($link, $sql);
-
   $total_despesas = mysqli_num_rows($resultado);
   $quantidade_pg = 10;
   $num_pg = ceil($total_despesas/$quantidade_pg);
   $inicio = ($quantidade_pg*$pagina)-$quantidade_pg;
 
-  $result_despesas = "SELECT id, nome_despesa, descricao, valor, quantidade, data FROM despesas WHERE proprietarios_email = $email ORDER BY data LIMIT $inicio, $quantidade_pg ";
+  $result_despesas = "SELECT id, nome_despesa, descricao, valor, quantidade, data FROM despesas WHERE proprietarios_email = '".$email."' ORDER BY data LIMIT ".$inicio.$quantidade_pg.";";
   $resultado_despesas = mysqli_query($link, $result_despesas);
   $total_despesas = mysqli_num_rows($resultado_despesas);
 ?>
@@ -44,7 +43,6 @@
 <!DOCTYPE HTML>
 <html lang="pt-br">
 <head>
-
 
 <?php require_once("head.php")  ?>
 <title>Despesas</title>
@@ -101,7 +99,7 @@
 
                 <div class="input-group date">
                     <label for="data" class="control-label">Data *</label> <br />
-                    <input type="text" class="form-control data" id="data" name="data" required="requiored">
+                    <input type="text" class="form-control data" id="data" name="data" required="required">
                 </div>
                 <br />
 
@@ -133,7 +131,8 @@
         </thead>
 
         <tbody>
-        <?php while($despesa = mysqli_fetch_assoc($resultado_despesas)) {?>
+        <?php
+        while($despesa = mysqli_fetch_assoc($resultado_despesas)) {?>
           <tr class="linha">
             <td><?php echo $despesa['nome_despesa']; ?></td>
             <td><?php echo $despesa['descricao']; ?></td>

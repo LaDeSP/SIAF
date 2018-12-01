@@ -12,7 +12,7 @@
   	$link = $objBd->conecta_mysql();
 
   	$email = $_SESSION['email'];
-  	$select = "select email from proprietarios where email = '$email'";
+  	$select = "select email from proprietarios where email = '".$email."';";
 
   	$result = mysqli_query($link, $select);
 
@@ -27,7 +27,7 @@
 
   	$pagina = (isset($_GET['pagina'])) ? $_GET['pagina'] : 1;
 
-  	$sql = " SELECT id, nome_investimento, descricao, valor, data FROM investimentos WHERE proprietarios_email = $email ORDER BY data ASC ";
+  	$sql = "SELECT id, nome_investimento, descricao, valor, data FROM investimentos WHERE proprietarios_email ='".$email."' ORDER BY data ASC ";
 
   	$resultado = mysqli_query($link, $sql);
 

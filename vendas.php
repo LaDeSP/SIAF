@@ -38,7 +38,7 @@
   	$num_pg = ceil($total_vendas/$quantidade_pg);
   	$inicio = ($quantidade_pg*$pagina)-$quantidade_pg;
 
-  	$result_vendas = " SELECT vendas.id, nome_produto, quantidade, preco, total, data FROM vendas, produtos WHERE produtos_id = produtos.id AND vendas.proprietarios_email = $email  ORDER BY data DESC LIMIT $inicio, $quantidade_pg";
+  	$result_vendas = "SELECT vendas.id, nome_produto, quantidade, preco, total, data FROM vendas, produtos WHERE produtos_id = produtos.id AND vendas.proprietarios_email = $email  ORDER BY data DESC LIMIT $inicio, $quantidade_pg";
   	$resultado_vendas = mysqli_query($link, $result_vendas);
   	$total_vendas = mysqli_num_rows($resultado_vendas);
 ?>
