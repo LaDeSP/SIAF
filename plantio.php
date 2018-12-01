@@ -78,7 +78,7 @@
 										<select name="plantiomensal_idplantiomensal">
 										<option>Selecione...</option>
 										<?php
-											$result_plantiomensal = " SELECT * FROM plantiomensal WHERE proprietarios_id = ".$id." ORDER BY idplantiomensal";
+											$result_plantiomensal = "SELECT * FROM plantiomensal WHERE proprietarios_id = ".$id." ORDER BY idplantiomensal";
 											$resultado_plantiomensal = mysqli_query($link, $result_plantiomensal);
 											while($row_plantio = mysqli_fetch_assoc($resultado_plantiomensal)){ ?>
 												<option value="<?php echo $row_plantio['idplantiomensal']; ?>">
@@ -139,7 +139,6 @@
 						<th>Data</th>
 					</tr>
 				</thead>
-				</thead>
 
 				<tbody>
 
@@ -147,7 +146,7 @@
 						<tr class="linha">
 							<td>
 								<?php
-									$result_plantiomensal = " SELECT * FROM plantiomensal WHERE proprietarios_email = $email ORDER BY idplantiomensal";
+									$result_plantiomensal = "SELECT * FROM plantiomensal WHERE proprietarios_email = '".$email."' ORDER BY idplantiomensal";
 											$resultado_plantiomensal = mysqli_query($link, $result_plantiomensal);
 								 while($plantio = mysqli_fetch_assoc($resultado_plantiomensal)){ 
 								 	?>
@@ -234,7 +233,6 @@
 			<div class="col-md-4"></div>
 
 		</div>
-	    </div>
 		<!---<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
 		  <div class="modal-dialog" role="document">
 		    <div class="modal-content">

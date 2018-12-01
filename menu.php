@@ -9,7 +9,7 @@
 
   $email = $_SESSION['email'];
 
-  $sql = " SELECT  nome_proprietario, email, telefone, nome_propriedade, localizacao, nome_municipio, estados.id, nome_estado FROM proprietarios, municipios, estados WHERE email = '$email' AND municipios_id = municipios.id AND estados_id = estados.id ";
+  $sql = "SELECT nome_proprietario, email, telefone, nome_propriedade, localizacao, nome_municipio, estados.id, nome_estado FROM proprietarios, municipios, estados WHERE email = '".$email."' AND municipios_id = municipios.id AND estados_id = estados.id;";
 
   $objBd = new bd();
   $link = $objBd->conecta_mysql();

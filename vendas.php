@@ -85,7 +85,7 @@
 									<select name="select_produto">
 									<option>Selecione...</option>
 									<?php
-										$result_produto = " SELECT produtos.id, nome_produto FROM produtos INNER JOIN estoques on produtos_id = produtos.id WHERE estoques.proprietarios_id = $id and estoques.quantidade>0 GROUP BY produtos.id, nome_produto ORDER BY nome_produto ASC";
+										$result_produto = " SELECT produtos.id, nome_produto FROM produtos INNER JOIN estoques on produtos_id = produtos.id WHERE estoques.proprietarios_id = ". $id ." and estoques.quantidade>0 GROUP BY produtos.id, nome_produto ORDER BY nome_produto ASC";
 										$resultado_produto = mysqli_query($link, $result_produto);
 										while($row_produto = mysqli_fetch_assoc($resultado_produto)){ ?>
 											<option value="<?php echo $row_produto['id']; ?>">
@@ -146,7 +146,6 @@
 						<th>Data</th>
 						<th>Ações</th>
 					</tr>
-				</thead>
 				</thead>
 
 				<tbody>
@@ -236,7 +235,6 @@
 			<div class="col-md-4"></div>
 
 		</div>
-	    </div>
 
 
 
@@ -252,13 +250,13 @@
 
 		          <div class="form-group">
 		            <label for="produto-name" class="control-label">Produto *</label>
-		            <input name="codproduto" type="text" class="form-control" id="produto-name" required="requiored">
+		            <input name="codproduto" type="text" class="form-control" id="produto-name" required>
 		          </div>
 
 		          <div class="row">
 					  <div class="form-group col-md-8">
 					  	<label for="preco-name" class="control-label">Preço *R$) *</label>
-						<input name="preco" type="text" class="form-control ValoresItens" data-affixes-stay="true" data-prefix="R$ " data-thousands="." data-decimal="," id="preco-name" required="requiored">
+						<input name="preco" type="text" class="form-control ValoresItens" data-affixes-stay="true" data-prefix="R$ " data-thousands="." data-decimal="," id="preco-name" required>
 					  </div>
 
 					  <div class="form-group">
@@ -268,13 +266,13 @@
 
 					  <div class="form-group col-md-4">
 					  	<label for="quantidade-name" class="control-label">Quantidade *</label>
-						<input name="quantidade" type="text" class="form-control" id="quantidade-name" required="requiored">
+						<input name="quantidade" type="text" class="form-control" id="quantidade-name" required>
 					  </div>
 				  </div>
 
 				  <div class="input-group date">
 				  	<label for="data-name" class="control-label">Data *</label>
-					<input type="date" class="form-control" id="data-name" name="data" required="requiored">
+					<input type="date" class="form-control" id="data-name" name="data" required>
 				  </div>
 				  <br />
 
@@ -330,7 +328,7 @@
 				$link = $objBd->conecta_mysql();
 
 		        $email = $_SESSION['email'];
-		        $select = "select email from proprietarios where email = '$email'";
+		        $select = "select email from proprietarios where email = '".$email."'";
 		        $resultado = mysqli_query($link, $select);
 
 		          if($resultado){

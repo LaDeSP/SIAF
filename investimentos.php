@@ -125,8 +125,6 @@
 						<th>Ações</th>
 					</tr>
 				</thead>
-				</thead>
-
 				<tbody>
 				<?php while($investimento = mysqli_fetch_assoc($resultado_investimentos)){ ?>
 					<tr class="linha">
@@ -209,8 +207,6 @@
 			<div class="col-md-4"></div>
 
 		</div>
-	    </div>
-
 
 
 		<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
@@ -224,7 +220,7 @@
 		        <form method="POST" action="investimentos.php">
 		          <div class="form-group">
 		            <label for="produto-name" class="control-label">Nome *</label>
-		            <input name="nome" type="text" class="form-control" pattern="[A-Za-zÀ-ú0-9., -]{5,}$" id="investimento-name" required="requiored">
+		            <input name="nome" type="text" class="form-control" pattern="[A-Za-zÀ-ú0-9., -]{5,}$" id="investimento-name" required>
 		          </div>
 		          <div class="form-group">
 		            <label for="descricao-name" class="control-label">Descrição </label>
@@ -234,12 +230,12 @@
 		          <div class="row">
 				  <div class="form-group col-md-8">
 				  	<label for="valor-name" class="control-label">Valor R$ *</label>
-					<input name="valor" type="text" class="form-control ValoresItens" data-affixes-stay="true" data-prefix="R$ " data-thousands="." data-decimal="," id="valor-name" name="valor" placeholder="Valor R$" id="valor-name" required="requiored">
+					<input name="valor" type="text" class="form-control ValoresItens" data-affixes-stay="true" data-prefix="R$ " data-thousands="." data-decimal="," id="valor-name" name="valor" placeholder="Valor R$" id="valor-name" required>
 				  </div>
 
 				  <div class="form-group col-md-4">
 				  	<label for="data-name" class="control-label">Data *</label>
-					<input type="date" class="form-control" id="data-name" name="data" required="requiored">
+					<input type="date" class="form-control" id="data-name" name="data" required>
 				  </div>
 
 				   </div>
@@ -292,7 +288,7 @@
 				$link = $objBd->conecta_mysql();
 
 		        $email = $_SESSION['email'];
-		        $select = "select email from proprietarios where email = '$email'";
+		        $select = "select email from proprietarios where email = '". $email. "';";
 		        $resultado = mysqli_query($link, $select);
 
 		        if($resultado){
@@ -304,7 +300,7 @@
 
 		        $email = $user_id['email'];
 				$valor=moeda_clean($valor);
-				$sql = "CALL investimentos('$nome', '$descricao', '$data1', '$valor', '$email');";
+				$sql = "CALL investimentos('".$nome."', '".$descricao."', '".$data1."', '".$valor."', '".$email."');";
 
 				//executar a query
 				mysqli_query($link, $sql);

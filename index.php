@@ -64,14 +64,14 @@
 	                <div class="form-bottom">
 				        <form method="post" action="validar_login.php" id="formLogin">
 							<div class="form-group">
-							<input type="text" class="form-control" id="campo_usuario" name="email" placeholder="E-mail" required="requiored">
+							<input type="text" class="form-control" id="campo_usuario" name="email" placeholder="E-mail" required>
 							</div>
 
 							<div class="form-group">
-								<input type="password" class="form-control red" id="campo_senha" name="senha" placeholder="Senha" required="requiored">
+								<input type="password" class="form-control red" id="campo_senha" name="senha" placeholder="Senha" required>
 							</div>
 							<center>
-								<button  type="buttom" class="btn1" id="btn_login">Entrar</button> 
+								<button  type="button" class="btn1" id="btn_login">Entrar</button>
 							</center> <br /> 
 							<font size="3%">
 								<a  href=""> Esqueceu sua senha? </a> <br>
@@ -98,7 +98,6 @@
 				<span style="color: white">© SIAF - Sistema de Informação para a Agricultura Familiar | Todos os direitos reservados.</span><br />
 	    		<span style="color: white">Desenvolvido por Paulo Abreu.</span>
 			</div>
-			</hr>
 		</div>	
 
 </html>

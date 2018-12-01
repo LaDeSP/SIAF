@@ -64,6 +64,7 @@ input[type="tel"]:focus {
 <div class="container">
 <div class="navbar-header">
 
+<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
 <span class="sr-only">Toggle navigation</span>
 <span class="icon-bar"></span>
 <span class="icon-bar"></span>
@@ -72,6 +73,12 @@ input[type="tel"]:focus {
 <a href="index.php" class="navbar-brand">
 <span class="img-logo">Logo</span>
 </a>
+</div>
+
+<div id="navbar" class="navbar-collapse collapse">
+<ul class="nav navbar-nav navbar-right" >
+<li id="botao" style="background-color: rgba(51, 255, 51, 0.3)"><a  href="index.php">Voltar</a></li>
+</ul>
 </div>
 
 </div>
@@ -95,7 +102,7 @@ $link = $objBd->conecta_mysql();
 <form method="post" action="form_cadastro_usuario.php" id="formCadastrarse">
 <div class="form-group">
 <label for="nome" class="control-label">Nome Completo do proprietário <span style="color: red">*</span></label>
-<input type="text" pattern="[A-Za-zÀ-ú0-9., -]{5,40}$" class="form-control" id="nome" name="nome" placeholder="Ex: João" required="requiored">
+<input type="text" pattern="[A-Za-zÀ-ú0-9., -]{6,255}$" class="form-control" id="nome" name="nome" placeholder="Ex: João" oninvalid="setCustomValidity('Por favor, insira pelo menos 7 letras!')" required="requiored">
 </div>
 
 <div class="form-group">
@@ -129,7 +136,7 @@ if($erro_email){
 </div>
 
 <div class="row">
-<div class="form-group col-md-6">
+<div class="form-group col-md-6"
 <label for="id_estado" class="control-label">Estado <span style="color: red">*</span></label><br />
     <select name="id_estado" id="id_estado" required>
 <option selected="Selecione..." value="">Selecione...</option>
@@ -151,21 +158,24 @@ while($row_estado = mysqli_fetch_assoc($resultado_estado)){
 </div>
 </div>
 <br />
-<button type="submit" class="btn btn-success" name="submit">Cadastrar</button>
+<button type="submit" class="btn btn-primary form-control" name="submit">Cadastrar</button>
 </form>
-<br />
-<a href="index.php" class="btn btn-danger">Cancelar</a>
 </div>
 <div class="col-md-3"></div>
+
 <div class="clearfix"></div>
+<br />
 <div class="col-md-4"></div>
 <div class="col-md-4"></div>
 <div class="col-md-4"></div>
 
 </div>
+
+
 </div>
 
 <script src="bootstrap/js/bootstrap.min.js"></script>
+
 <script type="text/javascript">
 $('#id_estado').change(function (){
 	var valor = document.getElementById("id_estado").value;
@@ -193,7 +203,7 @@ function registraUsuario(){
 	$email_existe = false;
 	
 	//verifica se o email já foi cadastrado
-	$sql = " SELECT * FROM proprietarios WHERE email = '$email' ";
+	$sql = "SELECT * FROM proprietarios WHERE email = '". $email ."';";
 	
 	if($resultado_id = mysqli_query($link, $sql)){
 		
@@ -219,7 +229,7 @@ function registraUsuario(){
 	}
 	
 	
-	$sql = "INSERT INTO proprietarios(email, telefone, senha, nome_proprietario, localizacao, nome_propriedade, municipios_id) values ( '$email', '$telefone', '$senha', '$nome', '$local', '$propriedade', '$cidade')";
+	$sql = "INSERT INTO proprietarios(email, telefone, senha, nome_proprietario, localizacao, nome_propriedade, municipios_id) values ( '". $email ."', '". $telefone ."', '". $senha ."', '". $nome ."', '". $local ."', '". $propriedade ."', '". $cidade. "');";
 	
 	mysqli_query($link, $sql);
 	

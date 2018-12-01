@@ -7,7 +7,7 @@
 	$objBd = new bd();
 	$link = $objBd->conecta_mysql();
 
-	$sql = " DELETE FROM plantio WHERE idplantio = '$cod' ";
+	$sql = "DELETE FROM plantio WHERE idplantio = '".$cod."';";
 
 	$resultado = mysqli_query($link, $sql);
 

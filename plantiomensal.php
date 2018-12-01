@@ -112,7 +112,6 @@
 						<th>Observação</th>
 					</tr>
 				</thead>
-				</thead>
 
 				<tbody>
 				<?php while($plantio = mysqli_fetch_assoc($resultado)){ ?>
@@ -195,7 +194,6 @@
 			<div class="col-md-4"></div>
 
 		</div>
-	    </div>
 
 
 

@@ -8,7 +8,7 @@
 	$senha = md5($_POST['senha']);
 
 
-	$sql = " SELECT * FROM proprietarios WHERE email = '$email' AND senha = '$senha' ";
+	$sql = "SELECT * FROM proprietarios WHERE email = '". $email. "' AND senha = '". $senha ."';";
 
 	$objBd = new bd();
 	$link = $objBd->conecta_mysql();

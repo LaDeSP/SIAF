@@ -10,7 +10,7 @@
 
 	$email = $_SESSION['email'];
 
-	$sql = " SELECT nome_proprietario, email, telefone, nome_propriedade, localizacao, nome_municipio, estados.id, nome_estado FROM proprietarios, municipios, estados WHERE email = '$email' AND municipios_id = municipios.id AND estados_id = estados.id ";
+	$sql = "SELECT nome_proprietario, email, telefone, nome_propriedade, localizacao, nome_municipio, estados.id, nome_estado FROM proprietarios, municipios, estados WHERE email = '". $email ."' AND municipios_id = municipios.id AND estados_id = estados.id;";
 
 	$objBd = new bd();
 	$link = $objBd->conecta_mysql();
@@ -78,7 +78,7 @@
 							<form method="POST" action="exibir_cadastro.php" enctype="multipart/form-data" id="formEditarCad">
 								<div class="form-group">
 					            	<label for="nome" class="control-label">Nome *</label>
-									<input type="text" class="form-control" id="nome" name="nome" required="requiored">
+									<input type="text" class="form-control" id="nome" name="nome" required>
 								</div>
 
 								<div class="form-group">
@@ -88,22 +88,22 @@
 										echo '<font style="color:#FF0000">Este e-mail já foi cadastrado!</font>';
 										}
 									?>
-									<input type="email" class="form-control" id="email" name="email" required="requiored">
+									<input type="email" class="form-control" id="email" name="email" required>
 								</div>
 								
 								<div class="form-group">
 									<label for="senha" class="control-label">Senha *</label>
-									<input type="password" class="form-control" id="senha" name="senha" required="requiored">
+									<input type="password" class="form-control" id="senha" name="senha" required>
 								</div>
 
 								<div class="form-group">
 									<label for="telefone" class="control-label">Telefone *</label>
-									<input type="text" class="form-control" id="telefone" name="telefone" required="requiored">
+									<input type="text" class="form-control" id="telefone" name="telefone" required>
 								</div>
 
 								<div class="form-group">
 									<label for="propriedade" class="control-label">Propriedade *</label>
-									<input type="text" class="form-control" id="propriedade" name="propriedade" required="requiored">
+									<input type="text" class="form-control" id="propriedade" name="propriedade" required>
 								</div>
 
 								<div class="form-group">

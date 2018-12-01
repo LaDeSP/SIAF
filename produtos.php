@@ -26,7 +26,7 @@
 
 	$pagina = (isset($_GET['pagina'])) ? $_GET['pagina'] : 1;
 
-	$sql = " SELECT * FROM produtos WHERE proprietarios_email = '". $email. "' ORDER BY nome_produto ASC";
+	$sql = " SELECT * FROM produtos WHERE proprietarios_email = '". $email. "' ORDER BY nome_produto ASC;";
 
 	$resultado = mysqli_query($link, $sql);
 
@@ -194,7 +194,6 @@
 			<div class="col-md-4"></div>
 
 		</div>
-	    </div>
 
 		<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
 		  <div class="modal-dialog" role="document">
@@ -207,15 +206,15 @@
 		        <form method="POST" action="produtos.php" id="formEditarCad">
 		          <div class="form-group">
 		            <label for="produto-name" class="control-label">Nome *</label>
-		            <input name="nome" type="text" class="form-control" id="produto-name" required="requiored">
+		            <input name="nome" type="text" class="form-control" id="produto-name" required>
 		         </div>
 		         <div class="form-group">
 					<label for="destino-name" class="control-label">Destino *</label>
-					<input name="destino" type="text" class="form-control" id="destino-name" required="requiored">
+					<input name="destino" type="text" class="form-control" id="destino-name" required>
 				</div>
 				  <div class="form-group">
 					<label for="unidade-name" class="control-label">Unidade *</label><br />
-					<select name="unidade" id="unidade-name" required="requiored">
+					<select name="unidade" id="unidade-name" required>
 						<option>Selecione...</option>
 						<option value="KG">KG</option>
 						<option value="LT">LT</option>
@@ -229,11 +228,9 @@
 			        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
 			        <button name="editar" type="submit" class="btn btn-success">Alterar</button>
 			      </div>
-		        </form>
 		      </div>	
 		    </div>
 		  </div>
-		</div>
 
 		<script src="bootstrap/js/bootstrap.min.js"></script>
 
@@ -262,7 +259,7 @@
 				$unidade = $_POST['unidade'];
 				$email = $_SESSION['email'];
 
-				$select = "select email from proprietarios where email = '$email'";
+				$select = "select email from proprietarios where email = '".$email."';";
 				$resultado = mysqli_query($link, $select);
 
 				if($resultado){

@@ -52,8 +52,7 @@
 	</table>
 	</div>
 
-		
-	</div>
+
 <?php
 	$objBd = new bd();
 	$query="SELECT i.nome_investimento,i.valor FROM investimentos i WHERE i.proprietarios_id=? GROUP BY nome_investimento

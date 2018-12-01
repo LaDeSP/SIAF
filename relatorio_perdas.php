@@ -54,8 +54,7 @@
 	</table>
 	</div>
 
-		
-	</div>
+
 <?php
 	$objBd = new bd();
 	$query="SELECT p.nome_produto,p.unidade,sum(pp.quantidade) AS quantidade ,pp.motivo FROM perda_produtos pp INNER JOIN produtos p on pp.produtos_id=p.id INNER JOIN estoques e on pp.estoques_id=e.id WHERE e.proprietarios_id=?  group by p.nome_produto,pp.motivo order by p.nome_produto";
@@ -93,7 +92,6 @@
 	</div>
 
 
-</div>
 </body>
 </html>
 

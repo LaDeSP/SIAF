@@ -232,7 +232,7 @@ session_start();
             <form method="POST" action="despesas.php">
               <div class="form-group">
                 <label for="despesa-name" class="control-label">Nome *</label>
-                <input type="text" class="form-control" pattern="[A-Za-zÀ-ú0-9., -]{5,}$" id="despesa-name" name="nome" required="requiored">
+                <input type="text" class="form-control" pattern="[A-Za-zÀ-ú0-9., -]{5,}$" id="despesa-name" name="nome" required>
               </div>
               <div class="form-group">
                 <label for="descricao-name" class="control-label">Descrição </label>
@@ -242,19 +242,19 @@ session_start();
               <div class="row">
           <div class="form-group col-md-8">
             <label for="valor-name" class="control-label">Valor R$ *</label>
-          <input type="text" autofocus class="form-control ValoresItens" data-affixes-stay="true" data-prefix="R$ " data-thousands="." data-decimal="," id="valor-name" name="valor" placeholder="Valor R$" required="requiored">
+          <input type="text" autofocus class="form-control ValoresItens" data-affixes-stay="true" data-prefix="R$ " data-thousands="." data-decimal="," id="valor-name" name="valor" placeholder="Valor R$" required>
           </div>
 
           <div class="form-group col-md-4">
             <label for="quantidade-name" class="control-label">Quantidade *</label>
-          <input type="text" class="form-control" id="quantidade-name" name="quantidade" required="requiored">
+          <input type="text" class="form-control" id="quantidade-name" name="quantidade" required>
           </div>
 
            </div>
 
           <div class="input-group date">
             <label for="data-name" class="control-label">Data *</label>
-          <input type="text" class="form-control data1 batata" id="data-name" name="data" required="requiored">
+          <input type="text" class="form-control data1 batata" id="data-name" name="data" required>
           </div>
           <br />
 
@@ -274,24 +274,24 @@ session_start();
 
     <script type="text/javascript">
       $('#exampleModal').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget) // Button that triggered the modal
-        var recipientnome = button.data('nome') // Extract info from data-* attributes
-        var recipientcod = button.data('coddespesas')
-        var recipientdescricao = button.data('descricao')
-        var recipientvalor = button.data('valor')
-        var recipientquantidade = button.data('quantidade')
-        var recipientdata = button.data('data')
+        var button = $(event.relatedTarget); // Button that triggered the modal
+        var recipientnome = button.data('nome'); // Extract info from data-* attributes
+        var recipientcod = button.data('coddespesas');
+        var recipientdescricao = button.data('descricao');
+        var recipientvalor = button.data('valor');
+        var recipientquantidade = button.data('quantidade');
+        var recipientdata = button.data('data');
 
         // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
         // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-        var modal = $(this)
-        modal.find('.modal-title').text('Editar -  Despesa #' + recipientcod)
-        modal.find('#cod-investimento').val(recipientcod)
-        modal.find('#despesa-name').val(recipientnome)
-        modal.find('#descricao-name').val(recipientdescricao)
-        modal.find('#valor-name').val(recipientvalor)
-        modal.find('#quantidade-name').val(recipientquantidade)
-        modal.find('#data-name').val(recipientdata)
+        var modal = $(this);
+        modal.find('.modal-title').text('Editar -  Despesa #' + recipientcod);
+        modal.find('#cod-investimento').val(recipientcod);
+        modal.find('#despesa-name').val(recipientnome);
+        modal.find('#descricao-name').val(recipientdescricao);
+        modal.find('#valor-name').val(recipientvalor);
+        modal.find('#quantidade-name').val(recipientquantidade);
+        modal.find('#data-name').val(recipientdata);
       })
     </script>
 
@@ -310,7 +310,7 @@ session_start();
           $link = $objBd->conecta_mysql();
 
           $email = $_SESSION['email'];
-          $select = "select email from proprietarios where email = '$email'";
+          $select = "select email from proprietarios where email = '". $email ."';";
           $resultado = mysqli_query($link, $select);
 
           if($resultado){

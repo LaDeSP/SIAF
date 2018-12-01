@@ -72,7 +72,7 @@
 									<select name="select_produto">
 									<option>Selecione...</option>
 									<?php
-										$result_produto = " SELECT * FROM produtos WHERE proprietarios_id = $id ORDER BY nome_produto ASC";
+										$result_produto = "SELECT * FROM produtos WHERE proprietarios_id = ". $id ." ORDER BY nome_produto ASC;";
 										$resultado_produto = mysqli_query($link, $result_produto);
 										while($row_produto = mysqli_fetch_assoc($resultado_produto)){ ?>
 											<option value="<?php echo $row_produto['id']; ?>">
@@ -112,7 +112,6 @@
 						<th>Unidade</th>
 						<th>Ações</th>
 					</tr>
-				</thead>
 				</thead>
 
 				<tbody>
@@ -204,7 +203,6 @@
 			<div class="col-md-4"></div>
 
 		</div>
-	    </div>
 
 
 
@@ -220,13 +218,13 @@
 
 		          <div class="form-group">
 		            <label for="codproduto-name" class="control-label">Produto *</label>
-		            <input name="codproduto" type="text" class="form-control" id="codproduto-name" required="requiored">
+		            <input name="codproduto" type="text" class="form-control" id="codproduto-name" required>
 		          </div>
 
 		          <div class="row">
 					  <div class="form-group col-md-8">
 					  	<label for="quantidade-name" class="control-label">Quantidade *</label>
-						<input name="quantidade" type="text" class="form-control" id="quantidade-name" required="requiored">
+						<input name="quantidade" type="text" class="form-control" id="quantidade-name" required>
 					  </div>
 				  </div>
 
@@ -254,7 +252,7 @@
 
 				  <div class="form-group">
 				  	<label for="quantidade-name" class="control-label">Quantidade perdida *</label>
-					<input name="quantidade" type="text" class="form-control" id="quantidade-name" required="requiored">
+					<input name="quantidade" type="text" class="form-control" id="quantidade-name" required>
 				  </div>
 
 				  <div class="row">
@@ -270,7 +268,7 @@
 
 						<div class="input-group date col-md-3">
 							<label for="data" class="control-label">Data *</label>
-							<input type="date" class="form-control" id="data" name="data" required="requiored"><br />
+							<input type="date" class="form-control" id="data" name="data" required><br />
 						</div>
 
 						<input type="hidden" id="id_estoque_ed" name="id_estoque" value="">
@@ -329,7 +327,7 @@
 		        $link = $objBd->conecta_mysql();
 
 		        $email = $_SESSION['email'];
-		        $select = "select proprietarios.email, produtos.nome_produto from proprietarios, produtos where email = '$email'";
+		        $select = "select proprietarios.email, produtos.nome_produto from proprietarios, produtos where email = '". $email ."';";
 		        $resultado = mysqli_query($link, $select);
 
 		          if($resultado){
@@ -346,7 +344,7 @@
 
 		        	mysqli_query($link, $sql);
 		        }else{
-		        	$sql = " UPDATE estoques, produtos SET estoques.quantidade = estoques.quantidade + $quant WHERE estoques.produtos_id = produtos.id";
+		        	$sql = "UPDATE estoques, produtos SET estoques.quantidade = estoques.quantidade + ". $quant ." WHERE estoques.produtos_id = produtos.id;";
 
 		        	mysqli_query($link, $sql);
 		        }
@@ -401,8 +399,7 @@
 				$objBd = new bd();
 				$link = $objBd->conecta_mysql();
 
-				$sql = " UPDATE estoques SET  quantidade = '$quantidade'
-				WHERE id = '$cod' ";
+				$sql = "UPDATE estoques SET  quantidade = '". $quantidade ."'WHERE id = '". $cod ."';";
 
 				$resultado = mysqli_query($link, $sql);
 

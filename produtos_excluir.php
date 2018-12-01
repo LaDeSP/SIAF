@@ -7,7 +7,7 @@
 	$objBd = new bd();
 	$link = $objBd->conecta_mysql();
 
-	$sql = "CALL produtos_del('$cod'); ";
+	$sql = "CALL produtos_del('".$cod."'); ";
 	$resultado = mysqli_query($link, $sql);
 
 	if(mysqli_affected_rows($link)){

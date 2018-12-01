@@ -9,7 +9,7 @@
 	$objBd = new bd();
 	$link = $objBd->conecta_mysql();
 
-	$sql = " DELETE FROM despesas WHERE id = '$cod' ";
+	$sql = " DELETE FROM despesas WHERE id = '". $cod ."';";
 
 	$resultado = mysqli_query($link, $sql);
 

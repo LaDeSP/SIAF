@@ -7,7 +7,7 @@
 	$objBd = new bd();
 	$link = $objBd->conecta_mysql();
 
-	$sql = " DELETE FROM semeadura WHERE idsemeadura = '$cod' ";
+	$sql = "DELETE FROM semeadura WHERE idsemeadura = '".$cod ."' ;";
 
 	$resultado = mysqli_query($link, $sql);
 
